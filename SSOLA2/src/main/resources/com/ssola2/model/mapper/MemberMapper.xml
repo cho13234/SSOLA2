@@ -82,14 +82,21 @@
 		WHERE nickname = #{nickname} AND DELETED = 0
 	</select>
 	
-	<update id="updatePasswordByIdAndEmail" parameterType="Customer">
-		UPDATE /*+ bypass_ujvc */
+	<!-- <update id="updatePasswordByIdAndEmail" parameterType="Customer">
+		UPDATE
 			(
 				SELECT password as passwd
 				FROM MEMBER m, CUSTOMER c
 				WHERE m.id = #{id} and c.email = #{email} and m.id = c.id			
 			)
 		SET passwd = #{password}
+	</update> -->
+	
+	<update id="updatePasswordByIdAndEmail" parameterType="Customer">
+		UPDATE MEMBER m inner join CUSTOMER c
+		on m.ID = c.ID
+		set password = #{password}
+		where m.ID = #{id} and c.email = #{email}
 	</update>
 
 	<!-- 선민 - 회원정보 수정 -->
