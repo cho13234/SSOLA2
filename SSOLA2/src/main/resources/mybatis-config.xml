@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+<configuration>
+
+	<typeAliases>
+		<typeAlias type="com.ssola2.model.dto.Member" alias="Member" />
+		<typeAlias type="com.ssola2.model.dto.Customer" alias="Customer" />
+		<typeAlias type="com.ssola2.model.dto.Administrator" alias="Administrator" />
+		<typeAlias type="com.ssola2.model.dto.Article" alias="Article" />
+		<typeAlias type="com.ssola2.model.dto.Section" alias="Section" />
+		<typeAlias type="com.ssola2.model.dto.Recommend" alias="Recommend" />
+		<typeAlias type="com.ssola2.model.dto.Comment" alias="Comment" />
+		<typeAlias type="com.ssola2.model.dto.Scrap" alias="Scrap"/>
+	</typeAliases>
+
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://210.16.214.202:3306/ssola2"/>
+        <property name="username" value="jh"/>
+        <property name="password" value="asdf1234"/>
+      </dataSource>
+    </environment>
+  </environments>
+  
+  <!-- SQL <-> Object Mapping Information -->
+  <mappers>
+    <mapper resource="com/ssola2/model/mapper/MemberMapper.xml"/>
+    <!-- <mapper resource="com/ssola2/model/mapper/MainMapper.xml"/>
+    <mapper resource="com/ssola2/model/mapper/RecommendMapper.xml"/>
+    <mapper resource="com/ssola2/model/mapper/ScrapMapper.xml"/>
+    <mapper resource="com/ssola2/model/mapper/GpsMapper.xml"/> -->
+  </mappers>
+  
+</configuration>
