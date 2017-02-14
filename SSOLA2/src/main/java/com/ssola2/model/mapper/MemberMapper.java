@@ -6,6 +6,7 @@ import java.util.List;
 import com.ssola2.model.dto.Administrator;
 import com.ssola2.model.dto.Customer;
 import com.ssola2.model.dto.Member;
+import com.ssola2.model.dto.Profile;
 
 // com.mvcdemoweb.model.mapper.MemberMapper.xml 파일에 대응하는 인터페이스
 public interface MemberMapper {
@@ -41,4 +42,7 @@ public interface MemberMapper {
 	void deleteMember(Member member);
 
 	void updatePasswdN(Member member);
+	
+	//프로필
+	List<Profile> selectProfile(String id);
 }

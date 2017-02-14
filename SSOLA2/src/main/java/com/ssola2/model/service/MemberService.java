@@ -2,8 +2,8 @@ package com.ssola2.model.service;
 
 import java.util.List;
 
-import com.ssola2.model.dto.Customer;
 import com.ssola2.model.dto.Member;
+import com.ssola2.model.dto.Profile;
 
 public interface MemberService {
 
@@ -24,5 +24,9 @@ public interface MemberService {
 	void updateMemberTx(Member member);
 	void updatePasswdNTx(Member member);
 	public void deleteMember(Member member);
+	
+	//프로필
+	public List<Profile> selectProfile(String id);
+	
 	
 }

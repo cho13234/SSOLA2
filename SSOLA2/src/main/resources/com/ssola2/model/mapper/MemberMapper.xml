@@ -125,4 +125,15 @@
 	WHERE id= #{id}		
 	</delete>
 	
+	<!-- 프로필 정보 -->
+	<select id="selectProfile" resultType="String" parameterType="String">
+		select m.id, m.nickname, c.email, c.birth, c.gender, p.description, p.image
+		from MEMBER m
+		join CUSTOMER c
+		ON m.id = c.id
+		join PROFILE p
+		on c.id = p.id;
+	</select>
+	
+	
 </mapper>

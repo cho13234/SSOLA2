@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssola2.model.mapper.ScrapMapper">
+	<insert id="InsertScrap" parameterType="com.ssola2.model.dto.Scrap" >
+		INSERT INTO SCRAP (SCRAP_NO, ID, ARTICLE_NO)
+		VALUES (seq_scrap_no.nextval, #{id}, #{articleNo})
+	</insert>
+
+
+	<delete id="deleteScrap">
+	DELETE from SCRAP where SCRAP_NO=#{scrapNo}
+	</delete> 
+
+	<select id="list" resultType="com.ssola2.model.dto.Scrap" parameterType="String">
+	    select a.article_no, a.article_title, a.main_image, se.main_tag, sc.scrap_no, sc.id, sc.reg_date 
+		from SCRAP sc, ARTICLE a, SECTION se, MEMBER m
+		where sc.id=#{id}
+		order by sc.reg_date desc
+	</select>	
+
+	<select id="selectListById" resultType="com.ssola2.model.dto.Scrap" parameterType="String">
+	    select a.article_no articleNo, a.article_title articleTitle, a.main_image mainImage, sc.scrap_no scrapNo, sc.id id, sc.reg_date regDate, se.main_tag mainTag
+		from SCRAP sc, ARTICLE a, SECTION se
+		where sc.id=#{id} and a.SECTION1 = se.SECTION_NO and  a.ARTICLE_NO=sc.ARTICLE_NO
+		order by sc.reg_date
+
+	</select>	
+	
+	<select id="selectScrapInfo" resultType="com.ssola2.model.dto.Scrap" parameterType="Integer">
+		SELECT article_no articleNo, article_title articleTitle, main_image mainImage
+		from ARTICLE 
+		where article_no=#{articleNo} 
+	</select>
+	
+	<select id="selectScrapJoin" resultType="com.ssola2.model.dto.Article" parameterType="String">
+		SELECT a.article_title articleTitle, a.main_image mainImage
+		FROM SCRAP s INNER JOIN ARTICLE a
+		ON a.article_no = s.article_no
+		WHERE s.id=#{id}
+	</select>
+
+</mapper>
