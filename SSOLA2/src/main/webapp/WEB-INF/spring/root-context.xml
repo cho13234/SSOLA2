@@ -33,6 +33,23 @@
 		<property name="configLocation" value="classpath:mybatis-config.xml" />
 	</bean>
 	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.naver.com" />
+		<property name="protocol" value="smtps" />
+		<property name="port" value="465" />
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="username" value="kwonjunho90" />
+		<property name="password" value="a30115877" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
+				<prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+				<prop key="mail.smtps.ssl.checkserveridentity">true</prop>
+				<prop key="mail.smtps.ssl.trust">*</prop>
+			</props>
+		</property>
+	</bean>
+	
 	<bean id="txManager" 
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
