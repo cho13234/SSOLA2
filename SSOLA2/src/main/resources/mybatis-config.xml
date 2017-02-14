@@ -31,6 +31,7 @@
   <!-- SQL <-> Object Mapping Information -->
   <mappers>
     <mapper resource="com/ssola2/model/mapper/MemberMapper.xml"/>
+    <mapper resource="com/ssola2/model/mapper/SearchMapper.xml"/>
     <!-- <mapper resource="com/ssola2/model/mapper/MainMapper.xml"/>
     <mapper resource="com/ssola2/model/mapper/RecommendMapper.xml"/>
     <mapper resource="com/ssola2/model/mapper/ScrapMapper.xml"/>
