@@ -33,6 +33,7 @@
 </head>
 
 <body>
+
 	<c:import url="/WEB-INF/views/include/header.jsp" />
 	<c:import url="/WEB-INF/views/mypage/mypage_header.jsp" />
 
@@ -144,5 +145,4 @@
 	<br>
 	<c:import url="/WEB-INF/views/include/footer.jsp" />
 </body>
-</htm
-										l>
+</html>

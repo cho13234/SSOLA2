@@ -19,6 +19,10 @@
 	<context:component-scan base-package="com.ssola2.model.service" />
 	<context:component-scan base-package="com.ssola2.model.mapper" />
 	<context:component-scan base-package="com.ssola2.aop" />
+	<context:component-scan base-package="com.ssola2.listener" />
+	<context:component-scan base-package="com.ssola2.config" />
+	
+	<bean id="sessionListener" class="com.ssola2.listener.StompDisconnectEvent" />
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
@@ -73,9 +77,13 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 	
-	<bean id="scrapMapper"
+	<bean id="chatMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.ssola2.model.mapper.ChatMapper" />
+	</bean>
+	
+	<bean id="searchMapper"
 		class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.ssola2.model.mapper.ScrapMapper" />
+		<property name="mapperInterface" value="com.ssola2.model.mapper.SearchMapper" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 	
