@@ -25,7 +25,7 @@ public class AccountController {
 	
 	@Autowired
 	@Qualifier("memberService")
-	private MemberService service;
+	private MemberService memberService;
 	
 	@RequestMapping(value = "login.action", method = RequestMethod.GET)
 	public String loginForm(Member member, Model model, BindingResult br) {
@@ -36,7 +36,7 @@ public class AccountController {
 	@RequestMapping(value = "login.action", method = RequestMethod.POST)
 	public String login(Member member, Model model, HttpSession session) {
 		
-		Member m = service.searchMemberByIdAndPasswordTx(
+		Member m = memberService.searchMemberByIdAndPasswordTx(
 				member.getId(), member.getPassword());
 		
 		if(m == null) {
@@ -83,7 +83,7 @@ public class AccountController {
 			return "account/registerform";
 			
 		} else {
-			service.registerMemberTx(customer);
+			memberService.registerMemberTx(customer);
 			
 			return "redirect:/home.action";
 		}
@@ -105,7 +105,7 @@ public class AccountController {
 		} else {
 			
 			administrator.setUserType(true);
-			service.registerMemberTx(administrator);
+			memberService.registerMemberTx(administrator);
 
 			return "redirect:/home.action";
 		}
@@ -114,7 +114,7 @@ public class AccountController {
 	@RequestMapping(value = "idcheck.action", method = RequestMethod.GET, produces="text/plain;charset=utf-8")
 	@ResponseBody
 	public String idCheck(String id) {
-		if(service.searchIdById(id)) {
+		if(memberService.searchIdById(id)) {
 			return id;
 		} else {
 			return null;
@@ -125,7 +125,7 @@ public class AccountController {
 	@RequestMapping(value = "nicknamecheck.action", method = RequestMethod.GET, produces="text/plain;charset=utf-8")
 	@ResponseBody
 	public String nicknameCheck(String nickname) {
-		if(service.searchNicknameByNickname(nickname)) {
+		if(memberService.searchNicknameByNickname(nickname)) {
 			return nickname;
 		} else {
 			return null;
