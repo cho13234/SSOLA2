@@ -33,9 +33,13 @@ form{display:inline}
 
 <script type="text/javascript">
 $(document).ready(function(){
-	   $("#submitButton").on("click", function(event) {
+	   $("#search").on("keyup", function(event) {
 		var searchSelect = $("#country").val();
 		var search = $("#search").val();
+		if($(this).val().length == 0) {
+			$('.friend1').remove();
+			return;
+		}
 	   $.ajax({
            type : "POST",
            url : "search.action",
@@ -45,16 +49,18 @@ $(document).ready(function(){
           },
           async : false,
            success : function(data) {
-        	   $('.friend_01').remove();
+/*         	   $('.friend1').remove();
         	   for(var i =0; i < data.length; i++) {
-        		   var a = data[i].id; 
-        		   $('#friend_list').append($('<div/>', {
-        			   	class : 'friend_01' ,
-        		        text: a +'<br/>' +'zz'
+        		   var a = data[i].id;
+        		   
+        		  /*  $('#friend_list').append('<p>'+ a +'</p>').attr('class' , 'friend1'); */
+        		    $('#friend_list').append($('<div/>', {
+        			   	class : 'friend1' ,
+        		        text: a
         		        
-        		    }));
+        		    }).append()); 
         	   
-        	   }
+        	   } */
            }
 	   });
 	 });
