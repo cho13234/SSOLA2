@@ -38,7 +38,6 @@
     <mapper resource="com/ssola2/model/mapper/ScrapMapper.xml"/>
     <!-- <mapper resource="com/ssola2/model/mapper/MainMapper.xml"/>
     <mapper resource="com/ssola2/model/mapper/RecommendMapper.xml"/>
-    
     <mapper resource="com/ssola2/model/mapper/GpsMapper.xml"/> -->
   </mappers>
   

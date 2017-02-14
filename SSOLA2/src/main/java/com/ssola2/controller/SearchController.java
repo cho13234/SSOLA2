@@ -43,7 +43,6 @@ public class SearchController {
 		Member member = (Member)session.getAttribute("loginuser");
 			List<Member> members = null;
 		if(searchSelect.equals("friend")) {
-			System.out.println("bb");
 			members = searchService.searchfriend(search);
 			return members;		
 		}

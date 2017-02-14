@@ -23,7 +23,6 @@ public class MysqlSearchDao implements SearchDao {
 	@Override
 	public List<Member> searchfriend(String search) {
 		List<Member> members = searchMapper.searchfriend(search);
-		System.out.println(search +"fjdkslajflkdsajfkl");
 		return members;
 	}
 
