@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssola2.model.mapper.ChatMapper">
+
+	<resultMap type="com.ssola2.model.dto.ChatRoom" id="ChatRoomResult">
+		<id column="room_no" property="roomNo"></id>
+		<result column="member_size" property="memberSize"></result>
+		<result column="room_name" property="roomName"></result>
+	</resultMap>
+	
+	<sql id="selectChatRoomSql">
+		SELECT room_no, member_size, room_name
+		FROM CHAT_ROOM
+	</sql>
+
+	<select id="selectChatRoomListById" resultMap="ChatRoomResult">
+		SELECT room_no, member_size, room_name
+		FROM CHAT_ROOM r inner join CHAT_MEMBER m
+		ON r.room_no = m.room_no
+		WHERE m.ID = #{id}
+	</select>	
+	
+</mapper>

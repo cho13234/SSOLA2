@@ -5,6 +5,7 @@ import java.util.List;
 import com.ssola2.model.dto.Administrator;
 import com.ssola2.model.dto.Customer;
 import com.ssola2.model.dto.Member;
+import com.ssola2.model.dto.Profile;
 
 public interface MemberDao {
 	
@@ -26,4 +27,8 @@ public interface MemberDao {
 	public void updateCustomer(Customer customer);
 	public void deleteMember(Member member);
 	
+	
+	//프로필
+//	public List<Profile >selectProfileById(String id);
+	public List<Profile> selectProfile(String id);
 }

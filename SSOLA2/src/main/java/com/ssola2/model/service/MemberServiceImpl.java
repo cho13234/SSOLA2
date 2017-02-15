@@ -11,6 +11,7 @@ import com.ssola2.model.dao.MemberDao;
 import com.ssola2.model.dto.Administrator;
 import com.ssola2.model.dto.Customer;
 import com.ssola2.model.dto.Member;
+import com.ssola2.model.dto.Profile;
 
 @Service(value="memberService")
 public class MemberServiceImpl implements MemberService {
@@ -100,6 +101,14 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void deleteMember(Member member) {
 		dao.deleteMember(member);		
+	}
+
+
+	//프로필
+	@Override
+	public List<Profile> selectProfile(String id) {
+		
+		return dao.selectProfile(id);
 	}
 
 }
