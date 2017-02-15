@@ -28,18 +28,24 @@ body, h1, h2, h3, h4, h5 {
 	font-family: "Raleway", sans-serif
 }
 
-form{display:inline}
+span {
+	padding : 80px;
+}
 </style>
 
 <script type="text/javascript">
 $(document).ready(function(){
+	
 	   $("#search").on("keyup", function(event) {
-		var searchSelect = $("#country").val();
+		 var searchSelect = $("#country").val();
 		var search = $("#search").val();
 		if($(this).val().length == 0) {
-			$('.friend1').remove();
+			 $('#thead').remove();
+      	   $('.tbody').remove();
 			return;
 		}
+		
+		if(searchSelect == "friend") { /* 셀렉트 한것만  */
 	   $.ajax({
            type : "POST",
            url : "search.action",
@@ -49,22 +55,61 @@ $(document).ready(function(){
           },
           async : false,
            success : function(data) {
-/*         	   $('.friend1').remove();
-        	   for(var i =0; i < data.length; i++) {
-        		   var a = data[i].id;
-        		   
-        		  /*  $('#friend_list').append('<p>'+ a +'</p>').attr('class' , 'friend1'); */
-        		    $('#friend_list').append($('<div/>', {
-        			   	class : 'friend1' ,
-        		        text: a
-        		        
-        		    }).append()); 
+        	   $('.tbody').remove();
         	   
-        	   } */
+        	   /* $('#friend_table2').append($('<p class="thead"><span>아이디</span><span>닉네임</span><span>전화번호</span></p>'));  */
+        	   for(var i =0; i < data.length; i++) {
+        		   var id = data[i].id;
+        		   var nickname = data[i].nickname;
+        		   var phone = data[i].phone;
+        		   
+        		   $('#friend_table1').append($('<tr class="tbody"><td style="padding :20 80 80 80px;">이미지</td><td style="padding-left : 11%;">'+id+'</td><td style="padding-left : 20%;">'+nickname+'</td><td style="padding-left : 22%;">'+phone+'</td></tr>')); 
+    	   
+        	   }
            }
 	   });
-	 });
+	} else if(searchSelect == "gps") {
+		 $.ajax({
+	           type : "POST",
+	           url : "searchgps.action",
+	           data : {
+	             "searchSelect" : searchSelect ,
+	             "search" : search
+	          },
+	          async : false,
+	           success : function(data) {
+	        	   $('.tbody').remove();
+	        	   
+	        	   /* $('#friend_table2').append($('<p class="thead"><span>아이디</span><span>닉네임</span><span>전화번호</span></p>'));  */
+	        	   for(var i =0; i < data.length; i++) {
+	        		   var id = data[i].id;
+	        		   var nickname = data[i].nickname;
+	        		   var phone = data[i].phone;
+	        		   
+	        		   $('#friend_table1').append($('<tr class="tbody"><td style="padding :20 80 80 80px;">이미지</td><td style="padding-left : 11%;">'+id+'</td><td style="padding-left : 20%;">'+nickname+'</td><td style="padding-left : 22%;">'+phone+'</td></tr>')); 
+	    	   
+	        	   }
+	           }
+		   });
+		
+	}
+	 
 	   
+	   }); /* 키업 이벤트 */
+	  
+	   
+	   
+	   $("#country").on("change", function(event) {
+		   var searchSelect = $("#country").val();
+		   $('.thead').remove();
+		  
+		   if(searchSelect == "gps") {
+			   $('#friend_table2').append($('<p class="thead"><span>매장명</span><span>매장주소</span><span>전화번호</span></p>')); 
+		   } else if(searchSelect == "friend") {
+			   $('#friend_table2').append($('<p class="thead"><span>이미지</span><span>아이디</span><span>닉네임</span><span>전화번호</span></p>')); 
+			   
+		   }
+	   });
 	   
 	   
 });
@@ -75,8 +120,9 @@ $(document).ready(function(){
 <body>
 
 	<c:import url="/WEB-INF/views/include/header.jsp" />
+	
+	<br/><br/>
 
-검색 페이지
 <div id="inputmain" style="text-align:center; width:30%; margin-left:35%"  >
 		<select  id="country" name="searchSelect">
 		  <option value="friend">친구검색</option>
@@ -85,10 +131,8 @@ $(document).ready(function(){
 		  <option value="body">본문검색</option>
 		</select>
 		<input type="text" id="search" name="search" placeholder="검색" style="width : 60%">
-		<a id="submitButton" class="btn btn-default" style="font-family: 'Nanum Pen Script', serif; font-size:15pt;">검색</a>
-		       
+		<!-- <a id="submitButton" class="btn btn-default" style="font-family: 'Nanum Pen Script', serif; font-size:15pt;">검색</a> -->
 </div>
-
 
 <div class="w3-content" style="max-width: 80%">
 		<div class="container">
@@ -98,11 +142,16 @@ $(document).ready(function(){
 				<div class="w3-col l8 s12" style="margin-left:10%;">
 					<!-- Blog entry -->
 					<div class="w3-card-4 w3-margin w3-light-grey" style="width: 110%;">
+					<div id="friend_table2" style="width : 100%">
+					  	<p class="thead"><span>이미지</span><span>아이디</span><span>닉네임</span><span>전화번호</span></p>
+					 </div>
 						&nbsp;
 					  <div id="friend_list">
-					  	
+						<table id="friend_table1" style="width:80%; height : 20%;">
+						</table>
+						
+
 					  </div>
-					  
 					</div>
 				</div>
 			</div>

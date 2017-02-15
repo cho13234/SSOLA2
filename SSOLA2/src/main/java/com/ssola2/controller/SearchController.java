@@ -45,8 +45,22 @@ public class SearchController {
 		if(searchSelect.equals("friend")) {
 			members = searchService.searchfriend(search);
 			return members;		
+		} else if(searchSelect.equals("gps")) {
+			members = searchService.searchfriend(search);
+			return members;
 		}
-		
+		return members;	
+		}
+	
+	@RequestMapping(value = {"searchgps.action"}, method = RequestMethod.POST)
+	@ResponseBody
+	public List<Member> c(Model model,HttpSession session, String searchSelect , String search) {
+		Member member = (Member)session.getAttribute("loginuser");
+			List<Member> members = null;
+		if(searchSelect.equals("gps")) {
+			members = searchService.searchfriend(search);
+			return members;
+		}
 		return members;	
 		}
 		
