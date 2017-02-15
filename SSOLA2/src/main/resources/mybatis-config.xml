@@ -23,7 +23,7 @@
       <transactionManager type="JDBC"/>
       <dataSource type="POOLED">
         <property name="driver" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://210.16.214.202:3306/ssola2"/>
+        <property name="url" value="jdbc:mysql://210.16.214.202:3306/ssola2?useSSL=false"/>
         <property name="username" value="jh"/>
         <property name="password" value="asdf1234"/>
       </dataSource>

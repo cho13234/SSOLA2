@@ -26,7 +26,7 @@
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-		<property name="url" value="jdbc:mysql://210.16.214.202:3306/ssola2"></property>
+		<property name="url" value="jdbc:mysql://210.16.214.202:3306/ssola2?useSSL=false"></property>
 		<property name="username" value="jh"></property>
 		<property name="password" value="asdf1234"></property>
 	</bean>

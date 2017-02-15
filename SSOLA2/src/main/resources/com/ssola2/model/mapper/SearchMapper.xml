@@ -20,7 +20,7 @@
 	</sql> -->
 	
 	<select id="searchfriend" parameterType="String" resultType="com.ssola2.model.dto.Member">
-		SELECT id , nickname
+		SELECT id , nickname , phonenumber
 		FROM MEMBER
 		WHERE ID LIKE CONCAT('%',#{search},'%')
 	</select>
