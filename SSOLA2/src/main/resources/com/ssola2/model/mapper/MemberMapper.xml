@@ -126,8 +126,8 @@
 	</delete>
 	
 	<!-- 프로필 정보 -->
-	<select id="selectProfile" resultType="String" parameterType="String">
-		select m.id, m.nickname, c.email, c.birth, c.gender, p.description, p.image
+	<select id="selectProfile" resultType="com.ssola2.model.dto.Profile" parameterType="String">
+		select m.id, m.nickname, m.phonenumber, c.email, c.birth, c.gender, p.description, p.image
 		from MEMBER m
 		join CUSTOMER c
 		ON m.id = c.id

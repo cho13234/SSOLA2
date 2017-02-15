@@ -10,7 +10,6 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript">
-
 	$(".btn_addFriend").on("click", function(event) {
 
 		if (confirm("친구 추가 하던지 말던지")) {
@@ -26,8 +25,9 @@
 					alert("success!");
 				}
 			});
-		};
-	}); 
+		}
+		;
+	});
 </script>
 
 </head>
@@ -37,9 +37,12 @@
 	<c:import url="/WEB-INF/views/include/header.jsp" />
 	<c:import url="/WEB-INF/views/mypage/mypage_header.jsp" />
 
-	<%-- <c:forEach items="${p_list}" var="p_list"> --%>
+	<c:forEach items="${p_list}" var="p_list">
+
 
 		<div class="container">
+
+
 			<div class="row">
 
 				<div
@@ -48,7 +51,7 @@
 
 					<div class="panel panel-info">
 						<div class="panel-heading">
-							<h3 class="panel-title">${p_list.nickname }</h3>
+							<h3 class="panel-title">${p_list.nickname}님의 프로필</h3>
 						</div>
 						<div class="panel-body">
 							<div class="row">
@@ -83,41 +86,34 @@
 											</tr>
 											<tr>
 												<td>전화번호</td>
-												<td>06/23/2013</td>
+												<td>${p_list.phonenumber}</td>
 											</tr>
 											<tr>
-												<td>생년월일(성별)</td>
-												<td>01/24/1988</td>
+												<td>생년월일</td>
+												<td>${p_list.birth}</td>
 											</tr>
 											<tr>
 												<td>자기소개</td>
-												<td>01/24/1988</td>
+												<td>${p_list.description}</td>
 											</tr>
 
-											<tr>
+											<!-- <tr> -->
 											<tr>
 												<td>Gender</td>
-												<td>Female</td>
-											</tr>
-											<tr>
-												<td>Home Address</td>
-												<td>Kathmandu,Nepal</td>
-											</tr>
-											<tr>
-												<td>Email</td>
-												<td><a href="mailto:info@support.com">info@support.com</a></td>
-											</tr>
-											<td>Phone Number</td>
-											<td>123-4567-890(Landline)<br>
-											<br>555-4567-890(Mobile)
-											</td>
-
+												<td><c:choose>
+														<c:when test='${p_list.gender eq "0"}'>
+														남자
+													</c:when>
+														<c:when test='${p_list.gender eq "1"}'>
+														여자
+													</c:when>
+													</c:choose></td>
 											</tr>
 
+											<!-- </tr> -->
 										</tbody>
 									</table>
-									<button id="btn_addFriend" type="button"
-										class="btn btn-primary">친구 추가/삭제</button>
+									<button id="btn_addFriend" type="button" class="btn btn-primary">친구 추가/삭제</button>
 
 								</div>
 							</div>
@@ -139,8 +135,9 @@
 					</div>
 				</div>
 			</div>
+
 		</div>
-<%-- 	</c:forEach> --%>
+	</c:forEach>
 	<br>
 	<br>
 	<c:import url="/WEB-INF/views/include/footer.jsp" />

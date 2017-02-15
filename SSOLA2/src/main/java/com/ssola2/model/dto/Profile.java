@@ -8,7 +8,13 @@ public class Profile {
 	private String description;
 	private String id;
 	private String open_status;
-		
+	private String phonenumber;	
+	public String getPhonenumber() {
+		return phonenumber;
+	}
+	public void setPhonenumber(String phonenumber) {
+		this.phonenumber = phonenumber;
+	}
 	private String nickname;
 	private String email;
 	private Date birth;

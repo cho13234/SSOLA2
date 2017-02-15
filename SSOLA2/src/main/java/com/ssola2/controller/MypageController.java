@@ -47,15 +47,14 @@ public class MypageController {
 
 	//my profile
 	@RequestMapping(value = "mypage_main.action", method = RequestMethod.GET)
-	public String mypage_main(ModelAndView mav, Member member, Profile profile) {
+	public String mypage_main(Model model, Member member, Profile profile) {
 
-		System.out.println("들어오ㅏ따");
-		
-//		member = (Member)session.getAttribute("loginuser");
 		
 		List<Profile> p_list = memberService.selectProfile(member.getId());
-		mav.setViewName("mypage/mypage_main"); //.jsp
-		mav.addObject("p_list", p_list);
+		
+		System.out.println(p_list.get(0).getId());
+		System.out.println(p_list.get(0).getPhonenumber());
+		model.addAttribute("p_list", p_list);
 		
 		
 		
