@@ -111,9 +111,11 @@ function closeNav() {
       <div class="input-group-btn">
         <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
       </div>
-    
-    </div>
-    </div>  
+   </div>
+  </div> 
+  <a href="/ssola2/freeboard/list.action">Free Board</a>
+  <a href="/ssola2/voc/list.action">Voice of Customer</a>
+  
     <!-- 마이페이지 연결 로그인이 안되있을 경우 보이지 않음 -->
     <c:choose>
     	<c:when test="${loginuser.id != null }">

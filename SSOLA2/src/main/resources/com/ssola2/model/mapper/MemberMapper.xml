@@ -36,7 +36,7 @@
 	</insert>
 
 	<insert id="insertAdministrator" parameterType="Administrator">
-		INSERT INTO administrator (id, authority)
+		INSERT INTO ADMINISTRATOR (id, authority)
 		VALUES (#{id}, #{authority})
 	</insert>
 
@@ -64,7 +64,7 @@
 	<select id="selectAdministratorById" resultType="Administrator"
 		parameterType="java.lang.String">
 		SELECT id, authority
-		FROM administrator
+		FROM ADMINISTRATOR
 		WHERE id = #{id}
 	</select>
 	
