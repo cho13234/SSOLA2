@@ -132,7 +132,8 @@
 		join CUSTOMER c
 		ON m.id = c.id
 		join PROFILE p
-		on c.id = p.id;
+		on c.id = p.id
+		where m.id = #{id};
 	</select>
 	
 	

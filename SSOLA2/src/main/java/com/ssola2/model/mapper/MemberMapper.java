@@ -44,5 +44,5 @@ public interface MemberMapper {
 	void updatePasswdN(Member member);
 	
 	//프로필
-	List<Profile> selectProfile(String id);
+	Profile selectProfile(String id);
 }

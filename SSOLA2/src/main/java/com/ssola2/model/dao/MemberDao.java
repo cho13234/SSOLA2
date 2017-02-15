@@ -30,5 +30,5 @@ public interface MemberDao {
 	
 	//프로필
 //	public List<Profile >selectProfileById(String id);
-	public List<Profile> selectProfile(String id);
+	public Profile selectProfile(String id);
 }

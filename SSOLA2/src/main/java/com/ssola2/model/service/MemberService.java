@@ -26,7 +26,7 @@ public interface MemberService {
 	public void deleteMember(Member member);
 	
 	//프로필
-	public List<Profile> selectProfile(String id);
+	public Profile selectProfile(String id);
 	
 	
 }

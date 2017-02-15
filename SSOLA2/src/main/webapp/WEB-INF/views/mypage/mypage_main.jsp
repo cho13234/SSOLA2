@@ -37,7 +37,7 @@
 	<c:import url="/WEB-INF/views/include/header.jsp" />
 	<c:import url="/WEB-INF/views/mypage/mypage_header.jsp" />
 
-	<c:forEach items="${p_list}" var="p_list">
+	<%-- <c:forEach items="${p_list}" var="p_list"> --%>
 
 
 		<div class="container">
@@ -137,7 +137,7 @@
 			</div>
 
 		</div>
-	</c:forEach>
+<%-- 	</c:forEach> --%>
 	<br>
 	<br>
 	<c:import url="/WEB-INF/views/include/footer.jsp" />

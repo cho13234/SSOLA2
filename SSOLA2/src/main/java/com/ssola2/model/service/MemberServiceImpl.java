@@ -106,7 +106,7 @@ public class MemberServiceImpl implements MemberService {
 
 	//프로필
 	@Override
-	public List<Profile> selectProfile(String id) {
+	public Profile selectProfile(String id) {
 		
 		return dao.selectProfile(id);
 	}

@@ -47,13 +47,11 @@ public class MypageController {
 
 	//my profile
 	@RequestMapping(value = "mypage_main.action", method = RequestMethod.GET)
-	public String mypage_main(Model model, Member member, Profile profile) {
+	public String mypage_main(Model model, Profile profile, HttpSession session) {
 
-		
-		List<Profile> p_list = memberService.selectProfile(member.getId());
-		
-		System.out.println(p_list.get(0).getId());
-		System.out.println(p_list.get(0).getPhonenumber());
+		Member member = (Member)session.getAttribute("loginuser");
+		Profile p_list = memberService.selectProfile(member.getId());
+				
 		model.addAttribute("p_list", p_list);
 		
 		
