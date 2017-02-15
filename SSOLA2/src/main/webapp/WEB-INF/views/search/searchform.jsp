@@ -63,7 +63,7 @@ $(document).ready(function(){
         		   var nickname = data[i].nickname;
         		   var phone = data[i].phone;
         		   
-        		   $('#friend_table1').append($('<tr class="tbody"><td style="padding :20 80 80 80px;">이미지</td><td style="padding-left : 11%;">'+id+'</td><td style="padding-left : 20%;">'+nickname+'</td><td style="padding-left : 22%;">'+phone+'</td></tr>')); 
+        		   $('#friend_table1').append($('<tr class="tbody"><td style="padding :20 80 80 80px;"><a href="/ssola2/mypage/mypage_main.action?'+id+'">이미지</a></td><td style="padding-left : 11%;">'+id+'</td><td style="padding-left : 20%;">'+nickname+'</td><td style="padding-left : 22%;">'+phone+'</td></tr>')); 
     	   
         	   }
            }
@@ -86,7 +86,7 @@ $(document).ready(function(){
 	        		   var nickname = data[i].nickname;
 	        		   var phone = data[i].phone;
 	        		   
-	        		   $('#friend_table1').append($('<tr class="tbody"><td style="padding :20 80 80 80px;">이미지</td><td style="padding-left : 11%;">'+id+'</td><td style="padding-left : 20%;">'+nickname+'</td><td style="padding-left : 22%;">'+phone+'</td></tr>')); 
+	        		   $('#friend_table1').append($('<tr style="" class="tbody"><td style="padding :20 80 80 80px;">이미지</td><td style="padding-left : 11%;">'+id+'</td><td style="padding-left : 20%;">'+nickname+'</td><td style="padding-left : 22%;">'+phone+'</td></tr>')); 
 	    	   
 	        	   }
 	           }
@@ -147,7 +147,7 @@ $(document).ready(function(){
 					 </div>
 						&nbsp;
 					  <div id="friend_list">
-						<table id="friend_table1" style="width:80%; height : 20%;">
+						<table class="table table-hover" id="friend_table1" style="width:80%; height : 20%;">
 						</table>
 						
 
