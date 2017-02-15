@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	
+	<mapper namespace="com.ssola2.model.mapper.VocMapper">
+	<resultMap type="com.ssola2.model.dto.Voc" id="ArticleResult">
+		<id column="article_no" property="articleNo" />
+		<result column="article_title" property="articleTitle" />
+		<result column="article_content" property="articleContent" />
+		<result column="categoty" property="category"/>
+		<result column="reg_date" property="regDate" />
+		<result column="deleted" property="deleted" />
+		<result column="id" property="id" />
+		
+	</resultMap>
+
+
+	<sql id="selectArticleSql">
+		SELECT article_no, article_title, article_conetent, reg_date, deleted, id
+		FROM VOC
+	</sql>
+
+
+	<insert id="insertArticle" parameterType="com.ssola2.model.dto.Voc">
+		INSERT INTO ARTICLE (article_no, article_title, article_content, id, category)
+		VALUES (seq_article_no.nextVal,
+		#{articleTitle}, #{articleContent}, #{id}, #{category})
+	</insert>
+
+	<select id="selectArticles" resultMap="ArticleResult">
+		SELECT *
+		FROM VOC
+	</select>
+
+	
+	<select id="getArticleByArticleNo"  resultMap="ArticleResult"  parameterType="Integer">
+		SELECT *
+		FROM VOC
+		where ARTICLE_NO = #{articleNo}
+	</select>
+	
+	<select id="editArticleByArticleNo" resultMap="ArticleResult" parameterType="Integer">
+		SELECT *
+		FROM VOC
+		WHERE article_no = #{articleNo}
+	</select>
+	
+	<delete id="deleteArticle"  parameterType="int">
+		UPDATE VOC
+		SET DELETED = 1
+		WHERE article_no= #{articleNo}	
+	</delete>
+	
+	<update id="editArticle" parameterType="com.ssola2.model.dto.Voc">
+		UPDATE VOC SET 
+		article_title = #{articleTitle},
+		WHERE ARTICLE_NO = #{articleNo}
+	</update>
+
+</mapper>
