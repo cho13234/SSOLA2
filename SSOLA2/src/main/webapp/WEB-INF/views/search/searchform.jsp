@@ -28,16 +28,16 @@ body, h1, h2, h3, h4, h5 {
 	font-family: "Raleway", sans-serif
 }
 
-span {
+/* span {
 	padding : 80px;
-}
+} */
 </style>
 
 <script type="text/javascript">
 $(document).ready(function(){
 	
 	   $("#search").on("keyup", function(event) {
-		 var searchSelect = $("#country").val();
+		var searchSelect = $("#country").val();
 		var search = $("#search").val();
 		if($(this).val().length == 0) {
 			 $('#thead').remove();
@@ -62,13 +62,15 @@ $(document).ready(function(){
         		   var id = data[i].id;
         		   var nickname = data[i].nickname;
         		   var phone = data[i].phone;
-        		   
-        		   $('#friend_table1').append($('<tr class="tbody"><td style="padding :20 80 80 80px;"><a href="/ssola2/mypage/mypage_main.action?'+id+'">이미지</a></td><td style="padding-left : 11%;">'+id+'</td><td style="padding-left : 20%;">'+nickname+'</td><td style="padding-left : 22%;">'+phone+'</td></tr>')); 
-    	   
+        		   var append1 = $('<tr class="tbody"><td>이미지</td><td>'+id+'</td><td>'+nickname+'</td><td>'+phone+'</td></a></tr>').attr('id' , id);
+        		   $('#friend_table1').append(append1); 
         	   }
+        	   $('.tbody').click(function() { //action 값을 넣어주기.
+    			   location.href='/ssola2/mypage/mypage_friendmain.action?id='+$(this).attr('id');
+    		   });
            }
 	   });
-	} else if(searchSelect == "gps") {
+	} else if(searchSelect == "gps") {	/*gps option click  */
 		 $.ajax({
 	           type : "POST",
 	           url : "searchgps.action",
@@ -86,7 +88,7 @@ $(document).ready(function(){
 	        		   var nickname = data[i].nickname;
 	        		   var phone = data[i].phone;
 	        		   
-	        		   $('#friend_table1').append($('<tr style="" class="tbody"><td style="padding :20 80 80 80px;">이미지</td><td style="padding-left : 11%;">'+id+'</td><td style="padding-left : 20%;">'+nickname+'</td><td style="padding-left : 22%;">'+phone+'</td></tr>')); 
+	        		   $('#friend_table1').append($('<tr class="tbody"><td>이미지</td><td>'+id+'</td><td>'+nickname+'</td><td>'+phone+'</td></tr>')); 
 	    	   
 	        	   }
 	           }
@@ -104,9 +106,12 @@ $(document).ready(function(){
 		   $('.thead').remove();
 		  
 		   if(searchSelect == "gps") {
+			   $('.tbody').remove();
 			   $('#friend_table2').append($('<p class="thead"><span>매장명</span><span>매장주소</span><span>전화번호</span></p>')); 
 		   } else if(searchSelect == "friend") {
-			   $('#friend_table2').append($('<p class="thead"><span>이미지</span><span>아이디</span><span>닉네임</span><span>전화번호</span></p>')); 
+			   $('.tbody').remove();
+			  /*  $('#friend_table2').append($('<p class="thead"><span>이미지</span><span>아이디</span><span>닉네임</span><span>전화번호</span></p>')); */ 
+			   $('#friend_table1').append($('<tr><th>이미지</th><th>아이디</th><th>닉네임</th><th>전화번호</th></tr>'));
 			   
 		   }
 	   });
@@ -143,13 +148,21 @@ $(document).ready(function(){
 					<!-- Blog entry -->
 					<div class="w3-card-4 w3-margin w3-light-grey" style="width: 110%;">
 					<div id="friend_table2" style="width : 100%">
-					  	<p class="thead"><span>이미지</span><span>아이디</span><span>닉네임</span><span>전화번호</span></p>
+					  	<!-- <p class="thead"><span>이미지</span><span>아이디</span><span>닉네임</span><span>전화번호</span></p> -->
+
 					 </div>
 						&nbsp;
 					  <div id="friend_list">
-						<table class="table table-hover" id="friend_table1" style="width:80%; height : 20%;">
+						<table class="table table-hover" id="friend_table1" style="width:100%;">
+							<thead class="thead">
+     						  <tr>
+						        <th>이미지</th>
+						        <th>아이디</th>
+						        <th>닉네임</th>
+						        <th>전화번호</th>
+						      </tr>
+						    </thead>
 						</table>
-						
 
 					  </div>
 					</div>
