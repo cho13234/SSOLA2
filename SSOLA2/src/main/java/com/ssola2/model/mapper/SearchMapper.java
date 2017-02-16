@@ -11,6 +11,8 @@ import com.ssola2.model.dto.Member;
 public interface SearchMapper {
 
 	List<Member> searchfriend(String search);
+
+	List<Member> searchfriends();
 	
 
 	

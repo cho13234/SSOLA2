@@ -25,4 +25,10 @@
 		WHERE ID LIKE CONCAT('%',#{search},'%')
 	</select>
 <!-- WHERE ID LIKE '%#{search}%' -->	
+
+	<select id="searchfriends" resultType="Member">
+		SELECT id , nickname , phoneNumber
+		FROM MEMBER
+	</select>
+
 </mapper>

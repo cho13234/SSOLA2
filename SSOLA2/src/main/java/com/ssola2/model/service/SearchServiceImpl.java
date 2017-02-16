@@ -22,6 +22,12 @@ public class SearchServiceImpl implements SearchService{
 		return members;
 	}
 
+	@Override
+	public List<Member> searchfriends() {
+		
+		return dao.searchfriends();
+	}
+
 	
 
 }

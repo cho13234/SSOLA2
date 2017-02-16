@@ -9,5 +9,7 @@ import com.ssola2.model.dto.Member;
 public interface SearchDao {
 
 	List<Member> searchfriend(String search);
+
+	List<Member> searchfriends();
 	
 }

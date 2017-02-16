@@ -26,6 +26,11 @@ public class MysqlSearchDao implements SearchDao {
 		return members;
 	}
 
+	@Override
+	public List<Member> searchfriends() {
+		return searchMapper.searchfriends();
+	}
+
 	
 
 }

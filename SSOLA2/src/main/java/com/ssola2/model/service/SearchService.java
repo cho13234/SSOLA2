@@ -8,4 +8,6 @@ public interface SearchService {
 
 	public List<Member> searchfriend(String search);
 
+	public List<Member> searchfriends();
+
 }

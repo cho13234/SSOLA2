@@ -27,12 +27,12 @@ public class SearchController {
 	@Qualifier("searchService")
 	private SearchService searchService;
 	
-	private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
-	
 	@RequestMapping(value = {"search.action"}, method = RequestMethod.GET)
-	public String a(HttpSession session) {
+	public String a(HttpSession session , Model model) {
 		Member member = (Member)session.getAttribute("loginuser");
 		
+			List<Member> members = searchService.searchfriends();
+			model.addAttribute("members" , members);
 			return "search/searchform";			
 		}
 	
