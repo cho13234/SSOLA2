@@ -15,18 +15,18 @@
 		
 	<aop:aspectj-autoproxy/>
 		
-	<context:component-scan base-package="com.ssola2.model.dao" />
-	<context:component-scan base-package="com.ssola2.model.service" />
-	<context:component-scan base-package="com.ssola2.model.mapper" />
+	<context:component-scan base-package="com.ssola2.model.*" />
 	<context:component-scan base-package="com.ssola2.aop" />
-	<context:component-scan base-package="com.ssola2.listener" />
+	<!-- <context:component-scan base-package="com.ssola2.listener" /> -->
 	<context:component-scan base-package="com.ssola2.config" />
+	<context:component-scan base-package="com.ssola2.interceptor" />
 	
-	<bean id="sessionListener" class="com.ssola2.listener.StompDisconnectEvent" />
+	<bean id="sessionConnectListener" class="com.ssola2.listener.StompConnectEvent" />
+	<!-- <bean id="sessionDisconnectListener" class="com.ssola2.listener.StompDisconnectEvent" /> -->
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-		<property name="url" value="jdbc:mysql://210.16.214.202:3306/ssola2"></property>
+		<property name="url" value="jdbc:mysql://210.16.214.202:3306/ssola2?useSSL=false"></property>
 		<property name="username" value="jh"></property>
 		<property name="password" value="asdf1234"></property>
 	</bean>
@@ -77,8 +77,10 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 	
-	<bean id="chatMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<bean id="chatMapper" 
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.ssola2.model.mapper.ChatMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 	
 	<bean id="searchMapper"
