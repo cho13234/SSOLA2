@@ -102,6 +102,7 @@ $(document).ready(function(){
 				// 주소로 좌표를 검색합니다
 				$("#search").on("keydown", function(event) {
 				if(event.keyCode == 13) { //enter key
+					if(searchSelect == "gps") {
 				$('.tbody').remove(); //리스트 제거
 				var mapString = $('#search').val(); //검색한 주소
 				geocoder.addr2coord(mapString, function(status, result) {
@@ -176,11 +177,9 @@ $(document).ready(function(){
 						   });
 				    	////////////////////////////////// ajax end
 				    	
-				    } else { //주소를 찾을 수 없을때
-				    	alert('주소를 정확히 입력해주세요!');
-				    	return;
-				    }
+				    } // if 문
 				}); 
+				} //searchselect == "gps"
 				} //key 13 
 			}); // key down event
 
@@ -199,6 +198,33 @@ $(document).ready(function(){
 			   $('.tbody').remove();
 			   $('#map').remove();
 			   $('#friend_table1').append($('<tr class="thead"><th>이미지</th><th>제목</th><th>글</th><th>작성자</th></tr>'));
+			   
+			   
+			   
+			   $.ajax({
+		           type : "POST",
+		           url : "search_body.action",
+		           data : {
+		             "searchSelect" : searchSelect ,
+		             "search" : search
+		          },
+		          async : false,
+		           success : function(data) {
+		        	   $('.tbody').remove();
+		        	   for(var i =0; i < data.length; i++) {
+		        		   var id = data[i].id;
+		        		   var nickname = data[i].nickname;
+		        		   var phone = data[i].phone;
+		        		   var append1 = $('<tr class="tbody"><td><img src="/ssola2/resources/images/fullheart.png"></td><td>'+id+'</td><td>'+nickname+'</td><td>'+phone+'</td></a></tr>').attr('id' , id);
+		        		   $('#friend_table1').append(append1); 
+		        	   }
+		        	   $('.tbody').click(function() { //action 값을 넣어주기.
+		    			   location.href='/ssola2/mypage/mypage_friendmain.action?id='+$(this).attr('id');
+		    		   });
+		           }
+			   });
+			   
+			   
 		   }
 	   
 	   });
