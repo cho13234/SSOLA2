@@ -127,13 +127,13 @@
 	
 	<!-- 프로필 정보 -->
 	<select id="selectProfile" resultType="com.ssola2.model.dto.Profile" parameterType="String">
-		select m.id, m.nickname, m.phonenumber, c.email, c.birth, c.gender, p.description, p.image
+		select m.id AS id, m.nickname AS nickname, m.phonenumber AS phonenumber, c.email AS email, c.birth AS birth, c.gender AS gender, p.description AS description, p.image AS image 
 		from MEMBER m
 		join CUSTOMER c
 		ON m.id = c.id
 		join PROFILE p
 		on c.id = p.id
-		where m.id = #{id};
+		where m.id = #{id}
 	</select>
 	
 	<!-- 친구인지 아닌지 확인 -->

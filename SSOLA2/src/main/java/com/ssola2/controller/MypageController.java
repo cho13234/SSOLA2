@@ -164,7 +164,6 @@ public class MypageController {
 		Member member = (Member)session.getAttribute("loginuser");
 		Profile p_list = memberService.selectProfile(id);
 		String sid = member.getId();	
-		System.out.println(sid);
 		List<Friend_list> mf_list = memberService.friendsStatus(sid);
 		model.addAttribute("p_list", p_list);
 		
