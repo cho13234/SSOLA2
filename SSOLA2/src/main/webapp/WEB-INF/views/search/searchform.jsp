@@ -82,8 +82,8 @@ $(document).ready(function(){
 		   if(searchSelect == "gps") {
 			   $('.tbody').remove();
 			   $('#map').remove();
-			   $('#friend_table1').append($('<tr class="thead"><th>이미지</th><th>매장명</th><th>매장주소</th><th>전화번호</th></tr>'));
-			   $('#map1').append($('<div id="map" style="width: 800px;height: 400px;"></div>'));
+			   $('#friend_table1').append($('<tr class="thead"><th>이미지</th><th>카테고리</th><th>매장명</th><th>주소</th></tr>'));
+			   $('#map1').append($('<div id="map" style="width: 830px;height: 400px;"></div>'));
 			   
 			   ////////////////////////////////////////////////////////////////////////////
 			   
@@ -102,7 +102,7 @@ $(document).ready(function(){
 				// 주소로 좌표를 검색합니다
 				$("#search").on("keydown", function(event) {
 				if(event.keyCode == 13) { //enter key
-					
+				$('.tbody').remove(); //리스트 제거
 				var mapString = $('#search').val(); //검색한 주소
 				geocoder.addr2coord(mapString, function(status, result) {
 
@@ -120,6 +120,17 @@ $(document).ready(function(){
 					          },
 					          async : false,
 					           success : function(data) {
+					        	   
+					        	   for(var i =0; i < data.length; i++) {
+					        		   var section_no = data[i].sectionNo;
+					        		   var category = data[i].category;
+					        		   var address = data[i].address;
+					        		   var maintag = data[i].mainTag;
+					        		   var storeName = data[i].storeName;
+					        		   var distance = data[i].distance;
+					        		   var append1 = $('<tr class="tbody"><td><img src="/ssola2/resources/images/fullheart.png"></td><td>'+category+'</td><td>'+storeName+'</td><td>'+address+'</td></a></tr>').attr('id' , section_no);
+					        		   $('#friend_table1').append(append1); 
+					        	   }
 					        	   
 					        	   if(data != "" ) {
 					        	 	//매장들의 위치
@@ -181,9 +192,13 @@ $(document).ready(function(){
 			   $('#friend_table1').append($('<tr class="thead"><th>프사</th><th>아이디</th><th>닉네임</th><th>전화번호</th></tr>'));
 			   
 		   }else if (searchSelect == "category") {
-			   
+			   $('.tbody').remove();
+			   $('#map').remove();
+			   $('#friend_table1').append($('<tr class="thead"><th>이미지</th><th>제목</th><th>글</th><th>작성자</th></tr>'));
 		   }else if(searchSelect == "body") {
-			   
+			   $('.tbody').remove();
+			   $('#map').remove();
+			   $('#friend_table1').append($('<tr class="thead"><th>이미지</th><th>제목</th><th>글</th><th>작성자</th></tr>'));
 		   }
 	   
 	   });
