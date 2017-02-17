@@ -133,7 +133,7 @@
 		ON m.id = c.id
 		join PROFILE p
 		on c.id = p.id
-		where m.id = #{id};
+		where m.id = #{id}
 	</select>
 	
 	<!-- 친구인지 아닌지 확인 -->
