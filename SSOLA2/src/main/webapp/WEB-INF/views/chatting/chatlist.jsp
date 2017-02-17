@@ -149,14 +149,15 @@ ul {
 	function onGroupMessage(data) {
 		console.log(data);
 
-		//var destination = message.headers.destination;
-		//var groupNo = destination.split("group-")[1];
 		var message = JSON.parse(data.body);
 		var groupNo = message.roomNo;
 		// 그룹 번호를 받는다.
 		// 그룹에서 새로운 메시지가 있으면 그룹 옆에 그림 표시 (파랑), 새로운 그룹도 똑같이 표시한다.
 
-		var li = $("<li></li>")
+		//var li = $("<li></li>")
+		
+		var li = $("#list_dummy li").clone(true);
+		
 		if (message.id == id) {
 			li.attr({
 				id : message.chatNo,
@@ -168,48 +169,18 @@ ul {
 				'class' : 'log chat-other'
 			})
 		}
-
-		li
-		.append($("<table></table>")
-		.attr({
+		
+		li.find('table').attr({
 			cellpading : 0,
 			cellspacing : 0
-		})
-		.append(
-			$("<tr></tr>")
-				.append(
-					$("<td></td>")
-					.attr("class", "profile_td")
-					.append("") //여기에 이미지 append
-				)
-				.append(
-					$("<td></td>")
-					.attr("class", "chat_td")
-					.append(
-						$("<div></div>")
-						.attr("class", "log_id")
-						.text(message.id)
-					)
-					.append(
-						$("<div></div>")
-						.attr("class", "log_content")
-						.text(message.content))
-					)
-					.append(
-						$("<td></td>")
-						.attr("class", "time_td")
-						.append(
-							$("<div></div>")
-							.attr("class", "log_time")
-							.text(message.regDate.substr(11,5)
-						)
-					)
-				)
-			)
-		)
-
+		});
+		
+		li.find('.log_id').text(message.id);
+		li.find('.log_content').text(message.content);
+		li.find('.log_time').text(message.regDate.substr(11,5));
+		
 		$("#logList_" + groupNo).append(li);
-
+		
 		$("#roomModal_" + groupNo + " .modal-body")
 			.scrollTop($("#roomModal_" + groupNo + " .row").height());
 	}
