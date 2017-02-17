@@ -7,7 +7,31 @@ public class Section {
 	private String address;
 	private String mainTag;
 	private String storeName;
+	private String LAT;
+	private String LNG;
+	private String distance;
+	
+	
 
+	
+	public String getLAT() {
+		return LAT;
+	}
+	public void setLAT(String lAT) {
+		LAT = lAT;
+	}
+	public String getLNG() {
+		return LNG;
+	}
+	public void setLNG(String lNG) {
+		LNG = lNG;
+	}
+	public String getDistance() {
+		return distance;
+	}
+	public void setDistance(String distance) {
+		this.distance = distance;
+	}
 	public String getStoreName() {
 		return storeName;
 	}
