@@ -51,7 +51,7 @@
 	</select>
 	
 	<select id="search_stores" parameterType="Section" resultType="Section">
-	SELECT LAT , LNG,
+	SELECT LAT , LNG, category , main_Tag AS mainTag , store_name AS storeName , section_no AS sectionNo , address ,
 
 	(6371*acos(cos(radians(#{LAT}))*cos(radians(Lat))*cos(radians(Lng)
 
