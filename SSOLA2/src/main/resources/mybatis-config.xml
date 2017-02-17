@@ -17,7 +17,8 @@
 		<typeAlias type="com.ssola2.model.dto.ChatRoom" alias="ChatRoom"/>
 		<typeAlias type="com.ssola2.model.dto.ChatLog" alias="ChatLog"/>
 		<typeAlias type="com.ssola2.model.dto.MessageVO" alias="MessageVO"/>
-		<!-- <typeAlias type="com.ssola2.model.dto.Profile" alias="Profile"/> -->
+		<typeAlias type="com.ssola2.model.dto.Profile" alias="Profile"/>
+		<typeAlias type="com.ssola2.model.dto.Friend_list" alias="Friend_list"/>
 	</typeAliases>
 
   <environments default="development">
@@ -37,9 +38,9 @@
     <mapper resource="com/ssola2/model/mapper/MemberMapper.xml"/>
     <mapper resource="com/ssola2/model/mapper/ChatMapper.xml"/>
     <mapper resource="com/ssola2/model/mapper/SearchMapper.xml"/>
+    <mapper resource="com/ssola2/model/mapper/ScrapMapper.xml"/>
     <!-- <mapper resource="com/ssola2/model/mapper/MainMapper.xml"/>
     <mapper resource="com/ssola2/model/mapper/RecommendMapper.xml"/>
-    <mapper resource="com/ssola2/model/mapper/ScrapMapper.xml"/>
     <mapper resource="com/ssola2/model/mapper/GpsMapper.xml"/> -->
   </mappers>
   

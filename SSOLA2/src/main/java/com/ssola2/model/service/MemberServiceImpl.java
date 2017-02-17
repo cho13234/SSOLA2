@@ -10,7 +10,9 @@ import com.ssola2.common.Util;
 import com.ssola2.model.dao.MemberDao;
 import com.ssola2.model.dto.Administrator;
 import com.ssola2.model.dto.Customer;
+import com.ssola2.model.dto.Friend_list;
 import com.ssola2.model.dto.Member;
+import com.ssola2.model.dto.Profile;
 
 @Service(value="memberService")
 public class MemberServiceImpl implements MemberService {
@@ -100,6 +102,35 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void deleteMember(Member member) {
 		dao.deleteMember(member);		
+	}
+
+
+	//프로필
+	@Override
+	public Profile selectProfile(String id) {
+		
+		return dao.selectProfile(id);
+	}
+
+	@Override
+	public List<Friend_list> friendsStatus(String sid){
+		return dao.friendsStatus(sid);
+	}
+
+	@Override
+	public void insertFriend(Friend_list f_list) {
+		dao.insertFriend(f_list);
+	}
+
+	@Override
+	public void updateFriend(Friend_list f_list) {
+		dao.updateFriend(f_list);
+		
+	}
+
+	@Override
+	public void updateFriend1(Friend_list f_list) {
+		dao.updateFriend1(f_list);
 	}
 
 }
