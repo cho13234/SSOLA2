@@ -38,7 +38,6 @@ public class StompDisconnectEvent implements ApplicationListener<SessionDisconne
 	public void onApplicationEvent(SessionDisconnectEvent event) {
 		StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
 		
-		
 		Map<String, Object> sessionAttributes = sha.getSessionAttributes();
 		
 		//sessionId를 기준으로 db상에 is_connect 값을 0으로 바꿔서 접속중이 아님을 알린다.

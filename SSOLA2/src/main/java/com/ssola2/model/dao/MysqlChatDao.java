@@ -74,8 +74,13 @@ public class MysqlChatDao implements ChatDao {
 	}
 
 	@Override
-	public void insertChatLog(MessageVO messageVO) {
-		chatMapper.insertChatLog(messageVO);
+	public void insertChatLog(ChatLog chatLog) {
+		chatMapper.insertChatLog(chatLog);
+	}
+
+	@Override
+	public List<String> selectGroupMemberByGroupNo(String groupNo) {
+		return chatMapper.selectGroupMemberByGroupNo(groupNo);
 	}
 
 }

@@ -9,6 +9,8 @@
 		<id column="room_no" property="roomNo"></id>
 		<result column="member_size" property="memberSize"></result>
 		<result column="room_name" property="roomName"></result>
+		<association column="room_no" property="lastLog" javaType="ChatLog"
+			select="selectLastLogByGroupNo" />
 		<collection column="room_no" property="members" javaType="java.util.ArrayList"
 			ofType="String" select="selectChatMemberByRoomNo" />
 	</resultMap>
@@ -108,8 +110,22 @@
 		WHERE room_no = #{groupNo}
 	</select>
 	
-	<insert id="insertChatLog" parameterType="MessageVO">
-		INSERT INTO CHAT (id, room_no, content) values (#{from}, #{roomNo}, #{message})
+	<insert id="insertChatLog" parameterType="ChatLog"
+		useGeneratedKeys="true" keyProperty="chatNo">
+		INSERT INTO CHAT (id, room_no, content) values (#{id}, #{roomNo}, #{content})
 	</insert>
-
+	
+	<select id="selectGroupMemberByGroupNo" resultType="String">
+		SELECT id
+		FROM CHAT_MEMBER
+		WHERE room_no = #{groupNo}
+	</select>
+	
+	<select id="selectLastLogByGroupNo" resultMap="ChatLogResult">
+		SELECT *
+		FROM CHAT
+		WHERE room_no = #{room_no}
+		order by reg_date DESC limit 1
+	</select>
+		
 </mapper>

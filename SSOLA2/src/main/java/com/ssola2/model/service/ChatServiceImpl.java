@@ -60,8 +60,13 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public void addChatLog(MessageVO messageVO) {
-		chatDao.insertChatLog(messageVO);
+	public void addChatLog(ChatLog chatLog) {
+		chatDao.insertChatLog(chatLog);
+	}
+
+	@Override
+	public List<String> searchGroupMemberByGroupNo(String groupNo) {
+		return chatDao.selectGroupMemberByGroupNo(groupNo);
 	}
 
 }

@@ -29,5 +29,7 @@ public interface ChatDao {
 
 	public List<ChatLog> selectGroupLogByGroupNo(int groupNo);
 
-	public void insertChatLog(MessageVO messageVO);
+	public void insertChatLog(ChatLog chatLog);
+
+	public List<String> selectGroupMemberByGroupNo(String groupNo);
 }

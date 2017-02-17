@@ -43,7 +43,7 @@ public class StompConnectEvent implements ApplicationListener<SessionConnectEven
 	@Override
 	public void onApplicationEvent(SessionConnectEvent event) {
 		logger.info(event.getMessage().toString());
-		/*StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
+		StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
 		
 		// session에서 login 정보를 불러와 id를 바탕으로 sessionId를 설정한다.
 		
@@ -79,7 +79,7 @@ public class StompConnectEvent implements ApplicationListener<SessionConnectEven
 							member.getId());
 				}
 			}
-		}*/
+		}
 		
 	}
 	

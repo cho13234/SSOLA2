@@ -8,8 +8,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
-						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-						http://www.springframework.org/schema/p">
+						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
@@ -21,8 +20,8 @@
 	<context:component-scan base-package="com.ssola2.config" />
 	<context:component-scan base-package="com.ssola2.interceptor" />
 	
-	<bean id="sessionConnectListener" class="com.ssola2.listener.StompConnectEvent" />
-	<!-- <bean id="sessionDisconnectListener" class="com.ssola2.listener.StompDisconnectEvent" /> -->
+	<!-- <bean id="sessionConnectListener" class="com.ssola2.listener.StompConnectEvent" />
+	<bean id="sessionDisconnectListener" class="com.ssola2.listener.StompDisconnectEvent" /> -->
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>

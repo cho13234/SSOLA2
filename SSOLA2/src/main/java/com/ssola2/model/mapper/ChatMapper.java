@@ -30,5 +30,7 @@ public interface ChatMapper {
 
 	List<ChatLog> selectGroupLogByGroupNo(int groupNo);
 
-	void insertChatLog(MessageVO messageVO);
+	void insertChatLog(ChatLog chatLog);
+
+	List<String> selectGroupMemberByGroupNo(String groupNo);
 }

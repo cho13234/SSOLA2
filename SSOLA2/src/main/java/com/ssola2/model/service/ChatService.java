@@ -24,5 +24,7 @@ public interface ChatService {
 
 	public List<ChatLog> searchGroupLogByGroupNo(int groupNo);
 
-	public void addChatLog(MessageVO messageVO);
+	public void addChatLog(ChatLog chatLog);
+
+	public List<String> searchGroupMemberByGroupNo(String groupNo);
 }

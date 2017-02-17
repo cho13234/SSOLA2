@@ -45,19 +45,18 @@ public class ChatController {
 		ArrayList<Member> friendList = (ArrayList)chatService.searchFriendListById(member.getId());
 		ArrayList<Member> friends = new ArrayList<Member>();
 		
-		for (Member friend : friendList) {
+		/*for (Member friend : friendList) {
 			if (loginUserSession.getLoginUser(friend.getId()) != null) {
 				friends.add(friend);
 			}
 		}
 		
-		model.addAttribute("friendList", friends);
+		model.addAttribute("friendList", friends);*/
 
-		return "chatting/chat";
-		//return "chatting/chatlist";
+		return "chatting/chatlist";
 	}
 	
-	@RequestMapping(value = "loadgrouplog.action", method = RequestMethod.GET)
+	@RequestMapping(value = "loadgrouplog.action", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String loadGroupLog(int groupNo) {
 		

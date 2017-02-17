@@ -11,6 +11,7 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
 //@Component
+//TODO: 현재 필요없음 삭제 대기
 public class HandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 
 	private static Logger logger = LoggerFactory.getLogger(HandshakeInterceptor.class);

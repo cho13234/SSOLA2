@@ -1,5 +1,8 @@
 package com.ssola2.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +17,10 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.ssola2.model.dto.ChatLog;
+import com.ssola2.model.dto.LoginUserSession;
 import com.ssola2.model.dto.Member;
 import com.ssola2.model.dto.MessageVO;
 import com.ssola2.model.service.ChatService;
@@ -32,13 +39,19 @@ public class EchoController {
 	private ChatService chatService;
 	
 	@Autowired
+	@Qualifier("org.springframework.messaging.simp.SimpMessagingTemplate#0")
 	private SimpMessagingTemplate simpMessagingTemplate;
 	
+	@Autowired
+	private LoginUserSession loginUserSession;
+	
+	// debugging
 	@MessageMapping("/hello")
 	public void hello(String message) {
 		logger.info(message);
 	}
 	
+	// debugging
 	@MessageMapping("/greeting")
 	public void sendGreeting(String message) {
 		
@@ -54,13 +67,31 @@ public class EchoController {
 	//@MessageMapping("/echo")
 	@MessageMapping("/echo/group")
 	public void sendEcho(String message) {
-		logger.info(message);
+		logger.info("/echo/group" + message);
 		
-		MessageVO messageVO = MessageVO.convertMessage(message);
+		//MessageVO messageVO = MessageVO.convertMessage(message);
+		ChatLog chatLog = ChatLog.convertMessage(message);
 		
-		chatService.addChatLog(messageVO);
+		//chatService.addChatLog(messageVO);
+		chatService.addChatLog(chatLog);
 		
-		simpMessagingTemplate.convertAndSend("/queue/echo/group-" + messageVO.getRoomNo(),
-				message);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+		chatLog.setRegDate(sdf.format(new Date()));
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		String message1 = gson.toJson(chatLog);
+		
+		//ArrayList<String> members = (ArrayList<String>) chatService.searchGroupMemberByGroupNo(messageVO.getRoomNo());
+		ArrayList<String> members = (ArrayList<String>) chatService.searchGroupMemberByGroupNo(chatLog.getRoomNo());
+		
+		for (String member : members) {
+			// 이런 접속자 관리가 꼭 필요한지 의문 = 한 그룹에 최대 멤버의 수를 줄이면 필요가 없을 수 있음
+			if (loginUserSession.getLoginUser(member) != null) {
+				simpMessagingTemplate.convertAndSend("/queue/notice/group-" + member, message1);
+			}
+		}
+		
+		simpMessagingTemplate.convertAndSend("/queue/echo/group-" + chatLog.getRoomNo(),
+				message1);
 	}
 }

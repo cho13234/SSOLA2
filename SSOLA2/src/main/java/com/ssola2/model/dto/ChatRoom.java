@@ -6,6 +6,7 @@ public class ChatRoom {
 	private int roomNo;
 	private int memberSize;
 	private String roomName;
+	private ChatLog lastLog;
 	private ArrayList<String> members;
 	
 	public int getRoomNo() {
@@ -25,6 +26,12 @@ public class ChatRoom {
 	}
 	public void setRoomName(String roomName) {
 		this.roomName = roomName;
+	}
+	public ChatLog getLastLog() {
+		return lastLog;
+	}
+	public void setLastLog(ChatLog lastLog) {
+		this.lastLog = lastLog;
 	}
 	public ArrayList<String> getMembers() {
 		return members;
