@@ -25,13 +25,13 @@ public class HomeController {
 	
 	@RequestMapping(value = {"/", "home.action"}, method = RequestMethod.GET)
 	public String home(Locale locale, Model model, HttpSession session) {
-		logger.info("in HomeController");
 		Member member = (Member)session.getAttribute("loginuser");
 		
 		if (member == null) {
 			return "redirect:/account/login.action";			
 		} else {
-			return "redirect:/main/main.action";
+			//return "redirect:/main/main.action";
+			return "redirect:/chat/chatlist.action";
 		}
 		
 	}

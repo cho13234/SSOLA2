@@ -13,6 +13,13 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	
+	<!-- <listener>
+		<listener-class>com.ssola2.listener.ServletContextListenerImpl</listener-class>
+	</listener> -->
+	<!-- <listener>  
+    	<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener> -->
 
 	<!-- Processes application requests -->
 	<servlet>
@@ -20,7 +27,10 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+			<param-value>
+				/WEB-INF/spring/appServlet/servlet-context.xml
+				/WEB-INF/spring/ws-config.xml
+			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -46,4 +56,6 @@
 		<filter-name>character-encoding-filter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	
 </web-app>
