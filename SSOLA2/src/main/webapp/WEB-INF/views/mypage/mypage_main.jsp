@@ -10,24 +10,40 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript">
-	$(".btn_addFriend").on("click", function(event) {
-
-		if (confirm("친구 추가 하던지 말던지")) {
-			/* var scrapNo = $("#scrapNo").val(); */
+$(document).ready(function(){
+	$("button[id^=btn_addFriend]").on("click", function(event) {
+		 var id = $(event.currentTarget).attr("id");
+		 var id0 = id.split("_")[0];
+		 var id1 = id.split("_")[1];
+		 var id2 = id.split("_")[2];
+         var abc = id.split("_")[3];
+         
 
 			$.ajax({
 				type : "GET",
-				url : "/ssola2/mypage/add_friend.action",
+				url : "add_friend.action",
 				data : {
-					scrapNo : $("#scrapNo").val()
+					'id2' : id2 ,
+					'abc' : abc
 				},
-				success : function() {
-					alert("success!");
+				success : function(data) {
+					var f_statusText = $(event.currentTarget).text();
+					if(abc == "a") {
+						$(event.currentTarget).attr("id", id0 + "_" + id1 + "_" + id2 + "_b");
+						$(event.currentTarget).text("친구 추가");
+					} else if(abc == "b") {
+						var bb = $(event.currentTarget).attr("id", id0 + "_" + id1 + "_" + id2 + "_a");
+						$(event.currentTarget).text("친구 삭제");
+					} else if(abc == "c") {
+						var cc = $(event.currentTarget).attr("id", id0 + "_" + id1 + "_" + id2 + "_a");
+						$(event.currentTarget).text("친구 삭제");
+					}
+					
 				}
 			});
-		}
-		;
+		
 	});
+});
 </script>
 
 </head>
@@ -37,7 +53,7 @@
 	<c:import url="/WEB-INF/views/include/header.jsp" />
 	<c:import url="/WEB-INF/views/mypage/mypage_header.jsp" />
 
-	<c:forEach items="${p_list}" var="p_list">
+	<%-- <c:forEach items="${p_list}" var="p_list"> --%>
 
 
 		<div class="container">
@@ -78,7 +94,7 @@
 										<tbody>
 											<tr>
 												<td>아이디</td>
-												<td>${p_list.id}</td>
+												<td id = "f_did">${p_list.id}</td>
 											</tr>
 											<tr>
 												<td>이메일</td>
@@ -113,8 +129,17 @@
 											<!-- </tr> -->
 										</tbody>
 									</table>
-									<button id="btn_addFriend" type="button" class="btn btn-primary">친구 추가/삭제</button>
-
+									<c:choose>
+										<c:when test = "${a eq 'a'}" >
+											<button id="btn_addFriend_${p_list.id}_a" type="button" class="btn btn-primary">친구 삭제</button>
+										</c:when>
+										<c:when test = "${b eq 'b'}">
+											<button id="btn_addFriend_${p_list.id}_b"  type="button" class="btn btn-primary">친구 추가</button>
+										</c:when>
+										<c:when test = "${c eq 'c'}">
+											<button id="btn_addFriend_${p_list.id}_c"  type="button" class="btn btn-primary">친구 추가</button>
+										</c:when>
+									</c:choose>			 
 								</div>
 							</div>
 						</div>
@@ -137,7 +162,7 @@
 			</div>
 
 		</div>
-	</c:forEach>
+<%-- 	</c:forEach> --%>
 	<br>
 	<br>
 	<c:import url="/WEB-INF/views/include/footer.jsp" />
