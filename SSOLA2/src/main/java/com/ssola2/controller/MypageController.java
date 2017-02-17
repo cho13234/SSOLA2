@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssola2.common.Util;
 import com.ssola2.model.dao.MemberDao;
 import com.ssola2.model.dto.Customer;
+import com.ssola2.model.dto.Friend_list;
 import com.ssola2.model.dto.Member;
 import com.ssola2.model.dto.Profile;
 import com.ssola2.model.dto.Scrap;
@@ -42,7 +44,6 @@ public class MypageController {
 	@Autowired
 	@Qualifier("scrapService")
 	private ScrapService scrapService;
-	
 	
 
 	//my profile
@@ -156,18 +157,58 @@ public class MypageController {
 	
 	
 	///////////////////////친구 프로필
-	
+	@RequestMapping(value = "mypage_friendmain.action", method = RequestMethod.GET)
+//	@ResponseBody //String 값을 내보낼 때
+	public String mypage_friendmain(Model model, String id, HttpSession session) {
+		
+		Member member = (Member)session.getAttribute("loginuser");
+		Profile p_list = memberService.selectProfile(id);
+		String sid = member.getId();	
+		System.out.println(sid);
+		List<Friend_list> mf_list = memberService.friendsStatus(sid);
+		model.addAttribute("p_list", p_list);
+		
+		for(Friend_list f_list : mf_list) {
+			// 넌 나의 친구 상태
+			if(f_list.getDestination_id().equals(id) && f_list.isDeleted() == true)  {
+				System.out.println("친구 삭제할거");
+				model.addAttribute("a" ,"a");
+			}else if(f_list.isDeleted() == false){
+				model.addAttribute("b" ,"b");
+			}else if(!f_list.getDestination_id().equals(id)) {
+				model.addAttribute("c", "c");
+			}
+		}
+		
+		return "mypage/mypage_main";
+	}
 	
 	////////////////친구 추가
-	@RequestMapping(value = "add_friend.acton", method = RequestMethod.GET)
-	public ModelAndView addFriend(HttpSession session, Member member, ModelAndView mav) {
+	@RequestMapping(value = "add_friend.action", method = RequestMethod.GET)
+	@ResponseBody
+	public String addFriend(HttpSession session, String id2 , String abc) {
 		
-		member = (Member)session.getAttribute("loginuser");
+		System.out.println(id2 +"확인중");
+		Member member = (Member)session.getAttribute("loginuser");
+		Friend_list f_list = new Friend_list();
+		f_list.setSource_id(member.getId());
+		f_list.setDestination_id(id2);
+		
+		List<Friend_list> mf_list = memberService.friendsStatus(member.getId());
+		
+		for(Friend_list f_list2 : mf_list) {
+			// 넌 나의 친구 상태
+			if(!f_list2.getDestination_id().equals(id2) && abc.equals("c"))  {
+				memberService.insertFriend(f_list);
+			}else if (f_list2.isDeleted() == true && abc.equals("a")){
+					memberService.updateFriend(f_list);
+			} else if(f_list2.isDeleted() == false && abc.equals("b")) {
+				memberService.updateFriend1(f_list);
+			}
+		}
 		
 		
 		
-	
-		
-		return mav;		
+		return "a";		
 	}
 }
