@@ -9,6 +9,28 @@
 		<id column="room_no" property="roomNo"></id>
 		<result column="member_size" property="memberSize"></result>
 		<result column="room_name" property="roomName"></result>
+		<association column="room_no" property="lastLog" javaType="ChatLog"
+			select="selectLastLogByGroupNo" />
+		<collection column="room_no" property="members" javaType="java.util.ArrayList"
+			ofType="String" select="selectChatMemberByRoomNo" />
+	</resultMap>
+	
+	<resultMap type="com.ssola2.model.dto.Member" id="MemberResult">
+		<id column="id" property="id"></id>
+		<result column="password" property="password"></result>
+		<result column="nickname" property="nickname"></result>
+		<result column="phonenumber" property="phoneNumber"></result>
+		<result column="deleted" property="deleted"></result>
+		<result column="user_type" property="userType"></result>
+		<result column="reg_date" property="regDate"></result>
+	</resultMap>
+	
+	<resultMap type="com.ssola2.model.dto.ChatLog" id="ChatLogResult">
+		<id column="chat_no" property="chatNo"/>
+		<result column="reg_date" property="regDate"/>
+		<result column="content" property="content"/>
+		<result column="room_no" property="roomNo"/>
+		<result column="id" property="id"/>
 	</resultMap>
 	
 	<sql id="selectChatRoomSql">
@@ -16,11 +38,94 @@
 		FROM CHAT_ROOM
 	</sql>
 
-	<select id="selectChatRoomListById" resultMap="ChatRoomResult">
-		SELECT room_no, member_size, room_name
+	<select id="selectChatRoomListById" parameterType="String" resultMap="ChatRoomResult">
+		SELECT r.room_no, r.member_size, r.room_name
 		FROM CHAT_ROOM r inner join CHAT_MEMBER m
 		ON r.room_no = m.room_no
 		WHERE m.ID = #{id}
 	</select>	
 	
+	<select id="selectChatMemberListById" parameterType="String" resultMap="MemberResult">
+		SELECT *
+		FROM MEMBER
+		WHERE ID = #{id}
+	</select>
+	
+	<!-- <select id="selectFriendListById" parameterType="String" resultMap="MemberResult">
+		SELECT m.id, m.NICKNAME
+		FROM MEMBER m 
+			inner join FRIEND_LIST f
+			ON m.id = f.source_id
+			inner join LOGIN_MEMBER l
+            on l.id = m.id
+        WHERE f.destination_id = #{id} and l.is_connect = 1;
+	</select> -->
+	
+	<select id="selectFriendListById" parameterType="String" resultMap="MemberResult">
+		SELECT m.id, m.NICKNAME
+		FROM MEMBER m 
+			inner join FRIEND_LIST f
+			ON m.id = f.source_id
+        WHERE f.destination_id = #{id};
+	</select>
+	
+	<select id="selectSessionIdById" parameterType="String" resultType="String">
+		SELECT session_id
+		FROM LOGIN_MEMBER
+		WHERE id = #{id}
+	</select>
+	
+	<update id="updateSessionIdById" parameterType="hashmap">
+		UPDATE LOGIN_MEMBER
+		SET session_id = #{sessionId}, is_connect = 1
+		WHERE id = #{id}
+	</update>
+	
+	<insert id="insertLoginMember" parameterType="hashmap">
+		INSERT INTO LOGIN_MEMBER (id, session_id, is_connect)
+		VALUES (#{id}, #{sessionId}, 1)
+	</insert>
+
+	<update id="updateNotLoginById" parameterType="String">
+		UPDATE LOGIN_MEMBER
+		SET is_connect = 0
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateNotLoginAllUser">
+		UPDATE LOGIN_MEMBER
+		SET is_connect = 0
+		WHERE is_connect = 1;
+	</update>
+	
+	<select id="selectChatMemberByRoomNo" resultType="String">
+		SELECT id
+		FROM CHAT_MEMBER
+		WHERE room_no = #{room_no}
+	</select>
+	
+	<select id="selectGroupLogByGroupNo" resultMap="ChatLogResult">
+		SELECT *
+		FROM CHAT
+		WHERE room_no = #{groupNo}
+	</select>
+	
+	<insert id="insertChatLog" parameterType="ChatLog"
+		useGeneratedKeys="true" keyProperty="chatNo">
+		INSERT INTO CHAT (id, room_no, content) values (#{id}, #{roomNo}, #{content})
+	</insert>
+	
+	<select id="selectGroupMemberByGroupNo" resultType="String">
+		SELECT id
+		FROM CHAT_MEMBER
+		WHERE room_no = #{groupNo}
+	</select>
+	
+	<select id="selectLastLogByGroupNo" resultMap="ChatLogResult">
+		SELECT *
+		FROM CHAT
+		WHERE room_no = #{room_no}
+		order by reg_date DESC limit 1
+	</select>
+		
 </mapper>

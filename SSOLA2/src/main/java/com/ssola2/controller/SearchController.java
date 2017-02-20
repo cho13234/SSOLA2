@@ -56,20 +56,8 @@ public class SearchController {
 		section.setLAT(LAT);
 		section.setLNG(LNG);
 		List<Section> sections = searchService.search_stores(section);
-		
 		return sections;
 		}
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
