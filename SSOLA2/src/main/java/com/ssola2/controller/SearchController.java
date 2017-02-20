@@ -1,6 +1,7 @@
 package com.ssola2.controller;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -29,7 +30,7 @@ public class SearchController {
 	private SearchService searchService;
 	
 	@RequestMapping(value = {"search.action"}, method = RequestMethod.GET)
-	public String a(HttpSession session , Model model) {
+	public String searchForm(HttpSession session , Model model) {
 		Member member = (Member)session.getAttribute("loginuser");
 		
 			List<Member> members = searchService.searchfriends();
@@ -40,17 +41,16 @@ public class SearchController {
 	
 	@RequestMapping(value = {"search.action"}, method = RequestMethod.POST)
 	@ResponseBody
-	public List<Member> b(Model model,HttpSession session, String searchSelect , String search) {
+	public List<Member> searchMember(Model model,HttpSession session, String searchSelect , String search) {
 		Member member = (Member)session.getAttribute("loginuser");
-			List<Member> members = null;
+			List<Member> members = new ArrayList<Member>();
 			members = searchService.searchfriend(search);
-			System.out.println(members.get(0).getId());
 			return members;		
 		}
 	
 	@RequestMapping(value = {"searchgps.action"}, method = RequestMethod.POST)
 	@ResponseBody
-	public List<Section> c(Model model,HttpSession session, String searchSelect , String search , String LAT ,String LNG) { //가져와야 되는 데이터는 ? 매장명 , 매장주소 , 전화번호 , 매장위치 (위도, 경도) 
+	public List<Section> searchGps(Model model,HttpSession session, String searchSelect , String search , String LAT ,String LNG) { //가져와야 되는 데이터는 ? 매장명 , 매장주소 , 전화번호 , 매장위치 (위도, 경도) 
 		Member member = (Member)session.getAttribute("loginuser");
 		Section section = new Section();
 		section.setLAT(LAT);
