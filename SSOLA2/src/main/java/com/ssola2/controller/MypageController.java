@@ -2,7 +2,9 @@ package com.ssola2.controller;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import javax.swing.text.html.ImageView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssola2.common.Util;
@@ -44,14 +48,26 @@ public class MypageController {
 	@Autowired
 	@Qualifier("scrapService")
 	private ScrapService scrapService;
+	
+	/*@Resource(name="imageView") 
+	ImageView imageView; 
+	
+	@Autowired 
+	ProfileImageService profileImageService;
+*/
+	
 
 
-	//my profile
+
+
+	//내꺼 프로필
 	@RequestMapping(value = "mypage_main.action", method = RequestMethod.GET)
 	public String mypage_main(Model model, Profile profile, HttpSession session) {
 
 		Member member = (Member)session.getAttribute("loginuser");
-		Profile p_list = memberService.selectProfile(member.getId());
+		
+		Profile p_list = memberService.searchProfileByIdTx(member.getId()); //insertProfileById selectProfile
+		
 
 		model.addAttribute("p_list", p_list);
 
@@ -103,6 +119,8 @@ public class MypageController {
 
 		return "account/login";
 	}
+		
+	
 
 	///////////////////////친구 프로필
 	@RequestMapping(value = "mypage_friendmain.action", method = RequestMethod.GET)
@@ -129,6 +147,8 @@ public class MypageController {
 
 		return "mypage/mypage_main";
 	}
+	
+	
 
 	////////////////친구 추가
 	@RequestMapping(value = "add_friend.action", method = RequestMethod.GET)
@@ -145,7 +165,8 @@ public class MypageController {
 
 		for(Friend_list f_list2 : mf_list) {
 			// 넌 나의 친구 상태
-			if(!f_list2.getDestination_id().equals(id2) && abc.equals("c"))  {
+//			if(!f_list2.getDestination_id().equals(id2) && abc.equals("c"))  {
+			if(abc.equals("c"))  {
 				memberService.insertFriend(f_list);
 			}else if (f_list2.isDeleted() == true && abc.equals("a")){
 				memberService.updateFriend(f_list);
@@ -155,6 +176,39 @@ public class MypageController {
 		}
 		return "a";		
 	}
+	
+	////////////////////프로필 이미지 등록
+	
+	
+		
+	//이미지 업로드 후 '등록'버튼 눌렀을 경우 나오는 결과 페이지
+	//프로필 수정(회원가입에서 등록버튼 후 자기소개 작성 페이지)
+	@RequestMapping(value = "profile_editform.action", method = RequestMethod.GET)
+	public String profile_editform(Model model, Profile profile, HttpSession session) {
+
+	Member member = (Member)session.getAttribute("loginuser");
+	
+	
+	
+	Profile p_list = memberService.selectProfile(member.getId());
+
+	model.addAttribute("p_list", p_list);
+	return "mypage/profile_editform";
+}
+
+	//이미지 업로드 액션
+//	@RequestMapping(value="/upload", method=RequestMethod.POST)
+//	private String upload(@RequestParam MultipartFile imageFile, ModelMap modelMap) { 
+//		Profile fileInfo = imageService.save(imageFile); 
+//		modelMap.put("imageFile", fileInfo); 
+//		return "mypage/profile_editform";
+//	} 
+
+	
+	
+
+	
+	
 
 	/////////////////////////scrap
 	@RequestMapping(value = "scrapform.action", method = RequestMethod.GET)

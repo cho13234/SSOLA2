@@ -76,7 +76,7 @@ public class AccountController {
 	}
 	
 	@RequestMapping(value = "register.action", method = RequestMethod.POST)
-	public String customerRegister(@Valid Customer customer, BindingResult br) {
+	public String customerRegister(@Valid Customer customer, BindingResult br, Model model, HttpSession session) {
 		
 		if (br.hasErrors()) {
 			
@@ -85,7 +85,18 @@ public class AccountController {
 		} else {
 			memberService.registerMemberTx(customer);
 			
-			return "redirect:/home.action";
+			Member m = memberService.searchMemberByIdAndPasswordNoneHashTx(
+					customer.getId(), customer.getPassword());
+			
+			if(m == null) {
+				model.addAttribute("loginfailed", true);
+				return "account/login";
+			} else {
+				Customer c = (Customer)m;
+				session.setAttribute("loginuser", c);
+			}
+			
+			return "redirect:/mypage/profile_editform.action";
 		}
 	}
 	

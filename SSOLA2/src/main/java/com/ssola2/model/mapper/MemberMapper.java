@@ -45,7 +45,7 @@ public interface MemberMapper {
 	void updatePasswdN(Member member);
 	
 	//프로필
-	Profile selectProfile(String id);
+
 	List<Friend_list> friendsStatus(String sid);
 
 	void insertFriend(Friend_list f_list);
@@ -53,4 +53,10 @@ public interface MemberMapper {
 	void updateFriend(Friend_list f_list);
 
 	void updateFriend1(Friend_list f_list);
+
+	void insertProfileById(String id);
+
+	Profile searchProfileByIdTx(String id);
+
+	Profile selectProfile(String id);
 }

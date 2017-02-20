@@ -125,6 +125,12 @@
 	WHERE id= #{id}		
 	</delete>
 	
+	<!-- 회원 가입 시 id를 profile에 등록 -->
+	<insert id="insertProfileById" parameterType="com.ssola2.model.dto.Profile">
+		insert into PROFILE(id)
+		values(#{id})		
+	</insert>
+	
 	<!-- 프로필 정보 -->
 	<select id="selectProfile" resultType="com.ssola2.model.dto.Profile" parameterType="String">
 		select m.id AS id, m.nickname AS nickname, m.phonenumber AS phonenumber, c.email AS email, c.birth AS birth, c.gender AS gender, p.description AS description, p.image AS image 
@@ -162,6 +168,11 @@
 		set deleted = '1' 
 		where SOURCE_ID=#{source_id} and DESTINATION_ID = #{destination_id}	
 	</update>
+	
+	<!-- 프로필 자기소개 등록 -->
+		<insert id="insertProfile" parameterType="com.ssola2.model.dto.Profile">
+			
+		</insert>
 	
 	
 	

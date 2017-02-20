@@ -3,8 +3,10 @@ package com.ssola2.model.dto;
 import java.sql.Date;
 
 public class Profile {
+	
+	
 
-	private String image;
+	public static final String  image ="/resources/profileImages/";
 	private String description;
 	private String id;
 	private String open_status;
@@ -21,12 +23,7 @@ public class Profile {
 	private boolean gender;
 	
 	
-	public String getImage() {
-		return image;
-	}
-	public void setImage(String image) {
-		this.image = image;
-	}
+	
 	public String getDescription() {
 		return description;
 	}
