@@ -190,41 +190,6 @@ $(document).ready(function(){
 			   $('#map').remove();
 			   $('#friend_table1').append($('<tr class="thead"><th>프사</th><th>아이디</th><th>닉네임</th><th>전화번호</th></tr>'));
 			   
-		   }else if (searchSelect == "category") {
-			   $('.tbody').remove();
-			   $('#map').remove();
-			   $('#friend_table1').append($('<tr class="thead"><th>이미지</th><th>제목</th><th>글</th><th>작성자</th></tr>'));
-		   }else if(searchSelect == "body") {
-			   $('.tbody').remove();
-			   $('#map').remove();
-			   $('#friend_table1').append($('<tr class="thead"><th>이미지</th><th>제목</th><th>글</th><th>작성자</th></tr>'));
-			   
-			   
-			   
-			   $.ajax({
-		           type : "POST",
-		           url : "search_body.action",
-		           data : {
-		             "searchSelect" : searchSelect ,
-		             "search" : search
-		          },
-		          async : false,
-		           success : function(data) {
-		        	   $('.tbody').remove();
-		        	   for(var i =0; i < data.length; i++) {
-		        		   var id = data[i].id;
-		        		   var nickname = data[i].nickname;
-		        		   var phone = data[i].phone;
-		        		   var append1 = $('<tr class="tbody"><td><img src="/ssola2/resources/images/fullheart.png"></td><td>'+id+'</td><td>'+nickname+'</td><td>'+phone+'</td></a></tr>').attr('id' , id);
-		        		   $('#friend_table1').append(append1); 
-		        	   }
-		        	   $('.tbody').click(function() { //action 값을 넣어주기.
-		    			   location.href='/ssola2/mypage/mypage_friendmain.action?id='+$(this).attr('id');
-		    		   });
-		           }
-			   });
-			   
-			   
 		   }
 	   
 	   });
@@ -245,8 +210,6 @@ $(document).ready(function(){
 		<select  id="country" name="searchSelect">
 		  <option value="friend">친구검색</option>
 		  <option value="gps">주변검색</option>
-		  <option value="category">카테고리</option>
-		  <option value="body">본문검색</option>
 		</select>
 		<input type="text" id="search" name="search" placeholder="검색" style="width : 60%">
 		<!-- <a id="submitButton" class="btn btn-default" style="font-family: 'Nanum Pen Script', serif; font-size:15pt;">검색</a> -->
