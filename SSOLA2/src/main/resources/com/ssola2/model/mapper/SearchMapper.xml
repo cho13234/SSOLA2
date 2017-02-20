@@ -32,24 +32,19 @@
 		<association column="section4" property="section4" javaType="Section" select="selectDetailSection" />
 	</resultMap> -->
 	
-
-<!-- <sql id="selectSql">
-		SELECT id, nickname, phonenumber, deleted, user_type, reg_date
-		FROM MEMBER
-	</sql> -->
-	
+	<!--사람 검색 -->
 	<select id="searchfriend" parameterType="String" resultType="com.ssola2.model.dto.Member">
 		SELECT id , nickname , phoneNumber
 		FROM MEMBER
 		WHERE ID LIKE CONCAT('%',#{search},'%')
 	</select>
-<!-- WHERE ID LIKE '%#{search}%' -->	
-
+	<!--멤버  -->
 	<select id="searchfriends" resultType="Member">
 		SELECT id , nickname , phoneNumber
 		FROM MEMBER
 	</select>
 	
+	<!--지도 검색  -->
 	<select id="search_stores" parameterType="Section" resultType="Section">
 	SELECT LAT , LNG, category , main_Tag AS mainTag , store_name AS storeName , section_no AS sectionNo , address ,
 
