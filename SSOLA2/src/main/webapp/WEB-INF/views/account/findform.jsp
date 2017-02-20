@@ -21,13 +21,13 @@
 					<h2>Login</h2>
 						<div class="input-group col-sm-4 col-sm-offset-4">
 							<span class="input-group-addon">아이디</span>
-							<input type="text" name="id" class="form-control"/>
+							<input type="text" name="id" class="form-control" autocomplete="off"/>
 						</div>
 						<br>
 						<div class="input-group col-sm-4 col-sm-offset-4">
 							<br>
 							<span class="input-group-addon">이메일</span>
-							<input type="text" name="email" class="form-control"/>
+							<input type="text" name="email" class="form-control" autocomplete="off"/>
 						</div>
 					<br>
 					<div class="buttons">

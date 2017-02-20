@@ -33,7 +33,7 @@
 					<div class="form-group">
 						<label for="id" class="control-label col-sm-3">ID</label>
 						<div class="input-group">
-							<form:input path="id" placeholder="영문자 + 숫자 4-20자리(대소문자 구분)" style="width:280px" maxlength="20" cssClass="form-control"/>
+							<form:input path="id" placeholder="영문자 + 숫자 4-20자리(대소문자 구분)" autocomplete="off" style="width:280px" maxlength="20" cssClass="form-control"/>
 							<button type="button" id="idCheckButton" class="btn btn-secondary">중복확인</button>
 	                    </div>
 	                    <br>
@@ -60,7 +60,7 @@
 					<div class="form-group">
 						<label for="nickname" class="control-label col-sm-3">Nickname</label>
 						<div class="input-group">
-							<form:input type="text" path="nickname" placeholder="2-15자리" style="width:280px" maxlength="15" cssClass="form-control"/>
+							<form:input type="text" path="nickname" placeholder="2-15자리" autocomplete="off" style="width:280px" maxlength="15" cssClass="form-control"/>
 							<button type="button" id="nicknameCheckButton" class="btn btn-secondary">중복확인</button>
 						</div>
 						<br>
@@ -70,7 +70,7 @@
 					<div class="form-group">
 						<label for="email" class="control-label col-sm-3">Email</label>
 						<div class="input-group">
-							<form:input type="text" path="email" placeholder="@사이트주소까지" style="width:280px" maxlength="56" cssClass="form-control"/><br>
+							<form:input type="text" path="email" placeholder="@사이트주소까지" autocomplete="off" style="width:280px" maxlength="56" cssClass="form-control"/><br>
 						</div>
 						<br>
 						<div id="emailMessage"></div>
@@ -79,7 +79,7 @@
 					<div class="form-group">
 						<label for="birth" class="control-label col-sm-3">Birth</label>
 						<div class="input-group">
-							<form:input type="text" path="birth" placeholder="ex/1990-01-01" style="width:280px" maxlength="10" cssClass="form-control"/><br>
+							<form:input type="text" path="birth" placeholder="ex/1990-01-01" autocomplete="off" style="width:280px" maxlength="10" cssClass="form-control"/><br>
 						</div>
 						<br>
 						<div id="birthMessage"></div>
