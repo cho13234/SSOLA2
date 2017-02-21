@@ -37,9 +37,9 @@ body, h1, h2, h3, h4, h5 {
 <script type="text/javascript">
 $(document).ready(function(){
 	
-	   $("#search").on("keyup", function(event) { //친구 찾기 event
+	   $("#search1").on("keyup", function(event) { //친구 찾기 event
 		var searchSelect = $("#country").val();
-		var search = $("#search").val();
+		var search1 = $("#search1").val();
 		if($(this).val().length == 0) {
 			 $('#thead').remove();
       	   $('.tbody').remove();
@@ -52,7 +52,7 @@ $(document).ready(function(){
            url : "search.action",
            data : {
              "searchSelect" : searchSelect ,
-             "search" : search
+             "search" : search1
           },
           async : false,
            success : function(data) {
@@ -100,11 +100,11 @@ $(document).ready(function(){
 				var geocoder = new daum.maps.services.Geocoder();
 				
 				// 주소로 좌표를 검색합니다
-				$("#search").on("keydown", function(event) {
+				$("#search1").on("keydown", function(event) {
 				if(event.keyCode == 13) { //enter key
 					if(searchSelect == "gps") {
 				$('.tbody').remove(); //리스트 제거
-				var mapString = $('#search').val(); //검색한 주소
+				var mapString = $('#search1').val(); //검색한 주소
 				geocoder.addr2coord(mapString, function(status, result) {
 
 				    if (status === daum.maps.services.Status.OK) {// 정상적으로 검색이 완료됐으면 
@@ -211,7 +211,7 @@ $(document).ready(function(){
 		  <option value="friend">친구검색</option>
 		  <option value="gps">주변검색</option>
 		</select>
-		<input type="text" id="search" name="search" placeholder="검색" style="width : 60%">
+		<input type="text" id="search1" name="search" placeholder="검색" style="width : 60%">
 		<!-- <a id="submitButton" class="btn btn-default" style="font-family: 'Nanum Pen Script', serif; font-size:15pt;">검색</a> -->
 </div>
 

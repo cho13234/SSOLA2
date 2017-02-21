@@ -47,9 +47,8 @@ body {
 
 <!-- Ssola title -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
-<link rel="stylesheet" type="text/css" href="/ssola2/resources/styles/ssola_maintitle.css" />
-<script src="/ssola2/resources/scripts/functions.js"></script> 
-<script src="/ssola2/resources/scripts/particle.js"></script>
+<link rel="stylesheet" type="text/css" href="/ssola2/resources/styles/login.css" />
+
 
 <script type="text/javascript">
 $(function() {
@@ -62,7 +61,7 @@ $(function() {
 
 </head>
 <body>	
-	<div id="pageContainer">
+<div id="pageContainer">
 		
 		<%-- <c:import url="/WEB-INF/views/include/header.jsp" /> --%>
 	<video autoplay loop id="video-background">
@@ -71,55 +70,78 @@ $(function() {
 <!--  	 <source src="https://player.vimeo.com/external/158148793.hd.mp4?s=8e8741dbee251d5c35a759718d4b0976fbf38b6f&profile_id=119&oauth2_token_id=57447761" type="video/mp4">
  -->	
  	</video>
- 	
- 	 <div class="hero">
-      <h1 id="title-1"><em><span>S</span>SOLA</em>make your life better</h1>  
-    </div>
-    
-     <div class="fixbottarro"> <a class="scroll" href="#submitButton">Scroll for more</a> </div>
-    <!-- /.hero --> 
-    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-		<div id="inputcontent">
+	<!-- Wrapper-->
+	<div id="wrapper">
+		<!-- Nav -->
+				<nav id="nav">
+					<a href="#me" class="icon fa-home active"><span>Home</span></a>
+					<a href="#contact" class="icon fa-envelope"><span>Login</span></a>
+				</nav>
+
+		<!-- Main -->
+		<div id="main">
+		<!-- Me -->
+			<article id="me" class="panel">
+				<header>
+					<h1>Welcome to SSOLA</h1>
+					<p>make your life better</p>
+				</header>
+				<a href="#contact" class="jumplink pic">
+					<span class="arrow icon fa-chevron-right"><span>See my work</span></span>
+					<img src="/ssola2/resources/images/thumbs/07.jpg" alt="login" />
+				</a>
+			</article>
+
+		<!-- Work -->
+			<article id="contact" class="panel">
 			
-		    <div id="inputmain" style="text-align:center; width:30%; margin-left:35%"  >
-		        <form id="submitForm" action="login.action" method="post" role="form" class="form-horizontal">
-					<h2 id="maintitle" style="font-family: 'Nanum Pen Script', serif; color:white;
-						font-size:35pt; font-weight:bold;">Login</h2>
-						<br/>
-						<div class="input-group">
-					    	<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-					    	<input type="text" class="form-control" name="id" placeholder="id">
-					 	</div>
-					 	<br/><br/>
-					  	 <div class="input-group">
-					     	<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-					    	<input id="password" type="password" class="form-control" name="password" placeholder="Password">
-					    	<c:if test="${ loginfailed eq true }">
-									<br>
-									<div id="pleaseLoginAgain" style="color:red; font-size:8pt; font-style:bold">아이디나 비밀번호가 맞지 않습니다.</div>
-								</c:if>
-					 	</div>
-					
-					
-					<br/><br/><br/><br/><br/><br/><br/><br/>
-					<div class="buttons">
-						<a href="/ssola2/account/register.action" class="btn btn-default" style="font-family: 'Nanum Pen Script', serif; font-size:15pt;">JoIN</a>&nbsp;&nbsp;&nbsp;
-						<a id="submitButton" class="btn btn-default" style="font-family: 'Nanum Pen Script', serif; font-size:15pt;">Login</a>&nbsp;&nbsp;&nbsp;
-						<a href="findpassword.action" class="btn btn-default" style="font-family: 'Nanum Pen Script', serif; font-size:15pt;">비밀번호 찾기</a>
-					</div>
-		        </form>
-		        
-		        <script type="text/javascript">
-					$(function() {
-						$("#submitButton").on("click", function(event) {
-							$("#submitForm").submit();
+			    <div id="inputmain" style="text-align:center; width:70%; margin-left:15%"  >
+			        <form id="submitForm" action="login.action" method="post" role="form" class="form-horizontal">
+						<h2 id="maintitle" style="font-family: 'Nanum Pen Script', serif; color:#777;
+							font-size:35pt; font-weight:bold;">Login</h2>
+							<br/>
+							<div class="input-group">
+						    	<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+						    	<input type="text" class="form-control" name="id" placeholder="id">
+						 	</div>
+						 	<br/><br/>
+						  	 <div class="input-group">
+						     	<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+						    	<input id="password" type="password" class="form-control" name="password" placeholder="Password">
+						    	<c:if test="${ loginfailed eq true }">
+										<br>
+										<div id="pleaseLoginAgain" style="color:red; font-size:8pt; font-style:bold">아이디나 비밀번호가 맞지 않습니다.</div>
+									</c:if>
+						 	</div>
+						
+						
+						<br/><br/>
+						<div class="buttons">
+							<a href="/ssola2/account/register.action" class="btn btn-default" style="font-family: 'Nanum Pen Script', serif; font-size:15pt;">JoIN</a>&nbsp;&nbsp;&nbsp;
+							<a id="submitButton" class="btn btn-default" style="font-family: 'Nanum Pen Script', serif; font-size:15pt;">Login</a>&nbsp;&nbsp;&nbsp;
+							<a href="findpassword.action" class="btn btn-default" style="font-family: 'Nanum Pen Script', serif; font-size:15pt;">비밀번호 찾기</a>
+						</div>
+			        </form>
+			        
+			        <script type="text/javascript">
+						$(function() {
+							$("#submitButton").on("click", function(event) {
+								$("#submitForm").submit();
+							});
 						});
-					});
-				</script>
-		    </div>
+					</script>
+			    </div>
+			</article>
 		</div>
-	
 	</div>
-<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+</div>
+<br/><br/><br/><br/>
+		<!-- Scripts -->
+			<script src="/ssola2/resources/scripts/main_skel.min.js"></script>
+			<script src="/ssola2/resources/scripts/login_skel-viewport.min.js"></script>
+			<script src="/ssola2/resources/scripts/main_util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="/ssola2/resources/scripts/login_main.js"></script>
+			
 </body>
 </html>
