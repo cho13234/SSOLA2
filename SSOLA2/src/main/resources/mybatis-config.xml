@@ -6,19 +6,24 @@
 <configuration>
 
 	<typeAliases>
-		<typeAlias type="com.ssola2.model.dto.Member" alias="Member" />
-		<typeAlias type="com.ssola2.model.dto.Customer" alias="Customer" />
+	
 		<typeAlias type="com.ssola2.model.dto.Administrator" alias="Administrator" />
 		<typeAlias type="com.ssola2.model.dto.Article" alias="Article" />
-		<typeAlias type="com.ssola2.model.dto.Section" alias="Section" />
-		<typeAlias type="com.ssola2.model.dto.Recommend" alias="Recommend" />
 		<typeAlias type="com.ssola2.model.dto.Comment" alias="Comment" />
+		<typeAlias type="com.ssola2.model.dto.Customer" alias="Customer" />
+		<typeAlias type="com.ssola2.model.dto.Member" alias="Member" />
+		<typeAlias type="com.ssola2.model.dto.Recommend" alias="Recommend" />
+		<typeAlias type="com.ssola2.model.dto.Section" alias="Section" />
 		<typeAlias type="com.ssola2.model.dto.Scrap" alias="Scrap"/>
+		<typeAlias type="com.ssola2.model.dto.Voc" alias="Voc"/>
+		<typeAlias type="com.ssola2.model.dto.VocComment" alias="VocComment"/>
 		<typeAlias type="com.ssola2.model.dto.ChatRoom" alias="ChatRoom"/>
 		<typeAlias type="com.ssola2.model.dto.ChatLog" alias="ChatLog"/>
 		<typeAlias type="com.ssola2.model.dto.MessageVO" alias="MessageVO"/>
 		<typeAlias type="com.ssola2.model.dto.Profile" alias="Profile"/>
 		<typeAlias type="com.ssola2.model.dto.Friend_list" alias="Friend_list"/>
+		<typeAlias type="com.ssola2.model.dto.FreeBoard" alias="FreeBoard"/>
+		<typeAlias type="com.ssola2.model.dto.FreeBoardComment" alias="FreeBoardComment"/>
 	</typeAliases>
 
   <environments default="development">
@@ -36,10 +41,14 @@
   <!-- SQL <-> Object Mapping Information -->
   <mappers>
     <mapper resource="com/ssola2/model/mapper/MemberMapper.xml"/>
+    <mapper resource="com/ssola2/model/mapper/MainMapper.xml"/>
+    <mapper resource="com/ssola2/model/mapper/VocMapper.xml"/>
+    <mapper resource="com/ssola2/model/mapper/RecommendMapper.xml"/>
     <mapper resource="com/ssola2/model/mapper/ChatMapper.xml"/>
     <mapper resource="com/ssola2/model/mapper/SearchMapper.xml"/>
     <mapper resource="com/ssola2/model/mapper/ScrapMapper.xml"/>
-    <!-- <mapper resource="com/ssola2/model/mapper/MainMapper.xml"/>
+    <mapper resource="com/ssola2/model/mapper/FreeBoardMapper.xml"/>
+    <!--
     <mapper resource="com/ssola2/model/mapper/RecommendMapper.xml"/>
     <mapper resource="com/ssola2/model/mapper/GpsMapper.xml"/> -->
   </mappers>

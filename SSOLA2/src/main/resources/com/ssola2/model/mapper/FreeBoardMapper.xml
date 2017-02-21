@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	
+	<mapper namespace="com.ssola2.model.mapper.FreeBoardMapper">
+	<resultMap type="com.ssola2.model.dto.FreeBoard" id="ArticleResult">
+		<id column="article_no" property="articleNo" />
+		<result column="article_title" property="articleTitle" />
+		<result column="article_content" property="articleContent" />
+		<result column="reg_date" property="regDate" />
+		<result column="deleted" property="deleted" />
+		<result column="id" property="id" />
+		<result column="read_count" property="readCount" />
+		
+	</resultMap>
+
+
+	<sql id="selectFreeBoardSql">
+		SELECT article_no, article_title, article_conetent, deleted, id
+		FROM FREEBOARD
+	</sql>
+
+
+	<insert id="insertFreeBoard" parameterType="com.ssola2.model.dto.FreeBoard">
+		INSERT INTO FREEBOARD ( article_title, article_content, id)
+		VALUES (
+		#{articleTitle}, #{articleContent}, #{id})
+	</insert>
+
+	<select id="selectFreeBoards" resultMap="ArticleResult"  parameterType="Hashmap">
+		SELECT *
+		FROM FREEBOARD
+		WHERE DELETED=0
+		ORDER BY article_no DESC 
+		limit #{start}, #{count}
+	</select>
+
+	
+	<select id="getFreeBoardByArticleNo"  resultMap="ArticleResult"  parameterType="Integer">
+		SELECT *
+		FROM FREEBOARD
+		WHERE ARTICLE_NO = #{articleNo}
+	</select>
+	
+	<select id="editFreeBoardByArticleNo" resultMap="ArticleResult" parameterType="Integer">
+		SELECT *
+		FROM FREEBOARD
+		WHERE article_no = #{articleNo}
+	</select>
+	
+	<delete id="deleteFreeBoard"  parameterType="int">
+		UPDATE FREEBOARD
+		SET DELETED = 1
+		WHERE article_no= #{articleNo}	
+	</delete>
+	
+	<update id="editFreeBoard" parameterType="com.ssola2.model.dto.FreeBoard">
+		UPDATE FREEBOARD
+		SET 
+		article_title = #{articleTitle},
+		article_content = #{articleContent}
+		WHERE ARTICLE_NO = #{articleNo}
+	</update>
+	
+	<update id="updateFreeBoardReadCount" parameterType="com.ssola2.model.dto.FreeBoard">
+		UPDATE FREEBOARD
+		SET read_count = read_count + 1 
+		WHERE article_no = #{articleNo}; 
+	</update>
+	
+	<select id="getFreeBoardTotalCount" resultType="Integer">
+		SELECT COUNT(*)
+		FROM FREEBOARD
+		WHERE deleted= 0
+	</select>
+	
+
+</mapper>

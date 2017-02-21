@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssola2.model.mapper.RecommendMapper">
+
+	<!-- article dto 안에 section 객체가 온전히 담겨야 하므로 section_no만을 갖는 db의 데이터와 불일치 
+			때문에 section_no를 article dto 가 갖는 section객체가 갖는 sectionNo와 일치시킨다. -->
+	<resultMap type="com.ssola2.model.dto.Article" id="ArticleResult">
+		<id column="article_no" property="articleNo"/>
+		<result column="article_title" property="articleTitle"/>
+		<result column="reg_date" property="regDate"/>
+		<result column="deleted" property="deleted"/>
+		<result column="id" property="id"/>
+		<result column="main_image" property="mainImage"/>
+		<!-- <result column="section1" property="section1.sectionNo"/>
+		<result column="section2" property="section2.sectionNo"/>
+		<result column="section3" property="section3.sectionNo"/>
+		<result column="section4" property="section4.sectionNo"/> -->
+		<association column="section1" property="section1" javaType="Section" select="selectDetailSection" />
+		<association column="section2" property="section2" javaType="Section" select="selectDetailSection" />
+		<association column="section3" property="section3" javaType="Section" select="selectDetailSection" />
+		<association column="section4" property="section4" javaType="Section" select="selectDetailSection" />
+	</resultMap>
+	
+	<resultMap type="com.ssola2.model.dto.Section" id="SectionResult">
+		<id column="section_no" property="sectionNo"/>
+		<result column="category" property="category"/>
+		<result column="address" property="address"/>
+		<result column="main_tag" property="mainTag"/>
+	</resultMap>
+
+	<sql id="selectArticleSql">
+		SELECT article_no, article_title, reg_date, deleted, id, main_image, section1, section2, section3, section4
+		FROM ARTICLE
+	</sql>
+
+	<select id="selectRecommendCount" resultType="Integer" parameterType="com.ssola2.model.dto.Recommend">
+		SELECT COUNT(deleted) FROM LIKES 
+		WHERE ARTICLE_NO = #{articleNo} and DELETED = 0
+	</select>
+	
+	<insert id="insertRecommend" parameterType="com.ssola2.model.dto.Recommend">
+		INSERT into LIKES (id,ARTICLE_NO)VALUES (#{id}, #{articleNo})
+	</insert>
+
+	<delete id="deletedRecommend" parameterType="com.ssola2.model.dto.Recommend">
+		DELETE from LIKES WHERE ID = #{id} and ARTICLE_NO = #{articleNo}
+	</delete>
+	
+	<select id="selectRecommendById" resultType="com.ssola2.model.dto.Recommend"  parameterType="com.ssola2.model.dto.Recommend">
+		SELECT DELETED, id, ARTICLE_NO articleNo 
+		FROM LIKES
+		WHERE ID = #{id} and ARTICLE_NO = #{articleNo}
+	</select>
+	
+	<!-- Article dto 내부 section을 가져오기 위한 구문 : 여기서 부터 추가 -->
+	<select id="selectDetail" resultMap="ArticleResult" parameterType="com.ssola2.model.dto.Recommend">
+		SELECT *
+		FROM ARTICLE
+		where ARTICLE_NO = #{articleNo}
+	</select>
+	
+	<select id="selectDetailSection" resultMap="SectionResult" parameterType="Integer">
+		SELECT *
+		FROM SECTION
+		WHERE section_no = #{sectionNo}
+	</select>
+	<!-- 여기까지 -->
+	
+	<select id="selectRecommendState" resultType="String" parameterType="com.ssola2.model.dto.Recommend">
+		select 0 from likes where ID =#{id} and ARTICLE_NO = #{articleNo}
+	</select>
+	
+	<select id="selectRecommendListById" resultType="com.ssola2.model.dto.Recommend" parameterType="String">
+		SELECT article_no articleNo, deleted, id
+		FROM likes
+		WHERE id = #{id}
+	</select>
+
+<!-- 
+	 selectMembers => 메서드 이름이라고 생각해도 됨 
+	<select id="selectMembers" resultType="com.ssola.model.dto.Member">  
+		<include refid="selectSql" />
+	</select>
+
+	<insert id="insertMember" parameterType="com.ssola.model.dto.Member">
+		INSERT INTO member (id, password, nickname, user_type)
+		VALUES (#{id}, #{password}, #{nickname}, #{userType})
+		#{}객체는 dto객체의 멤버변수와 동일해야 한다.
+	</insert>
+
+	<insert id="insertCustomer" parameterType="com.ssola.model.dto.Customer">
+		INSERT INTO customer (id, email, birth, gender)
+		VALUES (#{id}, #{email}, #{birth}, #{gender})
+	</insert>
+
+	<insert id="insertAdministrator" parameterType="com.ssola.model.dto.Administrator">
+		INSERT INTO administrator (authority)
+		VALUES (#{id}, #{authority})
+	</insert>
+
+	<select id="selectMemberById" resultType="com.ssola.model.dto.Member"
+		parameterType="java.lang.String">
+
+		<include refid="selectSql" />
+		WHERE id = #{id}
+
+	</select>
+
+	<select id="selectMemberByIdAndPassword" resultType="com.ssola.model.dto.Member"
+		parameterType="HashMap"> String, String이 불가능하기 때문에, DTO 객체를 이용
+		<include refid="selectSql" />
+		WHERE id = #{id} AND password = #{password}
+	</select>
+	
+	<select id="selectCustomerById" resultType="com.ssola.model.dto.Customer"
+		parameterType="java.lang.String">
+		SELECT id, email, birth, gender
+		FROM customer
+		WHERE id = #{id}
+	</select>
+	
+	<select id="selectAdministratorById" resultType="com.ssola.model.dto.Administrator"
+		parameterType="java.lang.String">
+		SELECT id, authority
+		FROM administrator
+		WHERE id = #{id}
+	</select>
+	
+	<select id="selectIdById" resultType="String"
+		parameterType="String">
+		SELECT id
+		FROM member
+		WHERE id = #{id}
+	</select>
+	
+	<select id="selectNicknameByNickname" resultType="String"
+		parameterType="String">
+		SELECT nickname
+		FROM member
+		WHERE nickname = #{nickname}
+	</select>  -->
+
+
+</mapper>
