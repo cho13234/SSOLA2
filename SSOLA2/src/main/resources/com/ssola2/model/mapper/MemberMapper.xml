@@ -172,7 +172,7 @@
 	
 	<!-- 내가 추가한 친구 목록 불러오기 -->
 	<select id="selectFriendList" resultType="com.ssola2.model.dto.Friend_list" parameterType="com.ssola2.model.dto.Friend_list">
-		select p.IMAGE, fl.DESTINATION_ID, fl.REG_DATE
+		select p.IMAGE AS image, fl.DESTINATION_ID AS destination_id, fl.REG_DATE AS reg_date
 		from FRIEND_LIST fl
 		join PROFILE p
 		on fl.SOURCE_ID = p.id

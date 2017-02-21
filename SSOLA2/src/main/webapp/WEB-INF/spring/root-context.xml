@@ -1,118 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
-						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
-	
-	<!-- Root Context: defines shared resources visible to all other web components -->
-		
-	<aop:aspectj-autoproxy/>
-		
-	<context:component-scan base-package="com.ssola2.model.*" />
-	<context:component-scan base-package="com.ssola2.aop" />
-	<!-- <context:component-scan base-package="com.ssola2.listener" /> -->
-	<context:component-scan base-package="com.ssola2.config" />
-	<context:component-scan base-package="com.ssola2.interceptor" />
-	
-	<!-- <bean id="sessionConnectListener" class="com.ssola2.listener.StompConnectEvent" />
-	<bean id="sessionDisconnectListener" class="com.ssola2.listener.StompDisconnectEvent" /> -->
-	
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-		<property name="url" value="jdbc:mysql://210.16.214.202:3306/ssola2?useSSL=false"></property>
-		<property name="username" value="jh"></property>
-		<property name="password" value="asdf1234"></property>
-	</bean>
-	
-	<!-- SqlSessionFactoryBean을 사용해서 SqlSessionFactory 객체 등록 -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:mybatis-config.xml" />
-	</bean>
-	
-	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.naver.com" />
-		<property name="protocol" value="smtps" />
-		<property name="port" value="465" />
-		<property name="defaultEncoding" value="utf-8" />
-		<property name="username" value="kwonjunho90" />
-		<property name="password" value="a30115877" />
-		<property name="javaMailProperties">
-			<props>
-				<prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
-				<prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
-				<prop key="mail.smtps.ssl.checkserveridentity">true</prop>
-				<prop key="mail.smtps.ssl.trust">*</prop>
-			</props>
-		</property>
-	</bean>
-	
-	<bean id="txManager" 
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-		
-	<tx:advice id="txAdvice" transaction-manager="txManager">
-		<tx:attributes>
-			<tx:method name="*Tx" />
-		</tx:attributes>
-	</tx:advice>
-	
-	<aop:config>
-		<aop:pointcut id="txPointCut" expression="execution(* *..*.*service.*(..))"/>
-		<aop:pointcut id="txPointCut" expression="within(*..*ServiceImpl)" />
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
-	</aop:config>
-	
-	<bean id="memberMapper"
-		class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.ssola2.model.mapper.MemberMapper" />
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</bean>
-	
-	<bean id="mainMapper"
-		class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.ssola2.model.mapper.MainMapper" />
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</bean>
-	
-	<bean id="vocMapper"
-		class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.ssola2.model.mapper.VocMapper" />
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</bean>
-	
-	<bean id="freeBoardMapper"
-		class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.ssola2.model.mapper.FreeBoardMapper" />
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</bean>
-	
-	<bean id="recommendMapper"
-		class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.ssola2.model.mapper.RecommendMapper" />
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</bean>
-	<bean id="chatMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.ssola2.model.mapper.ChatMapper" />
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</bean>
-	
-	<bean id="searchMapper"
-		class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.ssola2.model.mapper.SearchMapper" />
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</bean>
-	
-	<bean id="scrapMapper"
-		class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.ssola2.model.mapper.ScrapMapper" />
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</bean>
+   xmlns:context="http://www.springframework.org/schema/context"
+   xmlns:tx="http://www.springframework.org/schema/tx"
+   xmlns:aop="http://www.springframework.org/schema/aop"
+   xmlns:p="http://www.springframework.org/schema/p"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+   
+   <!-- Root Context: defines shared resources visible to all other web components -->
+      
+   <aop:aspectj-autoproxy/>
+      
+   <context:component-scan base-package="com.ssola2.model.*" />
+   <context:component-scan base-package="com.ssola2.aop" />
+   <!-- <context:component-scan base-package="com.ssola2.listener" /> -->
+   <context:component-scan base-package="com.ssola2.config" />
+   <context:component-scan base-package="com.ssola2.interceptor" />
+   
+   <!-- <bean id="sessionConnectListener" class="com.ssola2.listener.StompConnectEvent" />
+   <bean id="sessionDisconnectListener" class="com.ssola2.listener.StompDisconnectEvent" /> -->
+   
+   <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+      <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+      <property name="url" value="jdbc:mysql://210.16.214.202:3306/ssola2?useSSL=false"></property>
+      <property name="username" value="jh"></property>
+      <property name="password" value="asdf1234"></property>
+   </bean>
+   
+   <!-- SqlSessionFactoryBean을 사용해서 SqlSessionFactory 객체 등록 -->
+   <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+      <property name="dataSource" ref="dataSource" />
+      <property name="configLocation" value="classpath:mybatis-config.xml" />
+   </bean>
+   
+   <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+      <property name="host" value="smtp.naver.com" />
+      <property name="protocol" value="smtps" />
+      <property name="port" value="465" />
+      <property name="defaultEncoding" value="utf-8" />
+      <property name="username" value="kwonjunho90" />
+      <property name="password" value="a30115877" />
+      <property name="javaMailProperties">
+         <props>
+            <prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
+            <prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+            <prop key="mail.smtps.ssl.checkserveridentity">true</prop>
+            <prop key="mail.smtps.ssl.trust">*</prop>
+         </props>
+      </property>
+   </bean>
+   
+   <bean id="txManager" 
+      class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+      <property name="dataSource" ref="dataSource" />
+   </bean>
+      
+   <tx:advice id="txAdvice" transaction-manager="txManager">
+      <tx:attributes>
+         <tx:method name="*Tx" />
+      </tx:attributes>
+   </tx:advice>
+   
+   <aop:config>
+      <aop:pointcut id="txPointCut" expression="execution(* *..*.*service.*(..))"/>
+      <aop:pointcut id="txPointCut" expression="within(*..*ServiceImpl)" />
+      <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
+   </aop:config>
+   
+   <bean id="memberMapper"
+      class="org.mybatis.spring.mapper.MapperFactoryBean">
+      <property name="mapperInterface" value="com.ssola2.model.mapper.MemberMapper" />
+      <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+   </bean>
+   
+   <bean id="mainMapper"
+      class="org.mybatis.spring.mapper.MapperFactoryBean">
+      <property name="mapperInterface" value="com.ssola2.model.mapper.MainMapper" />
+      <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+   </bean>
+   
+   <bean id="vocMapper"
+      class="org.mybatis.spring.mapper.MapperFactoryBean">
+      <property name="mapperInterface" value="com.ssola2.model.mapper.VocMapper" />
+      <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+   </bean>
+   
+   <bean id="freeBoardMapper"
+      class="org.mybatis.spring.mapper.MapperFactoryBean">
+      <property name="mapperInterface" value="com.ssola2.model.mapper.FreeBoardMapper" />
+      <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+   </bean>
+   
+   <bean id="recommendMapper"
+      class="org.mybatis.spring.mapper.MapperFactoryBean">
+      <property name="mapperInterface" value="com.ssola2.model.mapper.RecommendMapper" />
+      <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+   </bean>
+   <bean id="chatMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+      <property name="mapperInterface" value="com.ssola2.model.mapper.ChatMapper" />
+      <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+   </bean>
+   
+   <bean id="searchMapper"
+      class="org.mybatis.spring.mapper.MapperFactoryBean">
+      <property name="mapperInterface" value="com.ssola2.model.mapper.SearchMapper" />
+      <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+   </bean>
+   
+   <bean id="scrapMapper"
+      class="org.mybatis.spring.mapper.MapperFactoryBean">
+      <property name="mapperInterface" value="com.ssola2.model.mapper.ScrapMapper" />
+      <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+   </bean>
 </beans>

@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Profile {
 
-	public  String image;
+	private  String image;
 	private String description;
 	private String id;
 	private String open_status;

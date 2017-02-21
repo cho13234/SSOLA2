@@ -200,7 +200,7 @@ public class MypageController {
 
 
 	//내가 친구추가한 리스트 
-	@RequestMapping(value="friendlist.action", method = RequestMethod.GET)
+	@RequestMapping(value="friends_list.action", method = RequestMethod.GET)
 	public String friendlist(HttpSession session, Model model) {
 		
 		Member member = (Member)session.getAttribute("loginuser");
@@ -208,7 +208,7 @@ public class MypageController {
 		
 		model.addAttribute("my_flist", my_flist);
 		
-		return "mypage/friendlist";
+		return "mypage/friends_list";
 	}
 
 

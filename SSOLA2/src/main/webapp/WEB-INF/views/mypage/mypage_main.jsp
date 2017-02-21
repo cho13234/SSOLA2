@@ -17,9 +17,7 @@ $(document).ready(function(){
        var id1 = id.split("_")[1]; //addfriend
        var id2 = id.split("_")[2]; //real id
          var status = id.split("_")[3]; // status
-         
 
-<<<<<<< HEAD
 			$.ajax({
 				type : "GET",
 				url : "add_friend.action",
