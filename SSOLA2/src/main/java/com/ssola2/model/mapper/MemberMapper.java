@@ -59,4 +59,6 @@ public interface MemberMapper {
 	Profile searchProfileByIdTx(String id);
 
 	Profile selectProfile(String id);
+
+	List<Friend_list> selectFriendList(String id);
 }

@@ -203,7 +203,19 @@ public class MypageController {
       return null;
    }
 
-   ////////////////////프로필 이미지 등록
+
+	//내가 친구추가한 리스트 
+	@RequestMapping(value="friends_list.action", method = RequestMethod.GET)
+	public String friendlist(HttpSession session, Model model) {
+		
+		Member member = (Member)session.getAttribute("loginuser");
+		List<Friend_list> my_flist = memberService.selectFriendList(member.getId());
+		
+		model.addAttribute("my_flist", my_flist);
+		
+		return "mypage/friends_list";
+	}
+
 
 
 
@@ -214,7 +226,7 @@ public class MypageController {
 
       Member member = (Member)session.getAttribute("loginuser");
 
-         Profile p_list = memberService.selectProfile(member.getId());
+      Profile p_list = memberService.selectProfile(member.getId());
 
       model.addAttribute("p_list", p_list);
       return "mypage/profile_editform";
@@ -245,12 +257,6 @@ public class MypageController {
 
     	  return "redirect:/mypage/mypage_main.action";
       } 
-
-
-
-
-
-
 
    /////////////////////////scrap
    @RequestMapping(value = "scrapform.action", method = RequestMethod.GET)

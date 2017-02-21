@@ -17,35 +17,35 @@ $(document).ready(function(){
        var id1 = id.split("_")[1]; //addfriend
        var id2 = id.split("_")[2]; //real id
          var status = id.split("_")[3]; // status
-         
 
-         $.ajax({
-            type : "GET",
-            url : "add_friend.action",
-            data : {
-               'did' : id2 ,
-               'status' : status
-            },
-            success : function(status) {
-               
-               if(status == "delete") {
-                  $(event.currentTarget).attr("id", id0 + "_" + id1 + "_" + id2 + "_delete");
-                  
-                  $(event.currentTarget).text("친구 삭제");
-               } else if(status == "update") {
-                  $(event.currentTarget).attr("id", id0 + "_" + id1 + "_" + id2 + "_update");
-                  
-                  $(event.currentTarget).text("친구 추가");
-               }
-               
-               /* else if(status == "insert") {
-                  var cc = $(event.currentTarget).attr("id", id0 + "_" + id1 + "_" + id2 + "_insert");
-                  $(event.currentTarget).text("친구 삭제");
-               } */
-               
-            }
-         });      
-   });
+			$.ajax({
+				type : "GET",
+				url : "add_friend.action",
+				data : {
+					'did' : id2 ,
+					'status' : status
+				},
+				success : function(status) {
+					
+					if(status == "delete") {
+						$(event.currentTarget).attr("id", id0 + "_" + id1 + "_" + id2 + "_delete");
+						
+						$(event.currentTarget).text("친구 삭제");
+					} else if(status == "update") {
+						$(event.currentTarget).attr("id", id0 + "_" + id1 + "_" + id2 + "_update");
+						
+						$(event.currentTarget).text("친구 추가");
+					}
+					
+					/* else if(status == "insert") {
+						var cc = $(event.currentTarget).attr("id", id0 + "_" + id1 + "_" + id2 + "_insert");
+						$(event.currentTarget).text("친구 삭제");
+					} */
+					
+				}
+			});		
+	});
+
 });
 </script>
 
