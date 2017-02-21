@@ -1,17 +1,17 @@
 package com.ssola2.model.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 
 
 import com.ssola2.model.dto.Voc;
 
-// com.mvcdemoweb.model.mapper.MemberMapper.xml 파일에 대응하는 인터페이스
 public interface VocMapper {
 
 	void insertArticle(Voc voc);
 	
-	List<Voc> selectArticles();
+	List<Voc> selectArticles(HashMap<String, Integer> params);
 	
 	Voc getArticleByArticleNo(Integer articleNo);
 	
@@ -20,4 +20,8 @@ public interface VocMapper {
 	void editArticle(Voc voc);
 
 	void deleteArticle(int articleNo);
+
+	void updateVocReadCount(int articleNo);
+
+	int getVocTotalCount();
 }

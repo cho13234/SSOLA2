@@ -1,5 +1,6 @@
 package com.ssola2.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,11 @@ public class MysqlVocDao implements VocDao {
 	
 	
 	@Override
-	public List<Voc> selectArticles() {
-		return vocMapper.selectArticles();
+	public List<Voc> selectArticles(int start, int pageSize) {
+		HashMap<String, Integer> params = new HashMap<String, Integer>();
+		params.put("start", start);
+		params.put("count", pageSize);
+		return vocMapper.selectArticles(params);
 	}
 
 	@Override
@@ -51,7 +55,22 @@ public class MysqlVocDao implements VocDao {
 	public void editArticle(Voc voc) {
 		vocMapper.editArticle(voc);
 		
-	} 
+	}
+
+
+	@Override
+	public void updateVocReadCount(int articleNo) {
+		vocMapper.updateVocReadCount(articleNo);
+		
+	}
+
+
+	@Override
+	public int getVocTotalCount() {
+		return vocMapper.getVocTotalCount();
+	}
+
+
 
 	
 

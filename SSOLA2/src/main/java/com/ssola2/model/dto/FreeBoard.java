@@ -11,6 +11,7 @@ public class FreeBoard {
 	private Date regDate;
 	private Boolean deleted;
 	private String id;
+	private int readCount;
 	
 	public int getArticleNo() {
 		return articleNo;
@@ -47,6 +48,14 @@ public class FreeBoard {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+
+	public int getReadCount() {
+		return readCount;
+	}
+	public void setReadCount(int readCount) {
+		this.readCount = readCount;
 	}
 	
 }

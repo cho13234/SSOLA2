@@ -10,35 +10,40 @@
 		<result column="article_title" property="articleTitle" />
 		<result column="article_content" property="articleContent" />
 		<result column="categoty" property="category"/>
+		<result column="secure" property="secure" />
 		<result column="reg_date" property="regDate" />
 		<result column="deleted" property="deleted" />
 		<result column="id" property="id" />
+		<result column="read_count" property="readCount" />
 		
 	</resultMap>
 
 
 	<sql id="selectArticleSql">
-		SELECT article_no, article_title, article_conetent, reg_date, deleted, id
+		SELECT article_no, article_title, article_conetent, reg_date, secure, deleted, id
 		FROM VOC
 	</sql>
 
 
 	<insert id="insertArticle" parameterType="com.ssola2.model.dto.Voc">
-		INSERT INTO ARTICLE (article_no, article_title, article_content, id, category)
-		VALUES (seq_article_no.nextVal,
-		#{articleTitle}, #{articleContent}, #{id}, #{category})
+		INSERT INTO VOC ( article_title, article_content, id, secure, category)
+		VALUES (
+		#{articleTitle}, #{articleContent}, #{id}, #{secure}, #{category})
 	</insert>
 
-	<select id="selectArticles" resultMap="ArticleResult">
+	<select id="selectArticles" resultMap="ArticleResult" parameterType="Hashmap">
 		SELECT *
 		FROM VOC
+		WHERE DELETED=0
+		ORDER BY article_no DESC
+		limit #{start}, #{count}
 	</select>
 
 	
 	<select id="getArticleByArticleNo"  resultMap="ArticleResult"  parameterType="Integer">
 		SELECT *
 		FROM VOC
-		where ARTICLE_NO = #{articleNo}
+		WHERE ARTICLE_NO = #{articleNo}
 	</select>
 	
 	<select id="editArticleByArticleNo" resultMap="ArticleResult" parameterType="Integer">
@@ -54,9 +59,26 @@
 	</delete>
 	
 	<update id="editArticle" parameterType="com.ssola2.model.dto.Voc">
-		UPDATE VOC SET 
+		UPDATE VOC 
+		SET 
 		article_title = #{articleTitle},
+		article_content = #{articleContent},
+		secure = #{secure},
+		category = #{category}
 		WHERE ARTICLE_NO = #{articleNo}
 	</update>
+	
+	<update id="updateVocReadCount" parameterType="com.ssola2.model.dto.Voc">
+		UPDATE VOC
+		SET read_count = read_count + 1 
+		WHERE article_no = #{articleNo}; 
+	</update>
+	
+	<select id="getVocTotalCount" resultType="Integer">
+		SELECT COUNT(*)
+		FROM VOC 
+		WHERE deleted= 0
+	</select>
+	
 
 </mapper>

@@ -19,6 +19,9 @@
 		<typeAlias type="com.ssola2.model.dto.VocComment" alias="VocComment"/>
 		<typeAlias type="com.ssola2.model.dto.ChatRoom" alias="ChatRoom"/>
 		<typeAlias type="com.ssola2.model.dto.Profile" alias="Profile"/>
+		<typeAlias type="com.ssola2.model.dto.FreeBoard" alias="FreeBoard"/>
+		<typeAlias type="com.ssola2.model.dto.FreeBoardComment" alias="FreeBoardComment"/>
+		
 	</typeAliases>
 
   <environments default="development">
@@ -42,6 +45,7 @@
     <mapper resource="com/ssola2/model/mapper/ChatMapper.xml"/>
     <mapper resource="com/ssola2/model/mapper/SearchMapper.xml"/>
     <mapper resource="com/ssola2/model/mapper/ScrapMapper.xml"/>
+    <mapper resource="com/ssola2/model/mapper/FreeBoardMapper.xml"/>
     <!--
     <mapper resource="com/ssola2/model/mapper/RecommendMapper.xml"/>
     <mapper resource="com/ssola2/model/mapper/GpsMapper.xml"/> -->

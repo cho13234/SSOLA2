@@ -24,8 +24,8 @@ public class VocServiceImpl implements VocService {
 	}
 
 	@Override
-	public List<Voc> getArticleList() {
-		return dao.selectArticles();
+	public List<Voc> getArticleList(int start, int pageSize) {
+		return dao.selectArticles(start, pageSize);
 	}
 
 	@Override
@@ -51,7 +51,18 @@ public class VocServiceImpl implements VocService {
 		
 	}
 
-	
+	@Override
+	public void updateVocReadCount(int articleNo) {
+		dao.updateVocReadCount(articleNo);
+		
+	}
+
+	@Override
+	public int getVocTotalCount() {
+		int totalCount = dao.getVocTotalCount();
+		return totalCount;
+	}
+
 
 	
 	
