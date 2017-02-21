@@ -10,7 +10,12 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript">
-
+$(document).ready(function(){
+	
+	 $('#submit-link').click(function(event) {
+		$('#form_submit').submit();//<form 을 서버로 전송하는 명령
+	});
+	
 	function readURL(input) {
 
  	    if (input.files && input.files[0]) {
@@ -27,7 +32,7 @@
  	$("#imgInp").change(function(){
  	    readURL(this);
  	});
-
+});
 </script>
 
 </head>
@@ -57,7 +62,7 @@
 						<div class="row">
 							<div class="col-md-3 col-lg-3 " align="center">
 								<br>
-								<br> <img id="blah" src="#" alt="your image" /><br>
+								<br> <img id="blah" src="#" alt="your image" style="width : 80px; height: 60px;" /><br>
 								<br>
 
 
@@ -65,6 +70,7 @@
 
 
 							<div class=" col-md-9 col-lg-9 ">
+								<form id = "form_submit" action="upload.action" method="post" enctype="multipart/form-data">
 								<table class="table table-user-information">
 									<tbody>
 										<tr>
@@ -101,16 +107,13 @@
 													${p_list.description}
 												</textarea></td>
 										</tr>
-
-
-										<!-- <tr> -->
-
-
-
-										<!-- </tr> -->
+										 
+										<input type="file" id = "imgInp" name="thumb" style="width: 580px; height: 25px" />
+										 
 									</tbody>
 								</table>
-								<form action="./upload" method="post" enctype="multipart/form-data"> <input type="file" name="imageFile"><br> <input type="submit" value="전송"> </form>
+								 <button id = "submit-link" class="btn btn-default">작성완료</button>
+								</form>
 							</div>
 						</div>
 					</div>

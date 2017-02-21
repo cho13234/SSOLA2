@@ -6,17 +6,11 @@ public class Profile {
 	
 	
 
-	public static final String  image ="/resources/profileImages/";
+	public  String image;
 	private String description;
 	private String id;
 	private String open_status;
 	private String phonenumber;	
-	public String getPhonenumber() {
-		return phonenumber;
-	}
-	public void setPhonenumber(String phonenumber) {
-		this.phonenumber = phonenumber;
-	}
 	private String nickname;
 	private String email;
 	private Date birth;
@@ -24,6 +18,19 @@ public class Profile {
 	
 	
 	
+	
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
+	public String getPhonenumber() {
+		return phonenumber;
+	}
+	public void setPhonenumber(String phonenumber) {
+		this.phonenumber = phonenumber;
+	}
 	public String getDescription() {
 		return description;
 	}
