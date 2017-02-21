@@ -172,15 +172,14 @@
 	
 	<!-- 내가 추가한 친구 목록 불러오기 -->
 	<select id="selectFriendList" resultType="com.ssola2.model.dto.Friend_list" parameterType="com.ssola2.model.dto.Friend_list">
-		select DESTINATION_ID, REG_DATE
-		from FRIEND_LIST
-		where source_id=#{source_id} and DELETED = 0
+		select p.IMAGE, fl.DESTINATION_ID, fl.REG_DATE
+		from FRIEND_LIST fl
+		join PROFILE p
+		on fl.SOURCE_ID = p.id
+		where fl.SOURCE_ID=#{source_id} and fl.DELETED = 0
 	</select>
 	
-	<!-- 프로필 자기소개 등록 -->
-		<insert id="insertProfile" parameterType="com.ssola2.model.dto.Profile">
-			
-		</insert>
+	
 	
 	
 	

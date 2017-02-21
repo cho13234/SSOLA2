@@ -205,6 +205,8 @@ public class MypageController {
 		Member member = (Member)session.getAttribute("loginuser");
 		List<Friend_list> my_flist = memberService.selectFriendList(member.getId());
 		
+		model.addAttribute("my_flist", my_flist);
+		
 		return "mypage/friendlist";
 	}
 
