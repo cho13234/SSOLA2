@@ -41,5 +41,12 @@
 		ON a.article_no = s.article_no
 		WHERE s.id=#{id}
 	</select>
+	
+	<!--profile 입력  -->
+	<update id="updateProfile" parameterType="Profile">
+		UPDATE PROFILE
+		SET IMAGE=#{image}
+		WHERE id =#{id}
+	</update>
 
 </mapper>

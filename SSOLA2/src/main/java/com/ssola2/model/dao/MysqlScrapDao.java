@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.ssola2.model.dto.Article;
+import com.ssola2.model.dto.Profile;
 import com.ssola2.model.dto.Scrap;
 import com.ssola2.model.mapper.ScrapMapper;
 
@@ -58,6 +59,12 @@ public class MysqlScrapDao implements ScrapDao {
 	public List<Article> selectScrapJoin(String id) {
 		
 		return scrapMapper.selectScrapJoin(id);
+	}
+
+	@Override
+	public void updateProfile(Profile profile) {
+		
+		scrapMapper.updateProfile(profile);
 	}
 
 	

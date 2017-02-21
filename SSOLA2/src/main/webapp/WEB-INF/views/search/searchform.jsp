@@ -206,7 +206,7 @@ $(document).ready(function(){
 	
 	<br/><br/>
 
-<div id="inputmain" style="text-align:center; width:30%; margin-left:35%"  >
+<div id="inputmain" style="text-align:center; width:30%; margin-left:35%" >
 		<select  id="country" name="searchSelect">
 		  <option value="friend">친구검색</option>
 		  <option value="gps">주변검색</option>
