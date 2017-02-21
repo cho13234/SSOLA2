@@ -108,7 +108,7 @@ $(document).ready(function(){
 												</textarea></td>
 										</tr>
 										 
-										<input type="file" id = "imgInp" name="thumb" style="width: 580px; height: 25px" />
+										<input type="file" id = "imgInp" name="file" style="width: 580px; height: 25px" />
 										 
 									</tbody>
 								</table>

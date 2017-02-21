@@ -1,5 +1,8 @@
 package com.ssola2.controller;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -120,6 +124,7 @@ public class MypageController {
    }
 
 
+
    ///////////////////////친구 프로필
    @RequestMapping(value = "mypage_friendmain.action", method = RequestMethod.GET)
    //@ResponseBody //String 값을 내보낼 때
@@ -216,12 +221,27 @@ public class MypageController {
    }
 
    //이미지 업로드 액션
-      @RequestMapping(value="upload.action", method=RequestMethod.POST)
-      private String upload(MultipartHttpServletRequest mRequest,HttpSession session) { 
+      @RequestMapping(value="/upload.action", method=RequestMethod.POST)
+      private String upload(@RequestParam("file") MultipartFile file,HttpSession session) throws Exception { 
     	  Member member = (Member)session.getAttribute("loginuser");
     	  
-    	  boolean confirm = scrapService.updateProfile(mRequest , member.getId());
-    	  System.out.println(confirm);
+    	  
+    	  String uploadPath = session.getServletContext().getRealPath("/resources/profileImages");
+          //실제 디플로이되는 폴더의 root path를 따온다
+   
+          System.out.println("UPLOAD_PATH : "+uploadPath);
+           
+          FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(uploadPath+"/"+file.getOriginalFilename()));
+                  //upload 폴더안에 등록하겠다는 말
+          Profile profile = new Profile();
+          profile.setImage(file.getOriginalFilename());
+          profile.setId(member.getId());
+			
+          //이미지 네임을 디비에 저장하는 곳
+          scrapService.updateProfile(profile);
+    	  
+    	  //boolean confirm = scrapService.updateProfile(mRequest , member.getId());
+    	 // System.out.println(confirm);
 
     	  return "redirect:/mypage/mypage_main.action";
       } 
