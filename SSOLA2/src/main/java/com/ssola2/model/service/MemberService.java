@@ -18,6 +18,7 @@ public interface MemberService {
 	public List<Member> getMemberList();
 	public Member searchMemberById(String id);
 	public Member searchMemberByIdAndPasswordTx(String id, String password);
+	public Member searchMemberByIdAndPasswordNoneHashTx(String id, String password);
 	public boolean searchIdById(String id);
 	public boolean searchNicknameByNickname(String nickname);
 	
@@ -27,12 +28,19 @@ public interface MemberService {
 	public void deleteMember(Member member);
 	
 	//프로필
-	public Profile selectProfile(String id);
+
+
 	
-	public List<Friend_list> friendsStatus(String sid);
+	
+	public List<Friend_list> friendsStatus(Friend_list f_list);
 	
 	public void insertFriend(Friend_list f_list);
 	public void updateFriend(Friend_list f_list);
 	public void updateFriend1(Friend_list f_list);
+	
+	public Profile searchProfileByIdTx(String id);
+	
+	public Profile selectProfile(String id);
+	void insertProfileById(String id);
 	
 }

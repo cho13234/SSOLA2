@@ -63,6 +63,28 @@ public class MemberServiceImpl implements MemberService {
 			}
 		}
 	}
+	
+	@Override
+	public Member searchMemberByIdAndPasswordNoneHashTx(String id, String password) {
+		Member member = dao.selectMemberByIdAndPassword(id, password);
+		if (member == null) {
+			return null;
+		} else {
+			if (member.isUserType()) {
+				Administrator administrator = dao.selectAdministratorById(id);
+				administrator.setNickname(member.getNickname());
+				administrator.setUserType(member.isUserType());
+				administrator.setDeleted(member.isDeleted());
+				return administrator;
+			} else {
+				Customer customer = dao.selectCustomerById(id);
+				customer.setNickname(member.getNickname());
+				customer.setUserType(member.isUserType());
+				customer.setDeleted(member.isDeleted());
+				return customer;
+			}
+		}
+	}
 
 	@Override
 	public boolean searchIdById(String id) {
@@ -107,14 +129,8 @@ public class MemberServiceImpl implements MemberService {
 
 	//프로필
 	@Override
-	public Profile selectProfile(String id) {
-		
-		return dao.selectProfile(id);
-	}
-
-	@Override
-	public List<Friend_list> friendsStatus(String sid){
-		return dao.friendsStatus(sid);
+	public List<Friend_list> friendsStatus(Friend_list f_list){
+		return dao.friendsStatus(f_list);
 	}
 
 	@Override
@@ -132,5 +148,25 @@ public class MemberServiceImpl implements MemberService {
 	public void updateFriend1(Friend_list f_list) {
 		dao.updateFriend1(f_list);
 	}
+
+	//
+	@Override
+	public void insertProfileById(String id) {
+		dao.insertProfileById(id);
+	}
+
+	@Override
+	public Profile searchProfileByIdTx(String id) {
+		dao.insertProfileById(id);
+		return 	dao.selectProfile(id);
+	}
+
+	@Override
+	public Profile selectProfile(String id) {
+		return dao.selectProfile(id);
+		
+	}
+
+	
 
 }

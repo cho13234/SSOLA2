@@ -45,12 +45,18 @@ public interface MemberMapper {
 	void updatePasswdN(Member member);
 	
 	//프로필
-	Profile selectProfile(String id);
-	List<Friend_list> friendsStatus(String sid);
+
+	List<Friend_list> friendsStatus(Friend_list f_list);
 
 	void insertFriend(Friend_list f_list);
 
 	void updateFriend(Friend_list f_list);
 
 	void updateFriend1(Friend_list f_list);
+
+	void insertProfileById(String id);
+
+	Profile searchProfileByIdTx(String id);
+
+	Profile selectProfile(String id);
 }

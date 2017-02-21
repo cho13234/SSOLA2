@@ -13,31 +13,35 @@
 $(document).ready(function(){
 	$("button[id^=btn_addFriend]").on("click", function(event) {
 		 var id = $(event.currentTarget).attr("id");
-		 var id0 = id.split("_")[0];
-		 var id1 = id.split("_")[1];
-		 var id2 = id.split("_")[2];
-         var abc = id.split("_")[3];
+		 var id0 = id.split("_")[0]; //btn
+		 var id1 = id.split("_")[1]; //addfriend
+		 var id2 = id.split("_")[2]; //real id
+         var status = id.split("_")[3]; // status
          
 
 			$.ajax({
 				type : "GET",
 				url : "add_friend.action",
 				data : {
-					'id2' : id2 ,
-					'abc' : abc
+					'did' : id2 ,
+					'status' : status
 				},
-				success : function(data) {
-					var f_statusText = $(event.currentTarget).text();
-					if(abc == "a") {
-						$(event.currentTarget).attr("id", id0 + "_" + id1 + "_" + id2 + "_b");
+				success : function(status) {
+					
+					if(status == "delete") {
+						$(event.currentTarget).attr("id", id0 + "_" + id1 + "_" + id2 + "_delete");
+						
+						$(event.currentTarget).text("친구 삭제");
+					} else if(status == "update") {
+						$(event.currentTarget).attr("id", id0 + "_" + id1 + "_" + id2 + "_update");
+						
 						$(event.currentTarget).text("친구 추가");
-					} else if(abc == "b") {
-						var bb = $(event.currentTarget).attr("id", id0 + "_" + id1 + "_" + id2 + "_a");
-						$(event.currentTarget).text("친구 삭제");
-					} else if(abc == "c") {
-						var cc = $(event.currentTarget).attr("id", id0 + "_" + id1 + "_" + id2 + "_a");
-						$(event.currentTarget).text("친구 삭제");
 					}
+					
+					/* else if(status == "insert") {
+						var cc = $(event.currentTarget).attr("id", id0 + "_" + id1 + "_" + id2 + "_insert");
+						$(event.currentTarget).text("친구 삭제");
+					} */
 					
 				}
 			});
@@ -130,30 +134,30 @@ $(document).ready(function(){
 										</tbody>
 									</table>
 									<c:choose>
-										<c:when test = "${a eq 'a'}" >
-											<button id="btn_addFriend_${p_list.id}_a" type="button" class="btn btn-primary">친구 삭제</button>
+										<c:when test = "${status eq 'delete'}" >
+											<button id="btn_addFriend_${p_list.id}_delete" type="button" class="btn btn-primary">친구 삭제</button>
 										</c:when>
-										<c:when test = "${b eq 'b'}">
-											<button id="btn_addFriend_${p_list.id}_b"  type="button" class="btn btn-primary">친구 추가</button>
+										<c:when test = "${status eq 'update'}">
+											<button id="btn_addFriend_${p_list.id}_update"  type="button" class="btn btn-primary">친구 추가</button>
 										</c:when>
-										<c:when test = "${c eq 'c'}">
-											<button id="btn_addFriend_${p_list.id}_c"  type="button" class="btn btn-primary">친구 추가</button>
+										<c:when test = "${status eq 'insert'}">
+											<button id="btn_addFriend_${p_list.id}_insert"  type="button" class="btn btn-primary">친구 추가</button>
 										</c:when>
 									</c:choose>			 
 								</div>
 							</div>
 						</div>
 						<div class="panel-footer">
-							<a data-original-title="Broadcast Message" data-toggle="tooltip"
-								type="button" class="btn btn-sm btn-primary"><i
-								class="glyphicon glyphicon-envelope"></i></a> <span
-								class="pull-right"> <a href="edit.html"
-								data-original-title="Edit this user" data-toggle="tooltip"
-								type="button" class="btn btn-sm btn-warning"><i
-									class="glyphicon glyphicon-edit"></i></a> <a
-								data-original-title="Remove this user" data-toggle="tooltip"
-								type="button" class="btn btn-sm btn-danger"><i
-									class="glyphicon glyphicon-remove"></i></a>
+							<a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary">
+								<i class="glyphicon glyphicon-envelope">
+								</i>
+							</a> 
+							<span class="pull-right"> 
+								<a href="profile_editform.action" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning">
+									<i class="glyphicon glyphicon-edit">
+									</i>
+								</a> 
+								
 							</span>
 						</div>
 
