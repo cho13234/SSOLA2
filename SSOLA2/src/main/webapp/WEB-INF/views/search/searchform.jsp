@@ -66,7 +66,7 @@ $(document).ready(function(){
         		   $('#friend_table1').append(append1); 
         	   }
         	   $('.tbody').click(function() { //action 값을 넣어주기.
-    			   location.href='/ssola2/mypage/mypage_friendmain.action?id='+$(this).attr('id');
+    			   location.href='/ssola2/mypage/mypage_friendmain.action?did='+$(this).attr('id');
     		   });
            }
 	   });

@@ -129,8 +129,8 @@ public class MemberServiceImpl implements MemberService {
 
 	//프로필
 	@Override
-	public List<Friend_list> friendsStatus(String sid){
-		return dao.friendsStatus(sid);
+	public List<Friend_list> friendsStatus(Friend_list f_list){
+		return dao.friendsStatus(f_list);
 	}
 
 	@Override

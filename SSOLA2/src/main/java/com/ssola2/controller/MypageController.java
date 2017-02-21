@@ -48,26 +48,24 @@ public class MypageController {
 	@Autowired
 	@Qualifier("scrapService")
 	private ScrapService scrapService;
-	
+
 	/*@Resource(name="imageView") 
 	ImageView imageView; 
-	
+
 	@Autowired 
 	ProfileImageService profileImageService;
-*/
-	
+	 */
 
 
 
 
-	//내꺼 프로필
+
+	//my profile
 	@RequestMapping(value = "mypage_main.action", method = RequestMethod.GET)
 	public String mypage_main(Model model, Profile profile, HttpSession session) {
 
 		Member member = (Member)session.getAttribute("loginuser");
-		
-		Profile p_list = memberService.searchProfileByIdTx(member.getId()); //insertProfileById selectProfile
-		
+		Profile p_list = memberService.selectProfile(member.getId());
 
 		model.addAttribute("p_list", p_list);
 
@@ -119,96 +117,119 @@ public class MypageController {
 
 		return "account/login";
 	}
-		
-	
+
+
 
 	///////////////////////친구 프로필
 	@RequestMapping(value = "mypage_friendmain.action", method = RequestMethod.GET)
 	//@ResponseBody //String 값을 내보낼 때
-	public String mypage_friendmain(Model model, String id, HttpSession session) {
+	public String mypage_friendmain(Model model, String did, HttpSession session) {
 
+		// session에서 변수 가져옴
 		Member member = (Member)session.getAttribute("loginuser");
-		Profile p_list = memberService.selectProfile(id);
-		String sid = member.getId();	
-		List<Friend_list> mf_list = memberService.friendsStatus(sid);
-		model.addAttribute("p_list", p_list);
+		// member 변수 id로 profile select
+		Profile profile = memberService.selectProfile(did);
 
-		for(Friend_list f_list : mf_list) {
-			// 넌 나의 친구 상태
-			if(f_list.getDestination_id().equals(id) && f_list.isDeleted() == true)  {
-				System.out.println("친구 삭제할거");
-				model.addAttribute("a" ,"a");
-			}else if(f_list.isDeleted() == false){
-				model.addAttribute("b" ,"b");
-			}else if(!f_list.getDestination_id().equals(id)) {
-				model.addAttribute("c", "c");
+		String sid = member.getId();
+		// 내 친구의 목록을 가져온다.
+		Friend_list _f_list = new Friend_list();
+		_f_list.setSource_id(sid);
+		_f_list.setDestination_id(did);
+
+		List<Friend_list> mf_list = memberService.friendsStatus(_f_list);
+		model.addAttribute("p_list", profile);
+
+		if(mf_list.size() == 0) { // 데이터테이블에 데이터가 없을때 // 친구 아닐 때
+			model.addAttribute("status" , "insert");
+		} else { // 데이터테이블에 데이터가 있을 때
+			for(Friend_list f_list : mf_list) {
+				// 넌 나의 친구 상태
+				if(f_list.isDeleted() == false)  { // datatable에 친구일 때,					
+					model.addAttribute("status" ,"delete");
+				}else if(f_list.isDeleted() == true){ // 친구였는데 삭제했을 때
+					model.addAttribute("status" ,"update");
+				}
+				/*else if(!f_list.getDestination_id().equals(did)) {
+					model.addAttribute("status", "insert");
+				}*/
 			}
 		}
 
 		return "mypage/mypage_main";
 	}
-	
-	
+
+
 
 	////////////////친구 추가
 	@RequestMapping(value = "add_friend.action", method = RequestMethod.GET)
 	@ResponseBody
-	public String addFriend(HttpSession session, String id2 , String abc) {
+	public String addFriend(HttpSession session, String did , String status) {
 
-		System.out.println(id2 +"확인중");
 		Member member = (Member)session.getAttribute("loginuser");
 		Friend_list f_list = new Friend_list();
+
+		// 내 아이디의 친구목록 검색
 		f_list.setSource_id(member.getId());
-		f_list.setDestination_id(id2);
+		f_list.setDestination_id(did); // 친구 추가 할 대상의 아이디
 
-		List<Friend_list> mf_list = memberService.friendsStatus(member.getId());
+		// table에 data 삽입을 위한 임시 객체 생성
+		Friend_list _f_list = new Friend_list();
+		_f_list.setSource_id(member.getId());
+		_f_list.setDestination_id(did);
 
-		for(Friend_list f_list2 : mf_list) {
-			// 넌 나의 친구 상태
-//			if(!f_list2.getDestination_id().equals(id2) && abc.equals("c"))  {
-			if(abc.equals("c"))  {
-				memberService.insertFriend(f_list);
-			}else if (f_list2.isDeleted() == true && abc.equals("a")){
-				memberService.updateFriend(f_list);
-			} else if(f_list2.isDeleted() == false && abc.equals("b")) {
-				memberService.updateFriend1(f_list);
+		// sid did를 둘다 입력해서 하나만 출력
+		List<Friend_list> mf_list = memberService.friendsStatus(_f_list);
+		if(mf_list.size() == 0) { 
+			memberService.insertFriend(f_list);
+			return "delete";
+		} else {
+
+			for(Friend_list f_list2 : mf_list) {
+
+				if (f_list2.isDeleted() == true && status.equals("update")){//친구가 아닌상태이면서  delete 를1인 
+					memberService.updateFriend(f_list);
+					return "delete";
+				} else if(f_list2.isDeleted() == false && status.equals("delete")) { //친구 인상태 이면서 
+					memberService.updateFriend1(f_list);
+					return "update";
+				}
 			}
 		}
-		return "a";		
+		return null;
 	}
-	
+
 	////////////////////프로필 이미지 등록
-	
-	
-		
+
+
+
 	//이미지 업로드 후 '등록'버튼 눌렀을 경우 나오는 결과 페이지
 	//프로필 수정(회원가입에서 등록버튼 후 자기소개 작성 페이지)
 	@RequestMapping(value = "profile_editform.action", method = RequestMethod.GET)
 	public String profile_editform(Model model, Profile profile, HttpSession session) {
 
-	Member member = (Member)session.getAttribute("loginuser");
-	
-	
-	
-	Profile p_list = memberService.selectProfile(member.getId());
+		Member member = (Member)session.getAttribute("loginuser");
 
-	model.addAttribute("p_list", p_list);
-	return "mypage/profile_editform";
-}
+		Profile p_list = memberService.searchProfileByIdTx(member.getId()); //insertProfileById selectProfile
+
+		//	Profile p_list = memberService.selectProfile(member.getId());
+
+		model.addAttribute("p_list", p_list);
+		return "mypage/profile_editform";
+	}
 
 	//이미지 업로드 액션
-//	@RequestMapping(value="/upload", method=RequestMethod.POST)
-//	private String upload(@RequestParam MultipartFile imageFile, ModelMap modelMap) { 
-//		Profile fileInfo = imageService.save(imageFile); 
-//		modelMap.put("imageFile", fileInfo); 
-//		return "mypage/profile_editform";
-//	} 
+	//	@RequestMapping(value="/upload", method=RequestMethod.POST)
+	//	private String upload(@RequestParam MultipartFile imageFile, ModelMap modelMap) { 
+	//		Profile fileInfo = imageService.save(imageFile); 
+	//		modelMap.put("imageFile", fileInfo); 
+	//		return "mypage/profile_editform";
+	//	} 
 
-	
-	
 
-	
-	
+
+
+
+
 
 	/////////////////////////scrap
 	@RequestMapping(value = "scrapform.action", method = RequestMethod.GET)

@@ -46,7 +46,7 @@ public interface MemberMapper {
 	
 	//프로필
 
-	List<Friend_list> friendsStatus(String sid);
+	List<Friend_list> friendsStatus(Friend_list f_list);
 
 	void insertFriend(Friend_list f_list);
 

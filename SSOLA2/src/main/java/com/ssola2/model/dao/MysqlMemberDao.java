@@ -113,8 +113,8 @@ public class MysqlMemberDao implements MemberDao {
 	
 
 	@Override
-	public List<Friend_list> friendsStatus(String sid) {
-		return memberMapper.friendsStatus(sid);
+	public List<Friend_list> friendsStatus(Friend_list f_list) {
+		return memberMapper.friendsStatus(f_list);
 	}
 
 	@Override

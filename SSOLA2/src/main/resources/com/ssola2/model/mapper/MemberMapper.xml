@@ -144,26 +144,26 @@
 	</select>
 	
 	<!-- 친구인지 아닌지 확인 -->
-	<select id="friendsStatus" resultType="com.ssola2.model.dto.Friend_list" parameterType="String">
-		select deleted, destination_id 
+	<select id="friendsStatus" resultType="com.ssola2.model.dto.Friend_list" parameterType="com.ssola2.model.dto.Friend_list">
+		select *
 		from FRIEND_LIST 
-		where SOURCE_ID=#{sid}
+		where SOURCE_ID=#{source_id} and DESTINATION_ID=#{destination_id}
 	</select>	
 	
 	<!-- 친구 추가 -->
 	<insert id="insertFriend" parameterType="com.ssola2.model.dto.Friend_list">
 		insert into FRIEND_LIST(source_id, destination_id, deleted)
-		values(#{source_id}, #{destination_id}, 1)
+		values(#{source_id}, #{destination_id}, 0)
 	</insert>
 	
-	<!-- 친구 삭제 버튼 눌렀을 경우 -->
+	<!-- 친구 추가 버튼 눌렀을 경우 -->
 	<update id="updateFriend" parameterType="com.ssola2.model.dto.Friend_list">
 		update FRIEND_LIST 
 		set deleted = '0' 
 		where SOURCE_ID=#{source_id} and DESTINATION_ID = #{destination_id}	
 	</update>
 	
-	<!-- 친구 추가 버튼 눌렀을 경우 -->
+	<!-- 친구 삭제 버튼 눌렀을 경우 -->
 	<update id="updateFriend1" parameterType="com.ssola2.model.dto.Friend_list">
 		update FRIEND_LIST 
 		set deleted = '1' 
