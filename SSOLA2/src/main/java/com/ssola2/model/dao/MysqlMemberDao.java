@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ssola2.model.dto.Administrator;
 import com.ssola2.model.dto.Customer;
+import com.ssola2.model.dto.Friend_list;
 import com.ssola2.model.dto.Member;
 import com.ssola2.model.dto.Profile;
 import com.ssola2.model.mapper.MemberMapper;
@@ -20,6 +21,7 @@ public class MysqlMemberDao implements MemberDao {
 	@Qualifier("memberMapper")
 	private MemberMapper memberMapper;
 
+	
 	@Override
 	public void insertMember(Member member) {
 		memberMapper.insertMember(member);
@@ -108,12 +110,39 @@ public class MysqlMemberDao implements MemberDao {
 		
 	}
 
+	
+
 	@Override
-	public List<Profile> selectProfile(String id) {
-		return memberMapper.selectProfile(id);
+	public List<Friend_list> friendsStatus(Friend_list f_list) {
+		return memberMapper.friendsStatus(f_list);
+	}
+
+	@Override
+	public void insertFriend(Friend_list f_list) {
+		memberMapper.insertFriend(f_list);
 		
 	}
 
+	@Override
+	public void updateFriend(Friend_list f_list) {
+		memberMapper.updateFriend(f_list);
+		
+	}
+
+	@Override
+	public void updateFriend1(Friend_list f_list) {
+		memberMapper.updateFriend1(f_list);
+	}
+	@Override
+	public Profile selectProfile(String id) {
+		return memberMapper.selectProfile(id);		
+	}
+
+	@Override
+	public void insertProfileById(String id) {
+		memberMapper.insertProfileById(id);
+		
+	}
 	
 
 }

@@ -1,6 +1,7 @@
 package com.ssola2.controller;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ssola2.model.dto.Member;
+import com.ssola2.model.dto.Section;
 import com.ssola2.model.service.SearchService;
 
 @Controller
@@ -27,53 +29,35 @@ public class SearchController {
 	@Qualifier("searchService")
 	private SearchService searchService;
 	
-	private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
-	
 	@RequestMapping(value = {"search.action"}, method = RequestMethod.GET)
-	public String a(HttpSession session) {
+	public String searchForm(HttpSession session , Model model) {
 		Member member = (Member)session.getAttribute("loginuser");
 		
+			List<Member> members = searchService.searchfriends();
+			model.addAttribute("members" , members);
 			return "search/searchform";			
 		}
 	
 	
 	@RequestMapping(value = {"search.action"}, method = RequestMethod.POST)
 	@ResponseBody
-	public List<Member> b(Model model,HttpSession session, String searchSelect , String search) {
+	public List<Member> searchMember(Model model,HttpSession session, String searchSelect , String search) {
 		Member member = (Member)session.getAttribute("loginuser");
-			List<Member> members = null;
-		if(searchSelect.equals("friend")) {
+			List<Member> members = new ArrayList<Member>();
 			members = searchService.searchfriend(search);
 			return members;		
-		} else if(searchSelect.equals("gps")) {
-			members = searchService.searchfriend(search);
-			return members;
-		}
-		return members;	
 		}
 	
 	@RequestMapping(value = {"searchgps.action"}, method = RequestMethod.POST)
 	@ResponseBody
-	public List<Member> c(Model model,HttpSession session, String searchSelect , String search) {
+	public List<Section> searchGps(Model model,HttpSession session, String searchSelect , String search , String LAT ,String LNG) { //가져와야 되는 데이터는 ? 매장명 , 매장주소 , 전화번호 , 매장위치 (위도, 경도) 
 		Member member = (Member)session.getAttribute("loginuser");
-			List<Member> members = null;
-		if(searchSelect.equals("gps")) {
-			members = searchService.searchfriend(search);
-			return members;
+		Section section = new Section();
+		section.setLAT(LAT);
+		section.setLNG(LNG);
+		List<Section> sections = searchService.search_stores(section);
+		return sections;
 		}
-		return members;	
-		}
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssola2.model.dao.SearchDao;
 import com.ssola2.model.dto.Member;
+import com.ssola2.model.dto.Section;
 
 @Service(value="searchService")
 public class SearchServiceImpl implements SearchService{
@@ -20,6 +21,18 @@ public class SearchServiceImpl implements SearchService{
 	public List<Member> searchfriend(String search) {
 		List<Member> members = dao.searchfriend(search);
 		return members;
+	}
+
+	@Override
+	public List<Member> searchfriends() {
+		
+		return dao.searchfriends();
+	}
+
+	@Override
+	public List<Section> search_stores(Section section) {
+		
+		return dao.search_stores(section);
 	}
 
 	

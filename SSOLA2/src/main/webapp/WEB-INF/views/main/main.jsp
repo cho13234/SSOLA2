@@ -14,7 +14,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!-- banner src -->
-<script src="/ssola2/resources/scripts/main_jquery.min.js"></script>
 <script src="/ssola2/resources/scripts/main_jquery.scrolly.min.js"></script>
 <script src="/ssola2/resources/scripts/main_skel.min.js"></script>
 <script src="/ssola2/resources/scripts/main_util.js"></script>

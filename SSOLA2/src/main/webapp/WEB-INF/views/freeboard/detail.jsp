@@ -92,6 +92,22 @@ margin:auto;
 
 </style>
 <script type="text/javascript">
+$(document).ready(function() {
+	//댓글 목록 가져오기
+	comment_list();
+});
+function comment_list(){
+	$.ajax({
+		type : "post",
+		url: "commentWrtie.action",
+		data : {"commentList" : commentList
+		},
+		success: function(result){
+			$("commentList").html(result);
+		}
+	});
+	
+}
 </script>
 <body>
 <c:import url="/WEB-INF/views/include/header.jsp" />
@@ -155,21 +171,26 @@ margin:auto;
 				href="/ssola2/freeboard/list.action">List</a>
 		</div>
 		<!-- 여기서 부터 코맨트 입니당 ㅎㅎ -->
-		<div>
-			<table style="border:1; width:70%">
-			<c:forEach var="freeBoardComment" items="${freeBoardComment}">
-			<tr>
-				<td>
-				${ freeBoardComment.id }
-				( <fmt:formatDate value = "${ freeBoardComment.regDate}" pattern = "yyyy-MM-dd HH:mm:ss" />)
-				<br>
-				${ freeBoardComment.commentContent }
-				</td>
-			</tr>
-			</c:forEach>
-			</table>
-
+		<!-- 댓글 목록이 출력될 영역 -->
+		<div id="commentList">
 		</div>	
+		<!-- 댓글 입력폼 -->
+		<div id="commentAdd">
+		<form action="" name="addForm">
+		ID: <input type="text" name="id" value='${ sessionScope.loginuser.id }' /><br/>
+		Content: <textarea name="commentContent" rows="20" cols="2"></textarea><br/>
+		<input type="button" value="등록" onclick="addComment()"/>
+		</form>
+		</div>
+		
+		<!-- 댓글 수정 폼 -->
+		<div id="commentUpdate" style="display:none">
+			<form action="" name="updateForm">
+			<input type="hidden" name="id" value=''/>
+			Content: <textarea name="${freeBoardComment.commentContent }" rows="20" cols="2"></textarea>
+			<input type="button" value="수정" onclick="updateComment()"/>
+			<input type="button" value="취소" onclick="cancelUpdate()"/>
+			</form>
 	</div>
 </div>
 

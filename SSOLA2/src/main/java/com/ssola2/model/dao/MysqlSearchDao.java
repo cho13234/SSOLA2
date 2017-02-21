@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.ssola2.model.dto.Administrator;
 import com.ssola2.model.dto.Customer;
 import com.ssola2.model.dto.Member;
+import com.ssola2.model.dto.Section;
 import com.ssola2.model.mapper.MemberMapper;
 import com.ssola2.model.mapper.SearchMapper;
 
@@ -24,6 +25,17 @@ public class MysqlSearchDao implements SearchDao {
 	public List<Member> searchfriend(String search) {
 		List<Member> members = searchMapper.searchfriend(search);
 		return members;
+	}
+
+	@Override
+	public List<Member> searchfriends() {
+		return searchMapper.searchfriends();
+	}
+
+	@Override
+	public List<Section> search_stores(Section section) {
+		
+		return searchMapper.search_stores(section);
 	}
 
 	

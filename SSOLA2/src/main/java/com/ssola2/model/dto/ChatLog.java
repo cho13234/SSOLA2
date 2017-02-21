@@ -1,11 +1,13 @@
 package com.ssola2.model.dto;
 
+import com.google.gson.Gson;
+
 public class ChatLog {
 	
 	private int chatNo;
 	private String regDate;
 	private String content;
-	private int roomNo;
+	private String roomNo;
 	private String id;
 	
 	public int getChatNo() {
@@ -26,10 +28,10 @@ public class ChatLog {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public int getRoomNo() {
+	public String getRoomNo() {
 		return roomNo;
 	}
-	public void setRoomNo(int roomNo) {
+	public void setRoomNo(String roomNo) {
 		this.roomNo = roomNo;
 	}
 	public String getId() {
@@ -39,4 +41,12 @@ public class ChatLog {
 		this.id = id;
 	}
 	
+	public static ChatLog convertMessage(String source) {
+		ChatLog message = new ChatLog();
+		Gson gson = new Gson();
+		
+		message = gson.fromJson(source, ChatLog.class);
+		
+		return message;
+	}
 }
