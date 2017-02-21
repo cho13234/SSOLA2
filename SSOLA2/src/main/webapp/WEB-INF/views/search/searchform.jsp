@@ -37,9 +37,9 @@ body, h1, h2, h3, h4, h5 {
 <script type="text/javascript">
 $(document).ready(function(){
 	
-	   $("#search").on("keyup", function(event) { //친구 찾기 event
+	   $("#search1").on("keyup", function(event) { //친구 찾기 event
 		var searchSelect = $("#country").val();
-		var search = $("#search").val();
+		var search1 = $("#search1").val();
 		if($(this).val().length == 0) {
 			 $('#thead').remove();
       	   $('.tbody').remove();
@@ -52,7 +52,7 @@ $(document).ready(function(){
            url : "search.action",
            data : {
              "searchSelect" : searchSelect ,
-             "search" : search
+             "search" : search1
           },
           async : false,
            success : function(data) {
@@ -66,7 +66,7 @@ $(document).ready(function(){
         		   $('#friend_table1').append(append1); 
         	   }
         	   $('.tbody').click(function() { //action 값을 넣어주기.
-    			   location.href='/ssola2/mypage/mypage_friendmain.action?id='+$(this).attr('id');
+    			   location.href='/ssola2/mypage/mypage_friendmain.action?did='+$(this).attr('id');
     		   });
            }
 	   });
@@ -100,11 +100,11 @@ $(document).ready(function(){
 				var geocoder = new daum.maps.services.Geocoder();
 				
 				// 주소로 좌표를 검색합니다
-				$("#search").on("keydown", function(event) {
+				$("#search1").on("keydown", function(event) {
 				if(event.keyCode == 13) { //enter key
 					if(searchSelect == "gps") {
 				$('.tbody').remove(); //리스트 제거
-				var mapString = $('#search').val(); //검색한 주소
+				var mapString = $('#search1').val(); //검색한 주소
 				geocoder.addr2coord(mapString, function(status, result) {
 
 				    if (status === daum.maps.services.Status.OK) {// 정상적으로 검색이 완료됐으면 
@@ -190,41 +190,6 @@ $(document).ready(function(){
 			   $('#map').remove();
 			   $('#friend_table1').append($('<tr class="thead"><th>프사</th><th>아이디</th><th>닉네임</th><th>전화번호</th></tr>'));
 			   
-		   }else if (searchSelect == "category") {
-			   $('.tbody').remove();
-			   $('#map').remove();
-			   $('#friend_table1').append($('<tr class="thead"><th>이미지</th><th>제목</th><th>글</th><th>작성자</th></tr>'));
-		   }else if(searchSelect == "body") {
-			   $('.tbody').remove();
-			   $('#map').remove();
-			   $('#friend_table1').append($('<tr class="thead"><th>이미지</th><th>제목</th><th>글</th><th>작성자</th></tr>'));
-			   
-			   
-			   
-			   $.ajax({
-		           type : "POST",
-		           url : "search_body.action",
-		           data : {
-		             "searchSelect" : searchSelect ,
-		             "search" : search
-		          },
-		          async : false,
-		           success : function(data) {
-		        	   $('.tbody').remove();
-		        	   for(var i =0; i < data.length; i++) {
-		        		   var id = data[i].id;
-		        		   var nickname = data[i].nickname;
-		        		   var phone = data[i].phone;
-		        		   var append1 = $('<tr class="tbody"><td><img src="/ssola2/resources/images/fullheart.png"></td><td>'+id+'</td><td>'+nickname+'</td><td>'+phone+'</td></a></tr>').attr('id' , id);
-		        		   $('#friend_table1').append(append1); 
-		        	   }
-		        	   $('.tbody').click(function() { //action 값을 넣어주기.
-		    			   location.href='/ssola2/mypage/mypage_friendmain.action?id='+$(this).attr('id');
-		    		   });
-		           }
-			   });
-			   
-			   
 		   }
 	   
 	   });
@@ -241,14 +206,12 @@ $(document).ready(function(){
 	
 	<br/><br/>
 
-<div id="inputmain" style="text-align:center; width:30%; margin-left:35%"  >
+<div id="inputmain" style="text-align:center; width:30%; margin-left:35%" >
 		<select  id="country" name="searchSelect">
 		  <option value="friend">친구검색</option>
 		  <option value="gps">주변검색</option>
-		  <option value="category">카테고리</option>
-		  <option value="body">본문검색</option>
 		</select>
-		<input type="text" id="search" name="search" placeholder="검색" style="width : 60%">
+		<input type="text" id="search1" name="search" placeholder="검색" style="width : 60%">
 		<!-- <a id="submitButton" class="btn btn-default" style="font-family: 'Nanum Pen Script', serif; font-size:15pt;">검색</a> -->
 </div>
 

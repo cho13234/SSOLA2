@@ -37,7 +37,7 @@
 	</insert>
 
 	<insert id="insertAdministrator" parameterType="Administrator">
-		INSERT INTO administrator (id, authority)
+		INSERT INTO ADMINISTRATOR (id, authority)
 		VALUES (#{id}, #{authority})
 	</insert>
 
@@ -65,7 +65,7 @@
 	<select id="selectAdministratorById" resultType="Administrator"
 		parameterType="java.lang.String">
 		SELECT id, authority
-		FROM administrator
+		FROM ADMINISTRATOR
 		WHERE id = #{id}
 	</select>
 	
@@ -126,6 +126,12 @@
 	WHERE id= #{id}		
 	</delete>
 	
+	<!-- 회원 가입 시 id를 profile에 등록 -->
+	<insert id="insertProfileById" parameterType="com.ssola2.model.dto.Profile">
+		insert into PROFILE(id)
+		values(#{id})		
+	</insert>
+	
 	<!-- 프로필 정보 -->
 	<select id="selectProfile" resultType="com.ssola2.model.dto.Profile" parameterType="String">
 		select m.id AS id, m.nickname AS nickname, m.phonenumber AS phonenumber, c.email AS email, c.birth AS birth, c.gender AS gender, p.description AS description, p.image AS image 
@@ -138,31 +144,44 @@
 	</select>
 	
 	<!-- 친구인지 아닌지 확인 -->
-	<select id="friendsStatus" resultType="com.ssola2.model.dto.Friend_list" parameterType="String">
-		select deleted, destination_id 
+	<select id="friendsStatus" resultType="com.ssola2.model.dto.Friend_list" parameterType="com.ssola2.model.dto.Friend_list">
+		select *
 		from FRIEND_LIST 
-		where SOURCE_ID=#{sid}
+		where SOURCE_ID=#{source_id} and DESTINATION_ID=#{destination_id}
 	</select>	
 	
 	<!-- 친구 추가 -->
 	<insert id="insertFriend" parameterType="com.ssola2.model.dto.Friend_list">
 		insert into FRIEND_LIST(source_id, destination_id, deleted)
-		values(#{source_id}, #{destination_id}, 1)
+		values(#{source_id}, #{destination_id}, 0)
 	</insert>
 	
-	<!-- 친구 삭제 버튼 눌렀을 경우 -->
+	<!-- 친구 추가 버튼 눌렀을 경우 -->
 	<update id="updateFriend" parameterType="com.ssola2.model.dto.Friend_list">
 		update FRIEND_LIST 
 		set deleted = '0' 
 		where SOURCE_ID=#{source_id} and DESTINATION_ID = #{destination_id}	
 	</update>
 	
-	<!-- 친구 추가 버튼 눌렀을 경우 -->
+	<!-- 친구 삭제 버튼 눌렀을 경우 -->
 	<update id="updateFriend1" parameterType="com.ssola2.model.dto.Friend_list">
 		update FRIEND_LIST 
 		set deleted = '1' 
 		where SOURCE_ID=#{source_id} and DESTINATION_ID = #{destination_id}	
 	</update>
+	
+	<!-- 내가 추가한 친구 목록 불러오기 -->
+	<select id="selectFriendList" resultType="com.ssola2.model.dto.Friend_list" parameterType="com.ssola2.model.dto.Friend_list">
+		select p.IMAGE AS image, fl.DESTINATION_ID AS destination_id, fl.REG_DATE AS reg_date
+		from FRIEND_LIST fl
+		join PROFILE p
+		on fl.SOURCE_ID = p.id
+		where fl.SOURCE_ID=#{source_id} and fl.DELETED = 0
+	</select>
+	
+	
+	
+	
 	
 	
 </mapper>

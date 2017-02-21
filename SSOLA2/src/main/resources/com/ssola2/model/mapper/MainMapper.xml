@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssola2.model.mapper.MainMapper">
+	<!-- article dto 안에 section 객체가 온전히 담겨야 하므로 section_no만을 갖는 db의 데이터와 불일치 
+		때문에 section_no를 article dto 가 갖는 section객체가 갖는 sectionNo와 일치시킨다. -->
+	<resultMap type="com.ssola2.model.dto.Article" id="ArticleResult">
+		<id column="article_no" property="articleNo" />
+		<result column="article_title" property="articleTitle" />
+		<result column="reg_date" property="regDate" />
+		<result column="deleted" property="deleted" />
+		<result column="id" property="id" />
+		<result column="main_image" property="mainImage" />
+		<!-- <result column="section1" property="section1.sectionNo"/> <result 
+			column="section2" property="section2.sectionNo"/> <result column="section3" 
+			property="section3.sectionNo"/> <result column="section4" property="section4.sectionNo"/> -->
+		<association column="section1" property="section1"
+			javaType="Section" select="selectDetailSection" />
+		<association column="section2" property="section2"
+			javaType="Section" select="selectDetailSection" />
+		<association column="section3" property="section3"
+			javaType="Section" select="selectDetailSection" />
+		<association column="section4" property="section4"
+			javaType="Section" select="selectDetailSection" />
+		<!-- <collection column="{articleNo=article_no,id=id}" property="recommend" 
+			javaType="Recommend" select="selectArticleRecommend" /> -->
+		<!-- <collection column="article_no" property="recommends" 
+			javaType="java.util.ArrayList" ofType="Recommend" select="selectArticleRecommend" /> -->
+		<association column="article_no" property="recommendCount" 
+			javaType="Integer" select="selectRecommendCount" />
+	</resultMap>
+
+	<resultMap type="com.ssola2.model.dto.Section" id="SectionResult">
+		<id column="section_no" property="sectionNo" />
+		<result column="category" property="category" />
+		<result column="address" property="address" />
+		<result column="main_tag" property="mainTag" />
+		<result column="store_name" property="storeName" />
+	</resultMap>
+	 
+	<!-- <resultMap type="com.ssola.model.dto.Recommend" id="RecommendResult">
+		<result column="id" property="id" />
+		<result column="article_no" property="articleNo" />
+		<result column="deleted" property="deleted" />
+		<association column="article_no" property="count" select="selectArticleRecommendCount" /> 
+	</resultMap> -->
+
+	<sql id="selectArticleSql">
+		SELECT article_no, article_title, reg_date, deleted, id,
+		main_image, section1, section2, section3, section4
+		FROM ARTICLE
+	</sql>
+
+	<sql id="selectSectionSql">
+		SELECT section_no, category, address, main_tag
+		FROM SECTION
+	</sql>
+
+	<insert id="insertArticle" parameterType="com.ssola2.model.dto.Article">
+		INSERT INTO ARTICLE (article_title, id, main_image,
+		section1, section2, section3, section4)
+		VALUES (
+		#{articleTitle}, #{id}, #{mainImage},
+		#{section1.sectionNo}, #{section2.sectionNo}, #{section3.sectionNo},
+		#{section4.sectionNo})
+	</insert>
+
+	<!-- <insert id="insertSection" parameterType="com.ssola2.model.dto.Section">
+		INSERT INTO SECTION ( category, address,
+		main_tag ,store_name)
+		VALUES ( #{category}, #{address},
+		#{mainTag} , #{storeName})
+		<selectKey keyProperty="sectionNo" resultType="Integer"
+			order="AFTER">
+			SELECT seq_section_no.currval FROM DUAL
+		</selectKey>
+	</insert> -->
+	<insert id="insertSection" parameterType="com.ssola2.model.dto.Section"
+      useGeneratedKeys="true" keyProperty="sectionNo" >
+      INSERT INTO SECTION ( category, address, main_tag ,store_name)
+      VALUES ( #{category}, #{address},
+      #{mainTag} , #{storeName})
+   </insert>
+
+	<select id="selectArticles" resultMap="ArticleResult">
+		SELECT *
+		FROM ARTICLE
+	</select>
+
+	<select id="selectArticlesByNum" parameterType="HashMap" resultMap="ArticleResult">
+		SELECT B.*
+		FROM
+		(
+			SELECT @ROWNUM idx, A.*
+			FROM
+			(
+				SELECT *
+				FROM ARTICLE
+				WHERE DELETED = 0
+				ORDER BY article_no desc
+			) A
+			order by idx ASC
+		) B
+		WHERE idx <![CDATA[>]]> #{start} AND idx <![CDATA[<=]]> #{end}
+	</select>
+	
+	<select id="getArticleByArticleNo"  resultMap="ArticleResult"  parameterType="Integer">
+		SELECT *
+		FROM ARTICLE 
+		where ARTICLE_NO = #{articleNo}
+	</select>
+	
+	<select id="selectArticleByArticleNoSize"  resultMap="ArticleResult"  parameterType="Integer">
+		SELECT B.*
+		FROM
+		(
+			SELECT @ROWNUM idx, A.*
+			FROM
+			(
+				SELECT *
+				FROM ARTICLE
+				WHERE article_no <![CDATA[<]]> #{articleNo} AND DELETED = 0
+				ORDER BY article_no desc
+			) A
+			order by idx ASC
+		) B
+		WHERE idx <![CDATA[>]]> 0 AND idx <![CDATA[<=]]> 1 
+	</select>
+	<!-- article List 를 가져오기위한 데이터 -->
+	
+
+	<select id="selectDetailSection" resultMap="SectionResult"
+		parameterType="Integer">
+		SELECT *
+		FROM SECTION
+		WHERE section_no = #{sectionNo}
+	</select>
+	
+	<select id="selectRecommendCount" resultType="Integer" 
+		parameterType="Integer">
+		SELECT COUNT(*)
+		FROM LIKES
+		WHERE article_no = #{articleNo}
+	</select>
+	
+	<!-- <select id="selectArticleRecommend" resultMap="RecommendResult"
+		parameterType="Integer">
+		SELECT id, article_no articleNo, deleted
+		FROM likes
+		WHERE article_no = #{articleNo}
+	</select>
+	
+	<select id="selectArticleRecommendCount" resultType="Integer"
+		parameterType="Integer">
+		SELECT COUNT(*)
+		FROM likes
+		WHERE article_no = #{articleNo}
+	</select> -->
+	
+	<select id="editArticleByArticleNo" resultMap="ArticleResult" parameterType="Integer">
+		SELECT *
+		FROM ARTICLE
+		WHERE article_no = #{articleNo}
+	</select>
+	
+	<delete id="deleteArticle"  parameterType="int">
+		UPDATE ARTICLE
+		SET DELETED = 1
+		WHERE article_no= #{articleNo}	
+	</delete>
+	
+	<update id="editArticle" parameterType="com.ssola2.model.dto.Article">
+		UPDATE ARTICLE SET 
+		article_title = #{articleTitle},
+		main_image = #{mainImage}
+		WHERE ARTICLE_NO = #{articleNo}
+	</update>
+
+	<update id="editSection" parameterType="com.ssola2.model.dto.Section">
+		UPDATE SECTION SET  
+		category = #{category},
+		address = #{address},
+		main_tag = #{mainTag},
+		store_name = #{storeName}
+		WHERE SECTION_NO = #{sectionNo}
+	</update>
+
+</mapper>

@@ -31,8 +31,12 @@ public interface MemberDao {
 	
 	//프로필
 	public Profile selectProfile(String id);
-	public List<Friend_list> friendsStatus(String sid);
+	public List<Friend_list> friendsStatus(Friend_list f_list);
 	public void insertFriend(Friend_list f_list);
 	public void updateFriend(Friend_list f_list);
-	public void updateFriend1(Friend_list f_list);	
+	public void updateFriend1(Friend_list f_list);
+	public void insertProfileById(String id);
+	public List<Friend_list> selectFriendList(String id);
+	
+	
 }

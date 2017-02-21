@@ -110,15 +110,11 @@ public class MysqlMemberDao implements MemberDao {
 		
 	}
 
-	@Override
-	public Profile selectProfile(String id) {
-		return memberMapper.selectProfile(id);
-		
-	}
+	
 
 	@Override
-	public List<Friend_list> friendsStatus(String sid) {
-		return memberMapper.friendsStatus(sid);
+	public List<Friend_list> friendsStatus(Friend_list f_list) {
+		return memberMapper.friendsStatus(f_list);
 	}
 
 	@Override
@@ -137,7 +133,21 @@ public class MysqlMemberDao implements MemberDao {
 	public void updateFriend1(Friend_list f_list) {
 		memberMapper.updateFriend1(f_list);
 	}
+	@Override
+	public Profile selectProfile(String id) {
+		return memberMapper.selectProfile(id);		
+	}
 
+	@Override
+	public void insertProfileById(String id) {
+		memberMapper.insertProfileById(id);
+		
+	}
+
+	@Override
+	public List<Friend_list> selectFriendList(String id) {
+		return memberMapper.selectFriendList(id);
+	}
 	
 
 }

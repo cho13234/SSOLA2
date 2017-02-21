@@ -4,17 +4,11 @@ import java.sql.Date;
 
 public class Profile {
 
-	private String image;
+	private  String image;
 	private String description;
 	private String id;
 	private String open_status;
 	private String phonenumber;	
-	public String getPhonenumber() {
-		return phonenumber;
-	}
-	public void setPhonenumber(String phonenumber) {
-		this.phonenumber = phonenumber;
-	}
 	private String nickname;
 	private String email;
 	private Date birth;
@@ -26,6 +20,12 @@ public class Profile {
 	}
 	public void setImage(String image) {
 		this.image = image;
+	}
+	public String getPhonenumber() {
+		return phonenumber;
+	}
+	public void setPhonenumber(String phonenumber) {
+		this.phonenumber = phonenumber;
 	}
 	public String getDescription() {
 		return description;

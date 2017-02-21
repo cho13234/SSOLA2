@@ -7,15 +7,56 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>친구목록</title>
 
-
-
+<!-- JavaScript Search Plugin -->
+<script
+	src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>
 </head>
 
 <body>
 	<c:import url="/WEB-INF/views/include/header.jsp" />
 	<c:import url="/WEB-INF/views/mypage/mypage_header.jsp" />
+	<a href="http://bootsnipp.com/mouse0270/snippets/4l0k2" class="btn btn-danger hide" id="back-to-bootsnipp">
+		Back to Bootsnipp
+	</a>
 
+	<div class="container">
 
+		<div class="row">
+			<div class="col-xs-12 col-sm-offset-3 col-sm-6">
+				<div class="panel panel-default">
+					<div class="panel-heading c-list">
+						<span class="title">내가 추가한 친구 목록</span>
+						<ul class="pull-right c-controls">
+							<li>
+								<a href="/ssola2/search.action" class="hide-search" data-command="toggle-search" data-toggle="tooltip" data-placement="top" title="Toggle Search">
+									<i class="fa fa-ellipsis-v"></i>
+								</a>
+							</li> 
+						</ul>
+					</div>
+
+					<c:forEach items="${my_flist}" var="my_flist">
+						<ul class="list-group" id="contact-list">
+							<li class="list-group-item">
+								<div class="col-xs-12 col-sm-3">
+									<img src="/ssola2/resources/profileImages/${my_flist.image}"
+										alt="No Image" class="img-responsive img-circle" />
+								</div>
+								<div class="col-xs-12 col-sm-9">
+									<span class="name">${my_flist.destination_id}</span><br />
+
+								</div>
+								<div class="clearfix"></div>
+							</li>
+
+						</ul>
+					</c:forEach>
+				</div>
+			</div>
+		</div>
+
+	</div>
+<c:import url="/WEB-INF/views/include/footer.jsp" />
 
 </body>
 </html>
