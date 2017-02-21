@@ -198,7 +198,15 @@ public class MypageController {
 		return null;
 	}
 
-	////////////////////프로필 이미지 등록
+	//내가 친구추가한 리스트 
+	@RequestMapping(value="friendlist.action", method = RequestMethod.GET)
+	public String friendlist(HttpSession session, Model model) {
+		
+		Member member = (Member)session.getAttribute("loginuser");
+		List<Friend_list> my_flist = memberService.selectFriendList(member.getId());
+		
+		return "mypage/friendlist";
+	}
 
 
 
@@ -209,25 +217,11 @@ public class MypageController {
 
 		Member member = (Member)session.getAttribute("loginuser");
 
-		Profile p_list = memberService.searchProfileByIdTx(member.getId()); //insertProfileById selectProfile
-
-		//	Profile p_list = memberService.selectProfile(member.getId());
+		Profile p_list = memberService.selectProfile(member.getId());
 
 		model.addAttribute("p_list", p_list);
 		return "mypage/profile_editform";
 	}
-
-	//이미지 업로드 액션
-	//	@RequestMapping(value="/upload", method=RequestMethod.POST)
-	//	private String upload(@RequestParam MultipartFile imageFile, ModelMap modelMap) { 
-	//		Profile fileInfo = imageService.save(imageFile); 
-	//		modelMap.put("imageFile", fileInfo); 
-	//		return "mypage/profile_editform";
-	//	} 
-
-
-
-
 
 
 

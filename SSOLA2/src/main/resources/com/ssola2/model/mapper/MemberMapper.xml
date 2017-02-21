@@ -170,6 +170,13 @@
 		where SOURCE_ID=#{source_id} and DESTINATION_ID = #{destination_id}	
 	</update>
 	
+	<!-- 내가 추가한 친구 목록 불러오기 -->
+	<select id="selectFriendList" resultType="com.ssola2.model.dto.Friend_list" parameterType="com.ssola2.model.dto.Friend_list">
+		select DESTINATION_ID, REG_DATE
+		from FRIEND_LIST
+		where source_id=#{source_id} and DELETED = 0
+	</select>
+	
 	<!-- 프로필 자기소개 등록 -->
 		<insert id="insertProfile" parameterType="com.ssola2.model.dto.Profile">
 			

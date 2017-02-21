@@ -6,7 +6,7 @@ public class Profile {
 	
 	
 
-	public static final String  image ="/resources/profileImages/";
+	private String image;
 	private String description;
 	private String id;
 	private String open_status;
