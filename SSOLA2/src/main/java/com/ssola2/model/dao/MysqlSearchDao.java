@@ -38,6 +38,11 @@ public class MysqlSearchDao implements SearchDao {
 		return searchMapper.search_stores(section);
 	}
 
+	@Override
+	public String search_article(int sectionNo) {
+		return searchMapper.search_article(sectionNo);
+	}
+
 	
 
 }

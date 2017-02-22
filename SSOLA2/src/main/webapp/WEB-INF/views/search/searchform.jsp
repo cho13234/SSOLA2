@@ -134,6 +134,21 @@ $(document).ready(function(){
 					        		   $('#friend_table1').append(append1); 
 					        	   }
 					        	   
+					        	   $('.tbody').click(function() { //articleNo를 가져오기위한 ajax ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
+					        		   var sectionNo = $(this).attr('id');
+					        		   $.ajax({
+								           type : "GET",
+								           url : "searchArticle.action",
+								           data : {
+								             "sectionNo" : sectionNo
+								          },
+								          async : false,
+								           success : function(data) {
+								        	   location.href='/ssola2/detail.action?articleNo='+data;	
+								           }
+					    		   });
+					        	   });
+					        	   
 					        	   if(data != "" ) {
 					        	 	//매장들의 위치
 							    	// 마커 이미지의 이미지 주소입니다
@@ -247,5 +262,6 @@ $(document).ready(function(){
 			</div>
 		</div>
 	</div>
+	<c:import url="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>

@@ -234,20 +234,21 @@ public class MypageController {
 
    //이미지 업로드 액션
       @RequestMapping(value="/upload.action", method=RequestMethod.POST)
-      private String upload(@RequestParam("file") MultipartFile file,HttpSession session) throws Exception { 
+      private String upload(@RequestParam("file") MultipartFile file,HttpSession session , String description) throws Exception { 
     	  Member member = (Member)session.getAttribute("loginuser");
     	  
     	  
     	  String uploadPath = session.getServletContext().getRealPath("/resources/profileImages");
           //실제 디플로이되는 폴더의 root path를 따온다
    
-          System.out.println("UPLOAD_PATH : "+uploadPath);
+          //System.out.println("UPLOAD_PATH : "+uploadPath);
           String inTime   = new java.text.SimpleDateFormat("HHmmss").format(new java.util.Date());
           FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(uploadPath+"/"+inTime+file.getOriginalFilename()));
                   //upload 폴더안에 등록하겠다는 말
           Profile profile = new Profile();
           profile.setImage(inTime+file.getOriginalFilename());
           profile.setId(member.getId());
+          profile.setDescription(description);
 			
           //이미지 네임을 디비에 저장하는 곳
           scrapService.updateProfile(profile);

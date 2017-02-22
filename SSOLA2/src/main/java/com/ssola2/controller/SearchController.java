@@ -59,6 +59,14 @@ public class SearchController {
 		return sections;
 		}
 	
+	@RequestMapping(value = {"searchArticle.action"}, method = RequestMethod.GET)
+	@ResponseBody
+	public String searchGps(int sectionNo) { //가져와야 되는 데이터는 ? 매장명 , 매장주소 , 전화번호 , 매장위치 (위도, 경도) 
+			String articleNo = searchService.search_article(sectionNo);
+				
+		return articleNo;
+		}
+	
 	
 	
 	}

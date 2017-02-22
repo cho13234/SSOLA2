@@ -13,4 +13,6 @@ public interface SearchService {
 
 	public List<Section> search_stores(Section section);
 
+	public String search_article(int sectionNo);
+
 }

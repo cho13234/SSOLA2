@@ -63,5 +63,10 @@
 	LIMIT 0,5000
 	</select>
 	
+	<select id="search_article" parameterType="Integer" resultType="String">
+		select article_no from ARTICLE
+		WHERE SECTION1 =#{sectionNo} OR SECTION2 =#{sectionNo} OR SECTION3 = #{sectionNo} OR SECTION4 = #{sectionNo};
+	</select>
+	
 
 </mapper>

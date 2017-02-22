@@ -45,7 +45,7 @@
 	<!--profile 입력  -->
 	<update id="updateProfile" parameterType="Profile">
 		UPDATE PROFILE
-		SET IMAGE=#{image}
+		SET IMAGE=#{image} , DESCRIPTION=#{description}
 		WHERE id =#{id}
 	</update>
 

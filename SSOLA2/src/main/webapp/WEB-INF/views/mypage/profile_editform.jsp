@@ -102,7 +102,7 @@ $(document).ready(function(){
 										</tr>
 										<tr>
 											<td>자기소개</td>
-											<td><textarea id="contenttext" name="contenttext"
+											<td><textarea id="contenttext" name="description"
 													class="form-control" rows="5">
 													${p_list.description}
 												</textarea></td>
