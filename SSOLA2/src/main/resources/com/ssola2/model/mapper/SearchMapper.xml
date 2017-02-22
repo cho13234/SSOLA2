@@ -56,11 +56,11 @@
 
 	FROM SECTION
 	
-	HAVING distance <![CDATA[<=]]> 10
+	HAVING distance <![CDATA[<=]]> 5
 	
 	ORDER BY distance 
 	
-	LIMIT 0,10000
+	LIMIT 0,5000
 	</select>
 	
 
