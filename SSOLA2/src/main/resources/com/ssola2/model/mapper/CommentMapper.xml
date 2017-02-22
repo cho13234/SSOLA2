@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssola2.model.mapper.CommentMapper">
+
+	<insert id="insertComment" parameterType="com.ssola2.model.dto.Comment">
+		INSERT INTO COMMENTS (COMMENT_CONTENTS, ID ,SECTION_NO , DELETED)
+		VALUES (#{commentContents}, #{id},#{sectionNo} , 0)
+		<!-- #{}객체는 dto객체의 멤버변수와 동일해야 한다. -->
+	</insert>
+	
+	<select id="list" resultType="com.ssola2.model.dto.Comment" parameterType="int">
+		select c.COMMENT_NO commentNo, c.COMMENT_CONTENTS commentContents, c.REG_DATE regDate, m.ID, c.SECTION_NO sectionNo
+		from COMMENTS c, MEMBER m
+		where c.id = m.id and c.SECTION_NO=#{SECTION_NO}
+		order by c.COMMENT_NO
+	</select>	
+	
+	<update id="updateComment"  parameterType="com.ssola2.model.dto.Comment">
+		UPDATE COMMENTS SET COMMENT_CONTENTS=#{commentContents} WHERE COMMENT_NO=#{commentNo}
+	</update>
+	
+	<delete id="deleteComment">
+	DELETE from COMMENTS where COMMENT_NO=#{commentNo}
+	</delete> 
+
+	<!-- <select id="listComment"
+	resultType="com.ssola.model.dto.Comment>
+	select
+	C.COMMENT_NO, C.COMMENT_CONTENTS, C.REG_DATE, M.NICKNAME
+	FROM COMMENTS C , MEMBER M
+	WHERE C.ID=M.ID
+	ORDER BY COMMENT_NO
+	</select> -->
+	
+</mapper>

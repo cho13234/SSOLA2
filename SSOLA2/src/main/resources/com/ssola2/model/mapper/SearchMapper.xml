@@ -34,9 +34,9 @@
 	
 	<!--사람 검색 -->
 	<select id="searchfriend" parameterType="String" resultType="com.ssola2.model.dto.Member">
-		SELECT id , nickname , phoneNumber
-		FROM MEMBER
-		WHERE ID LIKE CONCAT('%',#{search},'%')
+		SELECT m.id AS id , m.nickname AS nickname , m.phoneNumber AS phoneNumber , f.IMAGE AS image
+		FROM MEMBER m , PROFILE f
+		WHERE m.id = f.id AND m.ID LIKE CONCAT('%',#{search},'%')
 	</select>
 	<!--멤버  -->
 	<select id="searchfriends" resultType="Member">
@@ -56,11 +56,11 @@
 
 	FROM SECTION
 	
-	HAVING distance <![CDATA[<=]]> 10
+	HAVING distance <![CDATA[<=]]> 5
 	
 	ORDER BY distance 
 	
-	LIMIT 0,10000
+	LIMIT 0,5000
 	</select>
 	
 

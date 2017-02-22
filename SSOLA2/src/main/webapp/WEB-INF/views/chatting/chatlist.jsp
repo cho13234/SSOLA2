@@ -37,6 +37,10 @@
 	text-align: left;
 }
 
+.isconnect {
+	color: blue;
+}
+
 ul {
 	margin: 0;
 	padding: 0;
@@ -189,18 +193,21 @@ ul {
 	function onConnect(message) {
 		console.log(message);
 
-		$("<a></a>").attr({
+		$("#list-group-item-" + message.body).attr("class", "list-group-item isconnect");
+		/* $("<a></a>").attr({
 			'id' : message.body + '_isconnect',
 			'href' : '#',
 			'class' : 'list-group-item'
 		}).text(message.body).append($("<input></input>").attr({
 			'type' : 'checkbox',
 			'class' : 'pull-right'
-		})).appendTo("#list1");
+		})).appendTo("#list1"); */
 	}
 	function onDisconnect(message) {
 		console.log(message);
-		$("#" + message.body + '_isconnect').remove();
+
+		$("#list-group-item-" + message.body).attr("class", "list-group-item");
+		/* $("#" + message.body + '_isconnect').remove(); */
 	}
 
 	function getTimeStamp() {
@@ -541,8 +548,16 @@ ul {
 									<a href="#" class="list-group-item active">친구 목록<input
 										title="toggle all" type="checkbox" class="all pull-right"></a>
 									<c:forEach var="friend" items="${ friendList }">
-										<a href="#" class="list-group-item">${ friend.id } <input
-											type="checkbox" class="pull-right"></a>
+										<c:choose>
+											<c:when test="${ friend.isConnect eq 0 }">
+												<a href="#" id="list-group-item-${ friend.id }" class="list-group-item">${ friend.id } <input
+													type="checkbox" class="pull-right"></a>
+											</c:when>
+											<c:otherwise>
+												<a href="#" id="list-group-item-${ friend.id }" class="list-group-item isconnect">${ friend.id } <input
+													type="checkbox" class="pull-right"></a>
+											</c:otherwise>
+										</c:choose>
 									</c:forEach>
 								</div>
 							</div>

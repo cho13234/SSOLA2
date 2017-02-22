@@ -79,9 +79,9 @@
 	</insert> -->
 	<insert id="insertSection" parameterType="com.ssola2.model.dto.Section"
       useGeneratedKeys="true" keyProperty="sectionNo" >
-      INSERT INTO SECTION ( category, address, main_tag ,store_name)
+      INSERT INTO SECTION ( category, address, main_tag ,store_name, LAT , LNG)
       VALUES ( #{category}, #{address},
-      #{mainTag} , #{storeName})
+      #{mainTag} , #{storeName} , #{LAT} , #{LNG})
    </insert>
 
 	<select id="selectArticles" resultMap="ArticleResult">
@@ -93,17 +93,19 @@
 		SELECT B.*
 		FROM
 		(
-			SELECT @ROWNUM idx, A.*
+			SELECT @ROWNUM := @ROWNUM +1 as idx, A.*
 			FROM
 			(
 				SELECT *
 				FROM ARTICLE
 				WHERE DELETED = 0
 				ORDER BY article_no desc
-			) A
+			) A,
+			(SELECT @ROWNUM := 0) R
 			order by idx ASC
 		) B
-		WHERE idx <![CDATA[>]]> #{start} AND idx <![CDATA[<=]]> #{end}
+		limit 1
+		<!-- WHERE idx <![CDATA[>]]> #{start} AND idx <![CDATA[<=]]> #{end} -->
 	</select>
 	
 	<select id="getArticleByArticleNo"  resultMap="ArticleResult"  parameterType="Integer">
@@ -116,14 +118,15 @@
 		SELECT B.*
 		FROM
 		(
-			SELECT @ROWNUM idx, A.*
+			SELECT @ROWNUM := @ROWNUM +1 as idx, A.*
 			FROM
 			(
 				SELECT *
 				FROM ARTICLE
 				WHERE article_no <![CDATA[<]]> #{articleNo} AND DELETED = 0
 				ORDER BY article_no desc
-			) A
+			) A,
+			(SELECT @ROWNUM := 0) R
 			order by idx ASC
 		) B
 		WHERE idx <![CDATA[>]]> 0 AND idx <![CDATA[<=]]> 1 

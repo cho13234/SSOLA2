@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ssola2.model.dto.ChatLog;
 import com.ssola2.model.dto.ChatRoom;
+import com.ssola2.model.dto.LoginUser;
 import com.ssola2.model.dto.LoginUserSession;
 import com.ssola2.model.dto.Member;
 import com.ssola2.model.service.ChatService;
@@ -43,15 +44,22 @@ public class ChatController {
 
 		//service에서 내 id로 등록된 현재 접속중인 친구목록을 가져온다.
 		ArrayList<Member> friendList = (ArrayList)chatService.searchFriendListById(member.getId());
-		ArrayList<Member> friends = new ArrayList<Member>();
+		//model.addAttribute("friendList", friendList);
 		
-		/*for (Member friend : friendList) {
+		ArrayList<LoginUser> friends = new ArrayList<LoginUser>();
+		
+		for (Member friend : friendList) {
 			if (loginUserSession.getLoginUser(friend.getId()) != null) {
-				friends.add(friend);
+				friends.add(loginUserSession.getLoginUser(friend.getId()));
+			} else {
+				LoginUser loginUser = new LoginUser();
+				loginUser.setId(friend.getId());
+				loginUser.setIsConnect(0);
+				friends.add(loginUser);
 			}
 		}
 		
-		model.addAttribute("friendList", friends);*/
+		model.addAttribute("friendList", friends);
 
 		return "chatting/chatlist";
 	}

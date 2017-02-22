@@ -55,77 +55,11 @@ public List<Article> selectScrapJoin(String id) {
 	return dao.selectScrapJoin(id);
 }
 @Override
-public boolean updateProfile(MultipartHttpServletRequest mRequest , String id) {
+public void updateProfile(Profile profile) {
+	dao.updateProfile(profile);
 	
+}
 	
-	Profile profile = new Profile();
-	
-	boolean isSuccess = false;
-
-	String uploadPath = "/Bigdata/GIT/SSOLA2/SSOLA2/src/main/webapp/resources/profileImages/";
-
-	File dir = new File(uploadPath);
-
-	if (!dir.isDirectory()) {
-
-		dir.mkdirs();
-
-	}
-
-	Iterator<String> iter = mRequest.getFileNames();
-
-	while(iter.hasNext()) {
-
-		String uploadFileName = iter.next();
-
-		MultipartFile mFile = mRequest.getFile(uploadFileName);
-
-		String originalFileName = mFile.getOriginalFilename();
-
-		String saveFileName = originalFileName;
-
-			
-
-		if(saveFileName != null && !saveFileName.equals("")) {
-
-			if(new File(uploadPath + saveFileName).exists()) {
-
-				saveFileName = saveFileName + "_" + System.currentTimeMillis();
-
-			}
-
-			try {
-
-				mFile.transferTo(new File(uploadPath + saveFileName));
-					
-				profile.setImage(saveFileName);
-				profile.setId(id);
-				
-				 dao.updateProfile(profile); //이미지 네임을 디비에 저장하는 곳
-				
-				isSuccess = true;				
-
-			} catch (IllegalStateException e) {
-
-				e.printStackTrace();
-
-				isSuccess = false;
-
-			} catch (IOException e) {
-
-				e.printStackTrace();
-
-				isSuccess = false;
-
-			}
-
-		} // if end
-
-	} // while end
-
-	return isSuccess;
-
-} // fileUpload end
 	
 	
 	
