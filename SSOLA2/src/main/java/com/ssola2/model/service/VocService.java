@@ -18,7 +18,6 @@ public interface VocService{
 	public void editArticle(Voc voc);
 	public void updateVocReadCount(int articleNo);
 	public int getVocTotalCount();
-
+	public List<Voc> getArticleListById(int start, int pageSize, String id);
 	
-				
 }

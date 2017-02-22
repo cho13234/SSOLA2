@@ -88,6 +88,11 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 		dao.deleteFreeBoardComment(commentNo);
 		
 	}
+
+	@Override
+	public List<FreeBoard> getFreeBoardListById(int start, int pageSize, String id) {		
+		return dao.selectFreeBoardsById(start, pageSize, id);
+	}
 	
 
 	

@@ -25,6 +25,7 @@ public interface FreeBoardService{
 	public void editFreeBoardComment(FreeBoardComment freeBoardComment);
 	public void deleteFreeBoardComment(int commentNo);
 	public List<FreeBoardComment> getFreeBoardCommentList(Integer articleNo);
+	public List<FreeBoard> getFreeBoardListById(int start, int pageSize, String id);
 	
 	
 }
