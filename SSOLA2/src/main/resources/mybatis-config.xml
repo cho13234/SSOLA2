@@ -48,9 +48,8 @@
     <mapper resource="com/ssola2/model/mapper/SearchMapper.xml"/>
     <mapper resource="com/ssola2/model/mapper/ScrapMapper.xml"/>
     <mapper resource="com/ssola2/model/mapper/FreeBoardMapper.xml"/>
-    <!--
-    <mapper resource="com/ssola2/model/mapper/RecommendMapper.xml"/>
-    <mapper resource="com/ssola2/model/mapper/GpsMapper.xml"/> -->
+    <mapper resource="com/ssola2/model/mapper/CommentMapper.xml"/>
+    <!-- <mapper resource="com/ssola2/model/mapper/GpsMapper.xml"/> -->
   </mappers>
   
 </configuration>
