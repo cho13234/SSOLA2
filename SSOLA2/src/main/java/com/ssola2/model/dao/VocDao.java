@@ -16,4 +16,7 @@ public interface VocDao {
 	public void deleteArticle(int articleNo);
 	public void updateVocReadCount(int articleNo);
 	public int getVocTotalCount();
+	public List<Voc> selectArticlesById(int start, int pageSize, String id);
+
+	
 }

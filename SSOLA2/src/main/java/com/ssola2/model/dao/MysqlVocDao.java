@@ -71,6 +71,16 @@ public class MysqlVocDao implements VocDao {
 	}
 
 
+	@Override
+	public List<Voc> selectArticlesById(int start, int pageSize, String id) {		
+		HashMap<String, Object> params2 = new HashMap<String, Object>();
+		params2.put("start", start);
+		params2.put("count", pageSize);
+		params2.put("id", id);
+		return vocMapper.selectArticlesById(params2);
+	}
+
+
 
 	
 

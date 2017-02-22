@@ -28,4 +28,6 @@ public interface FreeBoardMapper {
 	void editFreeBoardComment(FreeBoardComment freeBoardComment);
 	void deleteFreeBoardComment(int commentNo);
 	
+	List<FreeBoard> selectFreeBoardsById(HashMap<String, Object> params2);
+	
 }
