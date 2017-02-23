@@ -14,5 +14,7 @@ public interface SearchDao {
 	List<Member> searchfriends();
 
 	List<Section> search_stores(Section section);
+
+	String search_article(int sectionNo);
 	
 }

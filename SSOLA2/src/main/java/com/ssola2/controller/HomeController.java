@@ -31,7 +31,7 @@ public class HomeController {
 			return "redirect:/account/login.action";			
 		} else {
 			//return "redirect:/main/main.action";
-			return "redirect:/chat/chatlist.action";
+			return "redirect:/main/main.action";
 		}
 		
 	}

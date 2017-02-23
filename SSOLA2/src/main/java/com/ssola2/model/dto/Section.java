@@ -10,10 +10,17 @@ public class Section {
 	private String LAT;
 	private String LNG;
 	private String distance;
+	private int articleNo;
 	
 	
 
 	
+	public int getArticleNo() {
+		return articleNo;
+	}
+	public void setArticleNo(int articleNo) {
+		this.articleNo = articleNo;
+	}
 	public String getLAT() {
 		return LAT;
 	}

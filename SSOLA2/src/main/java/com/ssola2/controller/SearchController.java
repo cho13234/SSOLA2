@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ssola2.model.dto.Article;
 import com.ssola2.model.dto.Member;
 import com.ssola2.model.dto.Section;
 import com.ssola2.model.service.SearchService;
@@ -57,6 +58,14 @@ public class SearchController {
 		section.setLNG(LNG);
 		List<Section> sections = searchService.search_stores(section);
 		return sections;
+		}
+	
+	@RequestMapping(value = {"searchArticle.action"}, method = RequestMethod.GET)
+	@ResponseBody
+	public String searchGps(int sectionNo) { //가져와야 되는 데이터는 ? 매장명 , 매장주소 , 전화번호 , 매장위치 (위도, 경도) 
+			String articleNo = searchService.search_article(sectionNo);
+				
+		return articleNo;
 		}
 	
 	
