@@ -5,8 +5,8 @@
 
 <mapper namespace="com.ssola2.model.mapper.ScrapMapper">
 	<insert id="InsertScrap" parameterType="com.ssola2.model.dto.Scrap" >
-		INSERT INTO SCRAP (SCRAP_NO, ID, ARTICLE_NO)
-		VALUES (seq_scrap_no.nextval, #{id}, #{articleNo})
+		INSERT INTO SCRAP (ID, ARTICLE_NO, DELETED)
+		VALUES (#{id}, #{articleNo}, 0)
 	</insert>
 
 
@@ -26,7 +26,6 @@
 		from SCRAP sc, ARTICLE a, SECTION se
 		where sc.id=#{id} and a.SECTION1 = se.SECTION_NO and  a.ARTICLE_NO=sc.ARTICLE_NO
 		order by sc.reg_date
-
 	</select>	
 	
 	<select id="selectScrapInfo" resultType="com.ssola2.model.dto.Scrap" parameterType="Integer">
