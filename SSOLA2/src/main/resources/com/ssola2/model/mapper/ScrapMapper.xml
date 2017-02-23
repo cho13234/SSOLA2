@@ -37,7 +37,8 @@
 	
 	<select id="selectScrapJoin" resultType="com.ssola2.model.dto.Article" parameterType="String">
 		SELECT a.article_title articleTitle, a.main_image mainImage
-		FROM SCRAP s INNER JOIN ARTICLE a
+		FROM SCRAP s 
+		INNER JOIN ARTICLE a
 		ON a.article_no = s.article_no
 		WHERE s.id=#{id}
 	</select>

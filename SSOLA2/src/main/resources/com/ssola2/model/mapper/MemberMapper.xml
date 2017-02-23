@@ -179,6 +179,16 @@
 		where fl.SOURCE_ID=#{source_id} and fl.DELETED = 0
 	</select>
 	
+	<!-- 나를 친구로 추가한 사람 목록 -->
+	<select id="selectAddFriendList" resultType="com.ssola2.model.dto.Friend_list" parameterType="com.ssola2.model.dto.Friend_list">
+		select p.IMAGE AS image, fl.SOURCE_ID AS source_id, fl.REG_DATE AS reg_date
+		from FRIEND_LIST fl
+		join PROFILE p
+		on fl.SOURCE_ID = p.id
+		where fl.DESTINATION_ID=#{destination_id} and fl.DELETED = 0
+	</select>
+	
+	
 	
 	
 	
