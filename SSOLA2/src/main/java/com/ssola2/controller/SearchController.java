@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ssola2.model.dto.Article;
 import com.ssola2.model.dto.Member;
 import com.ssola2.model.dto.Section;
 import com.ssola2.model.service.SearchService;

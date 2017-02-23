@@ -130,23 +130,15 @@ $(document).ready(function(){
 					        		   var maintag = data[i].mainTag;
 					        		   var storeName = data[i].storeName;
 					        		   var distance = data[i].distance;
-					        		   var append1 = $('<tr class="tbody"><td>'+maintag+'</td><td>'+category+'</td><td>'+storeName+'</td><td>'+address+'</td></a></tr>').attr('id' , section_no);
+					        		   var articleNo = data[i].articleNo;
+					        		   var append1 = $('<tr class="tbody"><td>'+maintag+'</td><td>'+category+'</td><td>'+storeName+'</td><td>'+address+'</td></a></tr>').attr('id' , articleNo);
 					        		   $('#friend_table1').append(append1); 
 					        	   }
 					        	   
 					        	   $('.tbody').click(function() { //articleNo를 가져오기위한 ajax ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
-					        		   var sectionNo = $(this).attr('id');
-					        		   $.ajax({
-								           type : "GET",
-								           url : "searchArticle.action",
-								           data : {
-								             "sectionNo" : sectionNo
-								          },
-								          async : false,
-								           success : function(data) {
-								        	   location.href='/ssola2/detail.action?articleNo='+data;	
-								           }
-					    		   });
+					        		   var articleNo = $(this).attr('id');
+					        		  location.href='/ssola2/detail.action?articleNo='+articleNo;	
+								   
 					        	   });
 					        	   
 					        	   if(data != "" ) {
