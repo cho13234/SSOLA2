@@ -40,7 +40,7 @@
 							<li class="list-group-item">
 								<div class="col-xs-12 col-sm-3">
 									<img src="/ssola2/resources/profileImages/${my_flist.image}"
-										alt="No Image" class="img-responsive img-circle" />
+										alt="프로필 이미지가 없습니다." class="img-responsive img-circle" />
 								</div>
 								<div class="col-xs-12 col-sm-9">
 									<span class="name">${my_flist.destination_id}</span><br />

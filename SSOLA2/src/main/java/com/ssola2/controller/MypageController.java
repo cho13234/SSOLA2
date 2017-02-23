@@ -233,27 +233,31 @@ public class MypageController {
       @RequestMapping(value="/upload.action", method=RequestMethod.POST)
       private String upload(@RequestParam("file") MultipartFile file,HttpSession session , String description) throws Exception { 
     	  Member member = (Member)session.getAttribute("loginuser");
-    	  
+    	  Profile profile = new Profile();
     	  
     	  String uploadPath = session.getServletContext().getRealPath("/resources/profileImages");
           //실제 디플로이되는 폴더의 root path를 따온다
-   
           //System.out.println("UPLOAD_PATH : "+uploadPath);
-          String inTime   = new java.text.SimpleDateFormat("HHmmss").format(new java.util.Date());
-          FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(uploadPath+"/"+inTime+file.getOriginalFilename()));
-                  //upload 폴더안에 등록하겠다는 말
-          Profile profile = new Profile();
-          profile.setImage(inTime+file.getOriginalFilename());
-          profile.setId(member.getId());
-          profile.setDescription(description);
-			
-          //이미지 네임을 디비에 저장하는 곳
-          scrapService.updateProfile(profile);
-    	  
-    	  //boolean confirm = scrapService.updateProfile(mRequest , member.getId());
-    	 // System.out.println(confirm);
-
-
+          
+          if(file.getOriginalFilename() == "") {
+        	  profile.setImage("sino.gif");
+        	  profile.setId(member.getId());
+        	  profile.setDescription(description);
+        	  scrapService.updateProfile(profile);
+          } else {
+        	  String inTime   = new java.text.SimpleDateFormat("HHmmss").format(new java.util.Date());
+        	  FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(uploadPath+"/"+inTime+file.getOriginalFilename()));
+              //upload 폴더안에 등록하겠다는 말
+      
+		      profile.setImage(inTime+file.getOriginalFilename());
+		      profile.setId(member.getId());
+		      profile.setDescription(description);
+				
+		      //이미지 네임을 디비에 저장하는 곳
+		      scrapService.updateProfile(profile);
+	    
+          }
+          
 		return "redirect:/mypage/mypage_main.action";
 	} 
 
