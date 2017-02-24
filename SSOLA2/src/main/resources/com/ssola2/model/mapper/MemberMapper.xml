@@ -134,7 +134,7 @@
 	
 	<!-- 프로필 정보 -->
 	<select id="selectProfile" resultType="com.ssola2.model.dto.Profile" parameterType="String">
-		select m.id AS id, m.nickname AS nickname, m.phonenumber AS phonenumber, c.email AS email, c.birth AS birth, c.gender AS gender, p.description AS description, p.image AS image 
+		select m.id AS id, m.nickname AS nickname, m.phonenumber AS phonenumber, c.email AS email, c.birth AS birth, c.gender AS gender, p.description AS description, p.image AS image, p.open_status AS open_status 
 		from MEMBER m
 		join CUSTOMER c
 		ON m.id = c.id

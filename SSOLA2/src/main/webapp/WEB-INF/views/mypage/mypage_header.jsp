@@ -57,12 +57,12 @@
 			</li>
 			
 			<li class = "dropdown">
-				<a href = "#" class = "fropdown-toggle" data-toggle="dropdown">나의 스크랩</a>
-				<ul class="dropdown-menu">
+				<a href = "/ssola2/mypage/scrapform.action">나의 스크랩</a>
+				<!-- <ul class="dropdown-menu">
 					<li><a href="scrapform.action">전체공개</a></li>
 					<li><a href="scrapform_0.action">비공개</a></li>
 					<li><a href="scrapform_1.action">나의 친구에게 공개</a></li>	
-				</ul>
+				</ul> -->
 			</li>
 			
 			<!-- <li><a href="q_mail.action">문의 작성</a></li> -->

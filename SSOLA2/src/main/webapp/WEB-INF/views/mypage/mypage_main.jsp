@@ -118,18 +118,27 @@ $(document).ready(function(){
 
                                  <!-- <tr> -->
                                  <tr>
-                                    <td>Gender</td>
-                                    <td><c:choose>
-                                          <c:when test='${p_list.gender eq "0"}'>
-                                        		  남자
-                                       </c:when>
-                                          <c:when test='${p_list.gender eq "1"}'>
-                                          		여자
-                                       </c:when>
-                                       </c:choose></td>
+                                    <td>성별</td>
+                                    <td>
+                                    	<c:choose>
+                                    	  <c:when test='${p_list.gender eq "0"}'>남자</c:when>
+                                          <c:when test='${p_list.gender eq "1"}'>여자</c:when>
+                                       	</c:choose>
+                                    </td>
                                  </tr>
 
                                  <!-- </tr> -->
+                                 <tr>
+                                 	<td>공개범위</td>
+                                 	<td>
+                                 		<c:choose>
+                                          <c:when test='${p_list.open_status eq "2"}'>전체공개</c:when>                                        		                                         	
+                                          <c:when test='${p_list.open_status eq "1"}'>친구공개</c:when>
+                                          <c:when test='${p_list.open_status eq "0"}'>비공개</c:when>
+                                       </c:choose>
+                                     </td>
+                                 </tr>
+                                 
                               </tbody>
                            </table>
                            <c:choose>

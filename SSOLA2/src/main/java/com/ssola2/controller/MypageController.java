@@ -72,9 +72,7 @@ public class MypageController {
 		Member member = (Member)session.getAttribute("loginuser");
 		Profile p_list = memberService.selectProfile(member.getId());
 
-		model.addAttribute("p_list", p_list);
-
-
+		model.addAttribute("p_list", p_list);		
 
 		return "mypage/mypage_main";
 	}
@@ -243,12 +241,14 @@ public class MypageController {
 		Profile p_list = memberService.selectProfile(member.getId());
 
 		model.addAttribute("p_list", p_list);
+		
+		
 		return "mypage/profile_editform";
 	}
 
    //이미지 업로드 액션
       @RequestMapping(value="/upload.action", method=RequestMethod.POST)
-      private String upload(@RequestParam("file") MultipartFile file,HttpSession session , String description) throws Exception { 
+      private String upload(@RequestParam("file") MultipartFile file,HttpSession session , String description, String open_status, Model model) throws Exception { 
     	  Member member = (Member)session.getAttribute("loginuser");
     	  Profile profile = new Profile();
     	  
@@ -260,7 +260,12 @@ public class MypageController {
         	  profile.setImage("sino.gif");
         	  profile.setId(member.getId());
         	  profile.setDescription(description);
+        	  profile.setOpen_status(open_status);
+        	          	  
         	  scrapService.updateProfile(profile);
+        	  
+        	  model.addAttribute("p_status", profile.getOpen_status());        	  
+        	  
           } else {
         	  String inTime   = new java.text.SimpleDateFormat("HHmmss").format(new java.util.Date());
         	  FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(uploadPath+"/"+inTime+file.getOriginalFilename()));
@@ -269,7 +274,7 @@ public class MypageController {
 		      profile.setImage(inTime+file.getOriginalFilename());
 		      profile.setId(member.getId());
 		      profile.setDescription(description);
-				
+		      profile.setOpen_status(open_status);
 		      //이미지 네임을 디비에 저장하는 곳
 		      scrapService.updateProfile(profile);
 	    
