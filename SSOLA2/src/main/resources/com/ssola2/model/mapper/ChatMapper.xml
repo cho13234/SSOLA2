@@ -33,6 +33,12 @@
 		<result column="id" property="id"/>
 	</resultMap>
 	
+	<resultMap type="com.ssola2.model.dto.ChatMember" id="ChatMemberResult">
+		<id column="id" property="id" />
+		<id column="room_no" property="roomNo" />
+		<result column="last_connect" property="lastConnect" />
+	</resultMap>
+	
 	<sql id="selectChatRoomSql">
 		SELECT room_no, member_size, room_name
 		FROM CHAT_ROOM
@@ -42,13 +48,13 @@
 		SELECT r.room_no, r.member_size, r.room_name
 		FROM CHAT_ROOM r inner join CHAT_MEMBER m
 		ON r.room_no = m.room_no
-		WHERE m.ID = #{id}
+		WHERE m.ID = #{id} AND r.deleted = 0
 	</select>	
 	
 	<select id="selectChatMemberListById" parameterType="String" resultMap="MemberResult">
 		SELECT *
 		FROM MEMBER
-		WHERE ID = #{id}
+		WHERE ID = #{id} AND deleted = 0
 	</select>
 	
 	<!-- <select id="selectFriendListById" parameterType="String" resultMap="MemberResult">
@@ -66,7 +72,7 @@
 		FROM MEMBER m 
 			inner join FRIEND_LIST f
 			ON m.id = f.source_id
-        WHERE f.destination_id = #{id};
+        WHERE f.destination_id = #{id} AND f.deleted = 0
 	</select>
 	
 	<select id="selectSessionIdById" parameterType="String" resultType="String">
@@ -98,10 +104,11 @@
 		WHERE is_connect = 1;
 	</update>
 	
+	<!-- 해당 구문은 resultMap의 association에서 사용 -->
 	<select id="selectChatMemberByRoomNo" resultType="String">
 		SELECT id
 		FROM CHAT_MEMBER
-		WHERE room_no = #{room_no}
+		WHERE room_no = #{room_no} AND deleted = 0
 	</select>
 	
 	<select id="selectGroupLogByGroupNo" resultMap="ChatLogResult">
@@ -118,7 +125,7 @@
 	<select id="selectGroupMemberByGroupNo" resultType="String">
 		SELECT id
 		FROM CHAT_MEMBER
-		WHERE room_no = #{groupNo}
+		WHERE room_no = #{groupNo} AND deleted = 0
 	</select>
 	
 	<select id="selectLastLogByGroupNo" resultMap="ChatLogResult">
@@ -127,5 +134,15 @@
 		WHERE room_no = #{room_no}
 		order by reg_date DESC limit 1
 	</select>
+	
+	<insert id="insertChatRoom" parameterType="ChatRoom"
+		useGeneratedKeys="true" keyProperty="roomNo">
+		INSERT INTO CHAT_ROOM (member_size) values (#{memberSize})
+	</insert>
+	
+	<!-- 여기에 chatMember insert 구문 추가 -->
+	<insert id="insertChatMember" parameterType="ChatMember">
+		INSERT INTO CHAT_MEMBER (id, room_no) values (#{id}, #{roomNo})
+	</insert>
 		
 </mapper>

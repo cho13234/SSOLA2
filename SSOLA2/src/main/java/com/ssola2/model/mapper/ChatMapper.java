@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.ssola2.model.dto.ChatLog;
+import com.ssola2.model.dto.ChatMember;
 import com.ssola2.model.dto.ChatRoom;
 import com.ssola2.model.dto.Member;
 import com.ssola2.model.dto.MessageVO;
@@ -33,4 +34,8 @@ public interface ChatMapper {
 	void insertChatLog(ChatLog chatLog);
 
 	List<String> selectGroupMemberByGroupNo(String groupNo);
+
+	void insertChatRoom(ChatRoom chatRoom);
+
+	void insertChatMember(ChatMember chatMember);
 }

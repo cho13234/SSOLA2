@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ssola2.model.dto.ChatLog;
+import com.ssola2.model.dto.ChatRoom;
 import com.ssola2.model.dto.LoginUserSession;
 import com.ssola2.model.dto.Member;
 import com.ssola2.model.dto.MessageVO;
@@ -87,11 +88,21 @@ public class EchoController {
 		for (String member : members) {
 			// 이런 접속자 관리가 꼭 필요한지 의문 = 한 그룹에 최대 멤버의 수를 줄이면 필요가 없을 수 있음
 			if (loginUserSession.getLoginUser(member) != null) {
-				simpMessagingTemplate.convertAndSend("/queue/notice/group-" + member, message1);
+				simpMessagingTemplate.convertAndSend("/queue/echo/group-" + member, message1);
 			}
 		}
+	}
+	
+	@MessageMapping("/notice/group")
+	public void sendNotice(String message) {
+		logger.info("/notice/group" + message);
 		
-		simpMessagingTemplate.convertAndSend("/queue/echo/group-" + chatLog.getRoomNo(),
-				message1);
+		ChatRoom chatRoom = ChatRoom.convertMessage(message);
+		
+		for (String member : chatRoom.getMembers()) {
+			if (loginUserSession.getLoginUser(member) != null) {
+				simpMessagingTemplate.convertAndSend("/queue/notice/group-" + member, message);
+			}
+		}
 	}
 }

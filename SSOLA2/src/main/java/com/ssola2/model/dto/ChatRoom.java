@@ -2,6 +2,8 @@ package com.ssola2.model.dto;
 
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
+
 public class ChatRoom {
 	private int roomNo;
 	private int memberSize;
@@ -40,4 +42,12 @@ public class ChatRoom {
 		this.members = members;
 	}
 	
+	public static ChatRoom convertMessage(String source) {
+		ChatRoom message = new ChatRoom();
+		Gson gson = new Gson();
+		
+		message = gson.fromJson(source, ChatRoom.class);
+		
+		return message;
+	}
 }

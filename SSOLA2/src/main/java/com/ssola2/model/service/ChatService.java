@@ -14,7 +14,7 @@ public interface ChatService {
 
 	public List<Member> searchChatMemberListById(String from);
 
-	public void setSessionIdById(String id, String sessionId);
+	public void setSessionIdByIdTx(String id, String sessionId);
 
 	public List<Member> searchFriendListById(String id);
 
@@ -27,4 +27,6 @@ public interface ChatService {
 	public void addChatLog(ChatLog chatLog);
 
 	public List<String> searchGroupMemberByGroupNo(String groupNo);
+
+	public void createChatRoomTx(ChatRoom chatRoom);
 }
