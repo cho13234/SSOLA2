@@ -28,6 +28,7 @@ import com.ssola2.model.dao.MemberDao;
 import com.ssola2.model.dto.Customer;
 import com.ssola2.model.dto.FreeBoard;
 import com.ssola2.model.dto.Friend_list;
+import com.ssola2.model.dto.LoginUser;
 import com.ssola2.model.dto.Member;
 import com.ssola2.model.dto.Profile;
 import com.ssola2.model.dto.Scrap;
@@ -158,8 +159,9 @@ public class MypageController {
 			}
 		}
 
-		return "mypage/mypage_main";
+		return "mypage/friend_main";
 	}
+	
 
 
 	////////////////친구 추가
@@ -206,6 +208,7 @@ public class MypageController {
 	public String friendlist(HttpSession session, Model model) {
 
 		Member member = (Member)session.getAttribute("loginuser");
+		
 		List<Friend_list> my_flist = memberService.selectFriendList(member.getId());
 
 		model.addAttribute("my_flist", my_flist);
@@ -290,21 +293,38 @@ public class MypageController {
 
 		return mav;
 	}
+	
+	//friend_main.action에서 스크랩 
+	@RequestMapping(value = "f_scrapform.action", method = RequestMethod.GET)
+	public ModelAndView f_scrapform(String did, ModelAndView mav, Member member)   
+	
+	{
+	
+		member.setId(did);
+		System.out.println(member.getId());
+		List<Scrap> list = scrapService.getListById(did);
 
-	//	@RequestMapping(value = "scrapform_0.action", method = RequestMethod.GET)
-	//	public ModelAndView mypage_scrapform0(HttpSession session, ModelAndView mav)   
-	//	{
-	//
-	//		Member member = (Member)session.getAttribute("loginuser");
-	//
-	////		List<Scrap> list = scrapService.getListById(member.getId());
-	//
-	//		mav.setViewName("mypage/scrapform_0");
-	////		mav.addObject("list", list);
-	//
-	//		return mav;
-	//	}
-	//	
+		mav.setViewName("mypage/f_scrapform");
+		mav.addObject("list", list);
+
+		return mav;
+	}
+	
+
+		@RequestMapping(value = "scrapform_0.action", method = RequestMethod.GET)
+		public ModelAndView mypage_scrapform0(HttpSession session, ModelAndView mav)   
+		{
+	
+			Member member = (Member)session.getAttribute("loginuser");
+	
+	//		List<Scrap> list = scrapService.getListById(member.getId());
+	
+			mav.setViewName("mypage/scrapform_0");
+	//		mav.addObject("list", list);
+	
+			return mav;
+		}
+		
 	//	@RequestMapping(value = "scrapform_1.action", method = RequestMethod.GET)
 	//	public ModelAndView mypage_scrapform1(HttpSession session, ModelAndView mav)   
 	//	{
