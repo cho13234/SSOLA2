@@ -29,11 +29,11 @@
 	overflow-y: auto;
 }
 
-.chat-me .log_id {
+.chat-me .log-id {
 	text-align: right;
 }
 
-.chat-other .log_id {
+.chat-other .log-id {
 	text-align: left;
 }
 
@@ -80,27 +80,27 @@ ul {
 	width: 100%;
 }
 
-.row .chatList ul li table td.profile_td {
+.row .chatList ul li table td.profile-td {
 	width: 50px;
 	padding-right: 11px;
 }
 
-.row .chatList ul li table td.profile_td img {
+.row .chatList ul li table td.profile-td img {
 	width: 50px;
 	height: auto;
 }
 
-.row .chatList ul li table td.chat_td .log_id {
+.row .chatList ul li table td.chat-td .log-id {
 	font-size: 12px;
 	font-weight: bold;
 }
 
-.row .chatList ul li table td.time_td {
+.row .chatList ul li table td.time-td {
 	width: 90px;
 	text-align: center;
 }
 
-.row .chatList ul li table td.time_td .log_time {
+.row .chatList ul li table td.time-td .log-time {
 	padding-bottom: 4px;
 }
 </style>
@@ -125,6 +125,7 @@ ul {
 					onConnect);
 			stompClient.subscribe('/queue/notice/friend-disconnect-${id}',
 					onDisconnect);
+			stompClient.subscribe('/queue/echo/group-${id}', onEcho)
 			/* stompClient.send('/app/hello', {}, JSON.stringify({
 				id: id
 			})) */
@@ -135,19 +136,53 @@ ul {
 			</c:forEach> */
 		});
 	}
-
-	function onGroup(message) {
+	
+	function onEcho(message) {
 		console.log(message);
 
 		var date = getTimeStamp().substr(5, 11);
 		var data = JSON.parse(message.body);
 
 		$("#preview_" + data.roomNo).text(data.id + ":" + data.content);
-		$("#preview-time_" + data.roomNo).text(date);
+		$("#previewTime_" + data.roomNo).text(date);
 
 		if (currentRoomNo != null) {
 			onGroupMessage(message);
 		}
+	}
+
+	function onGroup(message) {
+		console.log(message);
+		
+		var chatRoom = JSON.parse(message.body);
+		
+		var chatRoomClone = $("#chatRoomDummy").clone(true);
+		chatRoomClone.css("display", "block");
+		chatRoomClone.attr("id", "chatRoom_" + chatRoom.roomNo);
+		chatRoomClone.find(".roomModalLink").attr("href", "#roomModal_" + chatRoom.roomNo);
+		chatRoomClone.find(".list-group-item-heading p").attr("id", "previewTime_" + chatRoom.roomNo);
+		chatRoomClone.find(".list-group-item-text").attr("id", "preview_" + chatRoom.roomNo);
+		chatRoomClone.find(".roomModal").attr("id", "roomModal_" + chatRoom.roomNo);
+		chatRoomClone.find(".logList").attr("id", "logList_" + chatRoom.roomNo);
+		chatRoomClone.find(".chatBox").attr("id", "chatBox_" + chatRoom.roomNo);
+		chatRoomClone.find(".chatBtn").attr("id", "chatBtn_" + chatRoom.roomNo);
+		
+		if (!chatRoom.roomName) {
+			var members = "";
+			
+			for (var i in chatRoom.members) {
+				if (chatRoom.members[i] == id) continue;
+				members += " " + chatRoom.members[i];
+			}
+			chatRoomClone.find(".list-group-item-heading h4").text(members);
+					/* chatRoomClone.find(".list-group-item-heading h4").text() + " " + chatRoom.members[i]
+			); */
+			chatRoomClone.find(".modal-title").text(members);
+					/* chatRoomClone.find(".modal-title").text() + " " + chatRoom.members[i]
+			); */
+		}
+		
+		$("#chatRoomList").append(chatRoomClone);
 	}
 
 	function onGroupMessage(data) {
@@ -160,7 +195,7 @@ ul {
 
 		//var li = $("<li></li>")
 		
-		var li = $("#list_dummy li").clone(true);
+		var li = $("#listDummy li").clone(true);
 		
 		if (message.id == id) {
 			li.attr({
@@ -179,9 +214,9 @@ ul {
 			cellspacing : 0
 		});
 		
-		li.find('.log_id').text(message.id);
-		li.find('.log_content').text(message.content);
-		li.find('.log_time').text(message.regDate.substr(11,5));
+		li.find('.log-id').text(message.id);
+		li.find('.log-content').text(message.content);
+		li.find('.log-time').text(message.regDate.substr(11,5));
 		
 		$("#logList_" + groupNo).append(li);
 		
@@ -292,7 +327,7 @@ ul {
 						//console.log(index);
 						console.log(log);
 
-						var li = $("#list_dummy li").clone(true);
+						var li = $("#listDummy li").clone(true);
 						
 						if (log.id == id) {
 							li.attr({
@@ -311,9 +346,9 @@ ul {
 							cellspacing : 0
 						});
 						
-						li.find('.log_id').text(log.id);
-						li.find('.log_content').text(log.content);
-						li.find('.log_time').text(log.regDate.substr(11,5));
+						li.find('.log-id').text(log.id);
+						li.find('.log-content').text(log.content);
+						li.find('.log-time').text(log.regDate.substr(11,5));
 						
 						$("#logList_" + groupNo).append(li);
 					});
@@ -342,6 +377,39 @@ ul {
 			$("#logList_" + groupNo).empty();
 
 			currentRoomNo = null;
+		});
+		
+		$("#makeChatRoom").on("click", function(event) {
+			// 초대목록에 있는 친구 객체들을 불러온다.
+			var friends = $("#list2 .friend");//.find(".friend");
+			var list = new Array;
+			
+			friends.each(function(idx, item) {
+				list.push(item.text);
+			});
+			list.push(id);
+			
+			$.ajax({
+				"url" : "/ssola2/chat/makegroup.action",
+				"method" : "get",
+				"data" : {
+					friends : JSON.stringify(list)
+				},
+				"dataType" : "json",
+				success : function(chatRoom) {
+					stompClient.send('/app/notice/group', {}, JSON.stringify(chatRoom));
+					alert("채팅방을 만들었습니다");
+				}
+			});
+			
+			// 초대목록에 있는 아이템을 전부 친구목록으로 되돌린다.
+			$('.all').prop("checked", false);
+			var items = $("#list2 input:not('.all')");
+			items.each(function(idx, item) {
+				var choice = $(item);
+				choice.prop("checked", false);
+				choice.parent().appendTo("#list1");
+			});
 		});
 
 		$(".chatBtn").on("click", function(event) {
@@ -438,87 +506,89 @@ ul {
 		&nbsp;
 		<div id="chatRoomList" class="list-group col-sm-6 col-sm-offset-3">
 			<c:forEach var="room" items="${chatRooms}">
-				<!-- a링크에 해당 모달 여는 코드 적용 -->
-				<a href="#roomModal_${ room.roomNo }"
-					class="roomModalLink btn list-group-item"> <span
-					class="list-group-item-heading">
-						<h4>
-							<!-- class="list-group-item-heading" -->
-							<c:choose>
-								<c:when test="${ room.roomName eq null }">
-									<c:forEach var="name" items="${ room.members }">
-										<c:choose>
-											<c:when test="${ id eq name }"></c:when>
-											<c:otherwise>${ name } </c:otherwise>
-										</c:choose>
-									</c:forEach>
-								</c:when>
-								<c:otherwise>
-									${ room.roomName }
-								</c:otherwise>
-							</c:choose>
-						</h4>
-						<p id="preview-time_${ room.roomNo }" style="float: right">
-							<fmt:parseDate value="${ room.lastLog.regDate }" var="dateFmt"
-								pattern="yyyy-MM-dd HH:mm:ss.S" scope="page" />
-							<fmt:formatDate value="${ dateFmt }" pattern="MM-dd HH:mm" />
+				<div id="chatRoom_${ room.roomNo }">
+					<!-- a링크에 해당 모달 여는 코드 적용 -->
+					<a href="#roomModal_${ room.roomNo }"
+						class="roomModalLink btn list-group-item"> 
+						<span class="list-group-item-heading">
+							<h4>
+								<!-- class="list-group-item-heading" -->
+								<c:choose>
+									<c:when test="${ room.roomName eq null }">
+										<c:forEach var="name" items="${ room.members }">
+											<c:choose>
+												<c:when test="${ id eq name }"></c:when>
+												<c:otherwise>${ name } </c:otherwise>
+											</c:choose>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										${ room.roomName }
+									</c:otherwise>
+								</c:choose>
+							</h4>
+							<p id="previewTime_${ room.roomNo }" style="float: right">
+								<fmt:parseDate value="${ room.lastLog.regDate }" var="dateFmt"
+									pattern="yyyy-MM-dd HH:mm:ss.S" scope="page" />
+								<fmt:formatDate value="${ dateFmt }" pattern="MM-dd HH:mm" />
+							</p>
+					</span>
+						<p class="list-group-item-text" id="preview_${ room.roomNo }"
+							style="text-align: left">${ room.lastLog.id }: ${ room.lastLog.content }
 						</p>
-				</span>
-					<p class="list-group-item-text" id="preview_${ room.roomNo }"
-						style="text-align: left">${ room.lastLog.id }: ${ room.lastLog.content }
-					</p>
-				</a>
-				<!-- 여기서부터 채팅방 모달 -->
-				<div id="roomModal_${ room.roomNo }" class="roomModal modal fade"
-					role="dialog">
-					<div class="modal-dialog modal-lg">
-						<!-- Modal content-->
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title">
-									<c:choose>
-										<c:when test="${ room.roomName eq null }">
-											<c:forEach var="name" items="${ room.members }">
-												<c:choose>
-													<c:when test="${ id eq name }"></c:when>
-													<c:otherwise>${ name } </c:otherwise>
-												</c:choose>
-											</c:forEach>
-										</c:when>
-										<c:otherwise>
-											${ room.roomName }
-										</c:otherwise>
-									</c:choose>
-								</h4>
-							</div>
-							<div class="modal-body">
-								<!-- <p>Some text in the modal.</p> -->
-								<div class="row">
-									<div class="col-md-12 text-center chatList">
-										<!-- 여기에 텍스트 로그 -->
-										<ul id="logList_${ room.roomNo }" class="logList"></ul>
-									</div>
-
-
-									<%-- 이걸 설정창 (그룹 참여중인 친구, 채팅방 나가기 등등) <div class="col-sm-4 col-sm-offset-1">
-										<div class="list-group" id="list1">
-											<a href="#" class="list-group-item active">친구 목록<input title="toggle all" type="checkbox" class="all pull-right"></a>
-											<c:forEach var="friend" items="${ friendList }">
-												<a href="#" class="list-group-item">${ friend.id } <input type="checkbox" class="pull-right"></a>
-											</c:forEach>
-										</div>
-									</div> --%>
+					</a>
+					<!-- 여기서부터 채팅방 모달 -->
+					<div id="roomModal_${ room.roomNo }" class="roomModal modal fade"
+						role="dialog">
+						<div class="modal-dialog modal-lg">
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title">
+										<c:choose>
+											<c:when test="${ room.roomName eq null }">
+												<c:forEach var="name" items="${ room.members }">
+													<c:choose>
+														<c:when test="${ id eq name }"></c:when>
+														<c:otherwise>${ name } </c:otherwise>
+													</c:choose>
+												</c:forEach>
+											</c:when>
+											<c:otherwise>
+												${ room.roomName }
+											</c:otherwise>
+										</c:choose>
+									</h4>
 								</div>
-							</div>
-							<div class="modal-footer">
-								<!-- 여기에 입력창 -->
-								<div class="col-md-12 text-center">
-									<span> <input type="text" class="chatBox"
-										id="chatBox_${ room.roomNo }"> <input type="button"
-										class="chatBtn" id="chatBtn_${ room.roomNo }" value="보내기">
-									</span>
-									<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+								<div class="modal-body">
+									<!-- <p>Some text in the modal.</p> -->
+									<div class="row">
+										<div class="col-md-12 text-center chatList">
+											<!-- 여기에 텍스트 로그 -->
+											<ul id="logList_${ room.roomNo }" class="logList"></ul>
+										</div>
+	
+	
+										<%-- 이걸 설정창 (그룹 참여중인 친구, 채팅방 나가기 등등) <div class="col-sm-4 col-sm-offset-1">
+											<div class="list-group" id="list1">
+												<a href="#" class="list-group-item active">친구 목록<input title="toggle all" type="checkbox" class="all pull-right"></a>
+												<c:forEach var="friend" items="${ friendList }">
+													<a href="#" class="list-group-item">${ friend.id } <input type="checkbox" class="pull-right"></a>
+												</c:forEach>
+											</div>
+										</div> --%>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<!-- 여기에 입력창 -->
+									<div class="col-md-12 text-center">
+										<span> <input type="text" class="chatBox"
+											id="chatBox_${ room.roomNo }"> <input type="button"
+											class="chatBtn" id="chatBtn_${ room.roomNo }" value="보내기">
+										</span>
+										<!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+									</div>
 								</div>
 							</div>
 						</div>
@@ -550,11 +620,11 @@ ul {
 									<c:forEach var="friend" items="${ friendList }">
 										<c:choose>
 											<c:when test="${ friend.isConnect eq 0 }">
-												<a href="#" id="list-group-item-${ friend.id }" class="list-group-item">${ friend.id } <input
+												<a href="#" id="list-group-item-${ friend.id }" class="list-group-item friend">${ friend.id }<input
 													type="checkbox" class="pull-right"></a>
 											</c:when>
 											<c:otherwise>
-												<a href="#" id="list-group-item-${ friend.id }" class="list-group-item isconnect">${ friend.id } <input
+												<a href="#" id="list-group-item-${ friend.id }" class="list-group-item friend isconnect">${ friend.id }<input
 													type="checkbox" class="pull-right"></a>
 											</c:otherwise>
 										</c:choose>
@@ -580,6 +650,7 @@ ul {
 						</div>
 					</div>
 					<div class="modal-footer">
+						<button type="button" id="makeChatRoom" class="btn btn-default" data-dismiss="modal">Make</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					</div>
 				</div>
@@ -587,22 +658,72 @@ ul {
 			</div>
 		</div>
 		
-		<div id="list_dummy" style="display:none;">
+		<div id="listDummy" style="display:none;">
 			<li class="log">
 				<table>
 					<tr>
-						<td class="profile_td">
+						<td class="profile-td">
 						</td>
-						<td class="chat_td">
-							<div class="log_id"></div>
-							<div class="log_content"></div>
+						<td class="chat-td">
+							<div class="log-id"></div>
+							<div class="log-content"></div>
 						</td>
-						<td class="time_td">
-							<div class="log_time"></div>
+						<td class="time-td">
+							<div class="log-time"></div>
 						</td>
 					</tr>
 				</table>
 			</li>
+		</div>
+
+		<div id="chatRoomDummy" style="display:none">
+			<!-- a링크에 해당 모달 여는 코드 적용 -->
+				<a href="#roomModal_${ room.roomNo }"
+					class="roomModalLink btn list-group-item"> 
+					<span class="list-group-item-heading">
+						<h4>
+							<!-- 여기에 채팅방 이름 -->
+						</h4>
+						<p id="previewTime_${ room.roomNo }" style="float: right">
+							<!-- 여기에 최신 로그 시간 -->
+						</p>
+					</span>
+					<p class="list-group-item-text" id="preview_${ room.roomNo }"
+						style="text-align: left">${ room.lastLog.id }: ${ room.lastLog.content }
+					</p>
+				</a>
+				<!-- 여기서부터 채팅방 모달 -->
+				<div id="roomModal_${ room.roomNo }" class="roomModal modal fade"
+					role="dialog">
+					<div class="modal-dialog modal-lg">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">
+									<!-- 여기에 채팅방 이름 -->
+								</h4>
+							</div>
+							<div class="modal-body">
+								<div class="row">
+									<div class="col-md-12 text-center chatList">
+										<!-- 여기에 텍스트 로그 -->
+										<ul id="logList_${ room.roomNo }" class="logList"></ul>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<!-- 여기에 입력창 -->
+								<div class="col-md-12 text-center">
+									<span> <input type="text" class="chatBox"
+										id="chatBox_${ room.roomNo }"> <input type="button"
+										class="chatBtn" id="chatBtn_${ room.roomNo }" value="보내기">
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 		</div>
 
 		<%-- <c:import url="/WEB-INF/views/include/footer.jsp" /> --%>
