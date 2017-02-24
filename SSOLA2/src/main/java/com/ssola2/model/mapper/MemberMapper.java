@@ -61,4 +61,6 @@ public interface MemberMapper {
 	Profile selectProfile(String id);
 
 	List<Friend_list> selectFriendList(String id);
+
+	List<Friend_list> selectAddFriendList(String id);
 }

@@ -21,4 +21,5 @@ public interface FreeBoardDao {
 	public void editFreeBoardComment(FreeBoardComment freeBoardComment);
 	public void deleteFreeBoardComment(int commentNo);
 	public List<FreeBoardComment> selectFreeBoardCommentsByArtcicleNo(Integer articleNo);
+	public List<FreeBoard> selectFreeBoardsById(int start, int pageSize, String id);
 }

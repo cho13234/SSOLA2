@@ -30,8 +30,8 @@
 			We aim to build your Happiness.  </p>
 		
 			<ul class="icons">
-				<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-				<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+				<li><a href="write.action" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+				<li><a href="/ssola2/search.action" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
 				<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
 				<li><a href="/ssola2/mypage/q_mail.action" class="icon fa-envelope"><span class="label">Email</span></a></li>
 			</ul>

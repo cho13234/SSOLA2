@@ -35,6 +35,11 @@ public class SearchServiceImpl implements SearchService{
 		return dao.search_stores(section);
 	}
 
+	@Override
+	public String search_article(int sectionNo) {
+		return dao.search_article(sectionNo);
+	}
+
 	
 
 }

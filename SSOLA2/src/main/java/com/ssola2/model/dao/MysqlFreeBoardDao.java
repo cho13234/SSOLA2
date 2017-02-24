@@ -92,6 +92,15 @@ public class MysqlFreeBoardDao implements FreeBoardDao {
 		return null;
 	}
 
+	@Override
+	public List<FreeBoard> selectFreeBoardsById(int start, int pageSize, String id) {		
+		HashMap<String, Object> params2 = new HashMap<String, Object>();
+		params2.put("start", start);
+		params2.put("count", pageSize);
+		params2.put("id", id);
+		return FreeBoardMapper.selectFreeBoardsById(params2);
+	}
+
 	
 	
 

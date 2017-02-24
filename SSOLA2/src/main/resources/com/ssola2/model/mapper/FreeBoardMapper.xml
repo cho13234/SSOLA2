@@ -76,5 +76,13 @@
 		WHERE deleted= 0
 	</select>
 	
+	<select id="selectFreeBoardsById" resultMap="ArticleResult"  parameterType="Hashmap">
+		SELECT *
+		FROM FREEBOARD
+		WHERE DELETED=0 and id=#{id}
+		ORDER BY article_no DESC 
+		limit #{start}, #{count}
+	</select>
+	
 
 </mapper>

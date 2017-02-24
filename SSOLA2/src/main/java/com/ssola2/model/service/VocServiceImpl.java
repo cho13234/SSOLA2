@@ -63,6 +63,10 @@ public class VocServiceImpl implements VocService {
 		return totalCount;
 	}
 
+	@Override
+	public List<Voc> getArticleListById(int start, int pageSize, String id) {
+		return dao.selectArticlesById(start, pageSize, id);
+	}
 
 	
 	

@@ -80,5 +80,12 @@
 		WHERE deleted= 0
 	</select>
 	
+	<select id="selectArticlesById" resultMap="ArticleResult" parameterType="Hashmap">
+		SELECT *
+		FROM VOC
+		WHERE DELETED=0 and id=#{id}		
+		ORDER BY article_no DESC		
+		limit #{start}, #{count}
+	</select>
 
 </mapper>

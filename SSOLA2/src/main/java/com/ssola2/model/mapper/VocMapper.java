@@ -24,4 +24,10 @@ public interface VocMapper {
 	void updateVocReadCount(int articleNo);
 
 	int getVocTotalCount();
+
+	List<Voc> selectMyVocList(String id);
+
+	List<Voc> selectMyFBoardList(String id);
+
+	List<Voc> selectArticlesById(HashMap<String, Object> params2);
 }
