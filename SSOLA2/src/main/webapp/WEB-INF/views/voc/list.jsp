@@ -21,6 +21,10 @@
 <style type="text/css">
 /*font source*/
 @import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
+@import url('https://fonts.googleapis.com/css?family=Just+Me+Again+Down+Here');
+@import url('https://fonts.googleapis.com/css?family=Pangolin');
+@import url('https://fonts.googleapis.com/css?family=Amiko');
+
 	.tablerow{
 	  text-align:center;
 	  font-family: 'Jeju Gothic', serif;
@@ -51,9 +55,12 @@
  	a:hover { color: black; text-decoration: none;}
  	
  	#titleOfthepage{
-	font-family: 'Noto Sans KR', sans-serif;
+	font-family: 'Just Me Again Down Here', cursive;
 	margin-left:20%;
 	}
+	
+	.titlePara {
+	font-family: 'Pangolin', cursive;
 	
 </style>
 <script type="text/javascript">
@@ -67,15 +74,13 @@ $(function() {
 
 </head>
 <body>
-
+<c:import url="/WEB-INF/views/include/header.jsp" />
 <div id="pageContainer">
-	<c:import url="/WEB-INF/views/include/header.jsp" />
-	<br/>
 	
 	<div id="titleOfthepage">
-		<h1>고객의 소리</h1>
-		<p>쏠라는 여러분의 의견을 듣길 원합니다.</p>
-		<p>자유롭게 이야기 해주세요.</p>
+		<h1>[ Voice of Customer]</h1>
+		<p class="titlePara">Ssola wants to hear everything from you.</p>
+		<p class="titlePara">You guys can talk freely in this place!</p>
 	</div>
 	
 	<div >

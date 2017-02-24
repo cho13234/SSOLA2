@@ -167,6 +167,11 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
+	@Override
+	public List<Friend_list> selectFriendList(String id) {
+		return dao.selectFriendList(id);
+	}
+
 	
 
 }

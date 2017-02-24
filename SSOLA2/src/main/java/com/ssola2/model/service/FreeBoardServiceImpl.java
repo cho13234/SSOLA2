@@ -77,16 +77,22 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 		dao.editFreeBoardComment(freeBoardComment);
 	}
 
-
-	@Override
-	public List<FreeBoardComment> getFreeBoardCommentList(Integer articleNo) {
-		return dao.selectFreeBoardCommentsByArtcicleNo(articleNo);
-	}
-
 	@Override
 	public void deleteFreeBoardComment(int commentNo) {
 		dao.deleteFreeBoardComment(commentNo);
 		
+	}
+
+	
+	@Override
+	public List<FreeBoardComment> getFreeBoardCommentsByarticleNo(Integer articleNo) {
+		return dao.selectFreeBoardCommentsByArtcicleNo(articleNo);
+	}
+
+	@Override
+	public FreeBoardComment editCommentByCommentNo(Integer commentNo) {
+		
+		return dao.editCommentByCommentNo(commentNo);
 	}
 	
 

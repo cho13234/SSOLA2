@@ -143,6 +143,11 @@ public class MysqlMemberDao implements MemberDao {
 		memberMapper.insertProfileById(id);
 		
 	}
+
+	@Override
+	public List<Friend_list> selectFriendList(String id) {
+		return memberMapper.selectFriendList(id);
+	}
 	
 
 }

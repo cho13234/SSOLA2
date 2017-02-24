@@ -13,7 +13,15 @@
 		<result column="deleted" property="deleted" />
 		<result column="id" property="id" />
 		<result column="read_count" property="readCount" />
-		
+	</resultMap>
+	
+	<resultMap type="com.ssola2.model.dto.FreeBoardComment" id="CommentResult">
+		<id column="comment_no" property="commentNo" />
+		<result column="article_No" property="articleNo" />
+		<result column="comment_content" property="commentContent" />
+		<result column="reg_date" property="regDate" />
+		<result column="deleted" property="deleted" />
+		<result column="id" property="id" />
 	</resultMap>
 
 
@@ -76,5 +84,30 @@
 		WHERE deleted= 0
 	</select>
 	
+	<insert id="insertFreeBoardComment" parameterType="com.ssola2.model.dto.FreeBoardComment">
+		INSERT INTO FREEBOARD_COMMENT ( article_no, comment_content, id)
+		VALUES ( #{articleNo}, #{commentContent}, #{id})
+	</insert>
+	
+	<update id="editFreeBoardComment" parameterType="com.ssola2.model.dto.FreeBoardComment">
+		UPDATE FREEBOARD_COMMENT
+		SET 
+		comment_content = #{commentContent}
+		WHERE COMMENT_NO = #{commentNo}
+	</update>
+	
+	<delete id="deleteFreeBoardComment"  parameterType="int">
+		UPDATE FREEBOARD_COMMENT
+		SET DELETED = 1
+		WHERE comment_no= #{commentNo}	
+	</delete>
+	
+	
+	<select id="selectFreeBoardCommentsByArticleNo"  resultMap="CommentResult"  parameterType="Integer">
+		SELECT *
+		FROM FREEBOARD_COMMENT
+		WHERE DELETED=0
+		ORDER BY COMMENT_NO ASC
+	</select>
 
 </mapper>

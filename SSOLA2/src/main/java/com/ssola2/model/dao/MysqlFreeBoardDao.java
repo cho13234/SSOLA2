@@ -70,29 +70,34 @@ public class MysqlFreeBoardDao implements FreeBoardDao {
 
 	@Override
 	public void insertFreeBoardComment(FreeBoardComment freeBoardComment) {
-		// TODO Auto-generated method stub
+		FreeBoardMapper.insertFreeBoardComment(freeBoardComment);
 		
 	}
 
 	@Override
 	public void editFreeBoardComment(FreeBoardComment freeBoardComment) {
-		// TODO Auto-generated method stub
+		FreeBoardMapper.editFreeBoardComment(freeBoardComment);
 		
 	}
 
 	@Override
 	public void deleteFreeBoardComment(int commentNo) {
-		// TODO Auto-generated method stub
+		FreeBoardMapper.deleteFreeBoardComment(commentNo);
 		
 	}
 
+
 	@Override
 	public List<FreeBoardComment> selectFreeBoardCommentsByArtcicleNo(Integer articleNo) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return FreeBoardMapper.selectFreeBoardCommentsByArticleNo(articleNo);
 	}
 
-	
+	@Override
+	public FreeBoardComment editCommentByCommentNo(Integer commentNo) {
+		
+		return editCommentByCommentNo(commentNo);
+	}
 	
 
 }

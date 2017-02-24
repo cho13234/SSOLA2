@@ -9,6 +9,14 @@ public class Friend_list {
 	private boolean deleted;
 	
 	
+	private String image;
+	
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
 	public String getSource_id() {
 		return source_id;
 	}

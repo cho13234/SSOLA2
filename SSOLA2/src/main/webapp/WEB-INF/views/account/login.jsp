@@ -10,6 +10,9 @@
 <style type="text/css">
 @import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 @import url(http://fonts.googleapis.com/earlyaccess/kopubbatang.css);
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower|Raleway');
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC');
+
 
 body {
   margin: 0;
@@ -33,7 +36,14 @@ body {
   z-index: -100;
 }
 
+#mainTitle{
+font-family: 'Indie Flower', cursive;
+}
 
+#mainPara{
+font-family: 'Amatic SC', cursive;
+
+}
 
 </style>
 <link href="//vjs.zencdn.net/5.11/video-js.min.css" rel="stylesheet">
@@ -48,6 +58,7 @@ body {
 <!-- Ssola title -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
 <link rel="stylesheet" type="text/css" href="/ssola2/resources/styles/login.css" />
+<link rel="stylesheet" type="text/css" href="/ssola2/resources/styles/animate.css" />
 
 
 <script type="text/javascript">
@@ -83,8 +94,8 @@ $(function() {
 		<!-- Me -->
 			<article id="me" class="panel">
 				<header>
-					<h1>Welcome to SSOLA</h1>
-					<p>make your life better</p>
+					<h1 id="mainTitle" class="animated infinite bounce">Welcome to SSOLA</h1>
+					<p id="mainPara">We always aim to make your life better</p>
 				</header>
 				<a href="#contact" class="jumplink pic">
 					<span class="arrow icon fa-chevron-right"><span>See my work</span></span>

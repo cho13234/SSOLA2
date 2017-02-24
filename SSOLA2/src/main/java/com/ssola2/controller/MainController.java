@@ -90,15 +90,15 @@ public class MainController {
 			
 			if (member != null) {//member 가 null 이면 게시글을 볼수없게 하기위함
 				String id = member.getId();
-				recommend.setId(id);	//recommend 에 loginuser.id 추가
-				recommend.setArticleNo(article.getArticleNo());	//articleno 를 받아와야함
+//				recommend.setId(id);	//recommend 에 loginuser.id 추가
+//				recommend.setArticleNo(article.getArticleNo());	//articleno 를 받아와야함
 				//String zero : 사용자가 추천 버튼 눌렀는지 유무 판단
-				String zero = recommendService.selectRecommnedState(recommend);
-				model.addAttribute("zero" , zero);
+//				String zero = recommendService.selectRecommnedState(recommend);
+//				model.addAttribute("zero" , zero);
 				//int count : 몇명의 사용자가 추천 눌럿는지 판단
-				int count = recommendService.selectRecommendCount(recommend); // count 를 가져오기위한 sql 문
-				recommend.setCount(count);
-				model.addAttribute("recommend" ,recommend);
+//				int count = recommendService.selectRecommendCount(recommend); // count 를 가져오기위한 sql 문
+//				recommend.setCount(count);
+//				model.addAttribute("recommend" ,recommend);
 			}
 		}
 		return "main/uploadfeed";

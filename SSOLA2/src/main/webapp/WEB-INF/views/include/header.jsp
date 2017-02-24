@@ -31,7 +31,7 @@
 <div id="wrapper">
 	<header id="header">
 		<h1><a id="maintitleimage" href="/ssola2/main/main.action">
-          	<img style=" height: 49px" 
+          	<img style=" height: 49px; margin-top:2%;" 
            		src ="/ssola2/resources/images/ssolamaintitle.png"></a>
        	</h1>
        	
