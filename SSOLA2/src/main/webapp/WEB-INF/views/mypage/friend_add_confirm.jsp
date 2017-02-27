@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>친구목록</title>
+<title>나를 추가한 사람(친구 추천)</title>
 
 <!-- JavaScript Search Plugin -->
 <script
@@ -25,7 +25,7 @@
 			<div class="col-xs-12 col-sm-offset-3 col-sm-6">
 				<div class="panel panel-default">
 					<div class="panel-heading c-list">
-						<span class="title">내가 추가한 친구 목록</span>
+						<span class="title">나를 추가한 친구 목록</span>
 						<ul class="pull-right c-controls">
 							<li>
 								<a href="/ssola2/search.action" class="hide-search" data-command="toggle-search" data-toggle="tooltip" data-placement="top" title="Toggle Search">
@@ -35,18 +35,19 @@
 						</ul>
 					</div>
 
-					<c:forEach items="${my_flist}" var="my_flist">
+					<c:forEach items="${add_flist}" var="add_flist">
 						<ul class="list-group" id="contact-list">
 							<li class="list-group-item">
 								<div class="col-xs-12 col-sm-3">
-									<img src="/ssola2/resources/profileImages/${my_flist.image}"
-										alt="프로필 이미지가 없습니다." class="img-responsive img-circle" />
+									<img src="/ssola2/resources/profileImages/${add_flist.image}"
+										alt="No Image" class="img-responsive img-circle" />
 								</div>
 								<div class="col-xs-12 col-sm-9">
 									<span class="name">
-										<a href="/ssola2/mypage/mypage_friendmain.action?did=${my_flist.destination_id}">${my_flist.destination_id}
+										<a href="/ssola2/mypage/mypage_friendmain.action?did=${add_flist.source_id}">${add_flist.source_id}
 										</a>
-									</span>
+									</span><br />
+
 								</div>
 								<div class="clearfix"></div>
 							</li>
@@ -56,9 +57,7 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
 <c:import url="/WEB-INF/views/include/footer.jsp" />
-
 </body>
 </html>

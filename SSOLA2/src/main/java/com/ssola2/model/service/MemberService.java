@@ -43,5 +43,6 @@ public interface MemberService {
 	public Profile selectProfile(String id);
 	void insertProfileById(String id);
 	public List<Friend_list> selectFriendList(String id);
+	public List<Friend_list> selectAddFriendList(String id);
 	
 }

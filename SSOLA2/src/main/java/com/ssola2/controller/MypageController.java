@@ -28,6 +28,7 @@ import com.ssola2.model.dao.MemberDao;
 import com.ssola2.model.dto.Customer;
 import com.ssola2.model.dto.FreeBoard;
 import com.ssola2.model.dto.Friend_list;
+import com.ssola2.model.dto.LoginUser;
 import com.ssola2.model.dto.Member;
 import com.ssola2.model.dto.Profile;
 import com.ssola2.model.dto.Scrap;
@@ -59,7 +60,7 @@ public class MypageController {
 	@Autowired
 	@Qualifier("vocService")
 	private VocService vocService;
-	
+
 	@Autowired
 	@Qualifier("freeBoardService")
 	private FreeBoardService freeBoardService;
@@ -123,43 +124,44 @@ public class MypageController {
 	}
 
 
-	 ///////////////////////친구 프로필
-	   @RequestMapping(value = "mypage_friendmain.action", method = RequestMethod.GET)
-	   //@ResponseBody //String 값을 내보낼 때
-	   public String mypage_friendmain(Model model, String did, HttpSession session) {
+	///////////////////////친구 프로필
+	@RequestMapping(value = "mypage_friendmain.action", method = RequestMethod.GET)
+	//@ResponseBody //String 값을 내보낼 때
+	public String mypage_friendmain(Model model, String did, HttpSession session) {
 
-	      // session에서 변수 가져옴
-	      Member member = (Member)session.getAttribute("loginuser");
-	      // member 변수 id로 profile select
-	      Profile profile = memberService.selectProfile(did);
+		// session에서 변수 가져옴
+		Member member = (Member)session.getAttribute("loginuser");
+		// member 변수 id로 profile select
+		Profile profile = memberService.selectProfile(did);
 
-	      String sid = member.getId();
-	      // 내 친구의 목록을 가져온다.
-	      Friend_list _f_list = new Friend_list();
-	      _f_list.setSource_id(sid);
-	      _f_list.setDestination_id(did);
+		String sid = member.getId();
+		// 내 친구의 목록을 가져온다.
+		Friend_list _f_list = new Friend_list();
+		_f_list.setSource_id(sid);
+		_f_list.setDestination_id(did);
 
-	      List<Friend_list> mf_list = memberService.friendsStatus(_f_list);
-	      model.addAttribute("p_list", profile);
+		List<Friend_list> mf_list = memberService.friendsStatus(_f_list);
+		model.addAttribute("p_list", profile);
 
-	      if(mf_list.size() == 0) { // 데이터테이블에 데이터가 없을때 // 친구 아닐 때
-	         model.addAttribute("status" , "insert");
-	      } else { // 데이터테이블에 데이터가 있을 때
-	         for(Friend_list f_list : mf_list) {
-	            // 넌 나의 친구 상태
-	            if(f_list.isDeleted() == false)  { // datatable에 친구일 때,               
-	               model.addAttribute("status" ,"delete");
-	            }else if(f_list.isDeleted() == true){ // 친구였는데 삭제했을 때
-	               model.addAttribute("status" ,"update");
-	            }
-	            /*else if(!f_list.getDestination_id().equals(did)) {
+		if(mf_list.size() == 0) { // 데이터테이블에 데이터가 없을때 // 친구 아닐 때
+			model.addAttribute("status" , "insert");
+		} else { // 데이터테이블에 데이터가 있을 때
+			for(Friend_list f_list : mf_list) {
+				// 넌 나의 친구 상태
+				if(f_list.isDeleted() == false)  { // datatable에 친구일 때,               
+					model.addAttribute("status" ,"delete");
+				}else if(f_list.isDeleted() == true){ // 친구였는데 삭제했을 때
+					model.addAttribute("status" ,"update");
+				}
+				/*else if(!f_list.getDestination_id().equals(did)) {
 	               model.addAttribute("status", "insert");
 	            }*/
-	         }
-	      }
+			}
+		}
 
-	      return "mypage/mypage_main";
-	   }
+		return "mypage/friend_main";
+	}
+	
 
 
 	////////////////친구 추가
@@ -206,11 +208,26 @@ public class MypageController {
 	public String friendlist(HttpSession session, Model model) {
 
 		Member member = (Member)session.getAttribute("loginuser");
+		
 		List<Friend_list> my_flist = memberService.selectFriendList(member.getId());
 
 		model.addAttribute("my_flist", my_flist);
 
 		return "mypage/friends_list";
+	}
+
+	//나에게 친구신청 했다는 메세지 대체.
+	//나를 친구로 등록한 사람(친구 추천같은 개념)
+	@RequestMapping(value = "friend_add_confirm.action", method = RequestMethod.GET)
+	public String friend_add_confirm(Model model, HttpSession session) {
+		
+		Member member = (Member)session.getAttribute("loginuser");
+		List<Friend_list> add_flist =memberService.selectAddFriendList(member.getId()); 
+
+		model.addAttribute("add_flist", add_flist);
+
+
+		return "mypage/friend_add_confirm";
 	}
 
 
@@ -258,6 +275,7 @@ public class MypageController {
 	    
           }
           
+
 		return "redirect:/mypage/mypage_main.action";
 	} 
 
@@ -275,6 +293,51 @@ public class MypageController {
 
 		return mav;
 	}
+	
+	//friend_main.action에서 스크랩 
+	@RequestMapping(value = "f_scrapform.action", method = RequestMethod.GET)
+	public ModelAndView f_scrapform(String did, ModelAndView mav, Member member)   
+	
+	{
+	
+		member.setId(did);
+		System.out.println(member.getId());
+		List<Scrap> list = scrapService.getListById(did);
+
+		mav.setViewName("mypage/f_scrapform");
+		mav.addObject("list", list);
+
+		return mav;
+	}
+	
+
+		@RequestMapping(value = "scrapform_0.action", method = RequestMethod.GET)
+		public ModelAndView mypage_scrapform0(HttpSession session, ModelAndView mav)   
+		{
+	
+			Member member = (Member)session.getAttribute("loginuser");
+	
+	//		List<Scrap> list = scrapService.getListById(member.getId());
+	
+			mav.setViewName("mypage/scrapform_0");
+	//		mav.addObject("list", list);
+	
+			return mav;
+		}
+		
+	//	@RequestMapping(value = "scrapform_1.action", method = RequestMethod.GET)
+	//	public ModelAndView mypage_scrapform1(HttpSession session, ModelAndView mav)   
+	//	{
+	//
+	//		Member member = (Member)session.getAttribute("loginuser");
+	//
+	//		List<Scrap> list = scrapService.getListById(member.getId());
+	//
+	//		mav.setViewName("mypage/scrapform_1");
+	//		mav.addObject("list", list);
+	//
+	//		return mav;
+	//	}
 
 	@RequestMapping(value = "deleteScrap.action", method = RequestMethod.GET)
 	public String deleteScrap(@RequestParam int scrapNo)
@@ -330,7 +393,7 @@ public class MypageController {
 
 		int totalCount = vocService.getVocTotalCount();
 		List<Voc> vocs = vocService.getArticleListById(start, pageSize, member.getId());
-		
+
 		ThePager pager = new ThePager(totalCount, currentPage, pageSize, pagerSize, "my_voc_list.action");
 
 		model.addAttribute("m_voc", vocs);
@@ -348,23 +411,23 @@ public class MypageController {
 		int pageSize = 10;
 		int pagerSize = 5;
 		int currentPage = 1;
-		
+
 		if(pageno != null){
 			currentPage = pageno;
 		}
-		
+
 		int start = pageSize * (currentPage - 1);
-		
+
 		int totalCount = freeBoardService.getFreeBoardTotalCount();
-		
+
 		List<FreeBoard> my_fboard_list = freeBoardService.getFreeBoardListById(start, pageSize, member.getId());
-				
-		
+
+
 		ThePager pager = new ThePager(totalCount, currentPage, pageSize, pagerSize, "my_fboard_list.action");
-				
+
 		model.addAttribute("m_fboard", my_fboard_list);
 		model.addAttribute("pager", pager);
-		
+
 		return "mypage/my_fboard_list";
 	}
 

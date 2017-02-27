@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssola2.model.dao.VocDao;
 import com.ssola2.model.dto.Voc;
+import com.ssola2.model.dto.VocComment;
 
 
 @Service(value="vocService")
@@ -66,6 +67,41 @@ public class VocServiceImpl implements VocService {
 	@Override
 	public List<Voc> getArticleListById(int start, int pageSize, String id) {
 		return dao.selectArticlesById(start, pageSize, id);
+	}
+
+	@Override
+	public void insertVocComment(VocComment vocComment) {
+		dao.insertVocComment(vocComment);
+		
+	}
+
+	@Override
+	public VocComment editCommentByCommentNo(Integer commentNo) {
+		
+		return dao.editCommentByCommentNo(commentNo);
+	}
+
+	@Override
+	public void editVocComment(VocComment vocComment) {
+		dao.editVocComment(vocComment);
+		
+	}
+
+	@Override
+	public void deleteVocComment(int commentNo) {
+		dao.deleteVocComment(commentNo);
+		
+	}
+
+	@Override
+	public List<VocComment> getVocCommentList(Integer articleNo) {
+		return dao.selectVocCommentsByArtcicleNo(articleNo);
+	}
+
+	@Override
+	public void getVocCommentTotalCountByArticleNo(Integer articleNo) {
+		dao.getVocCommentTotalCountByArticleNo(articleNo);
+		
 	}
 
 	

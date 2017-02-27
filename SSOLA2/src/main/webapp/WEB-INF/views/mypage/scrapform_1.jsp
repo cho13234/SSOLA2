@@ -57,6 +57,8 @@
 
 	<!-- <form:form id="list" action="scrapform.action" method="get" modelAttribute="scrap" style="width:70%; margin-left:20%">
 		<article class="style1"> --> 
+		<c:choose >
+		<c:when test="${loginuser.open_status eq 1 }">
 		<c:forEach items="${list}" var="rowList" >
 		<div id="scrapList">
 			<div class="row-fluid top30 pagetitle">
@@ -76,10 +78,10 @@
 						<div id="scrapList">
 						
 					</div>
-					<div class="col-sm-8" >
+					<%-- <div class="col-sm-8" >
 						<h4 class="title" >${rowList.articleTitle}</h4>
 
-					</div>
+					</div> --%>
 				</div>
 			</div>
 
@@ -102,6 +104,8 @@
 			<hr>
 			</div>
 		</c:forEach> 
+		</c:when>
+		</c:choose>
 	<!-- </article>
 
 	</form:form> -->

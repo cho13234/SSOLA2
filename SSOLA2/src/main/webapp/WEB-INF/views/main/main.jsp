@@ -14,7 +14,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!-- banner src -->
-<script src="/ssola2/resources/scripts/main_jquery.min.js"></script>
 <script src="/ssola2/resources/scripts/main_jquery.scrolly.min.js"></script>
 <script src="/ssola2/resources/scripts/main_skel.min.js"></script>
 <script src="/ssola2/resources/scripts/main_util.js"></script>
@@ -212,7 +211,7 @@ $(document).ready(function(){
          </div>
       </section>
 	<c:if test="${ loginuser.userType }">
-      	<c:if test="${ loginuser.authority eq false }">
+      	<c:if test="${ loginuser.authority eq true}">
       		<div id="main" style="float:right; margin-right:10%" >
 				<a id="writeContent" data-toggle="tooltip" title="글 작성 클릭!" class="btn btn-default" href="write.action">새로운 글작성</a>
 				<!-- <a id="newContent" class="btn btn-default">이전 글 불러오기</a> -->

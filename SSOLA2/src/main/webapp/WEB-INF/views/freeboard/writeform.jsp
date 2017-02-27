@@ -129,7 +129,7 @@
 					<!-- 아래 a 링크는 input type='submit' 버튼을 누르는 효과 발생 -->
 					<a class="btn btn-default"
 						style="font-family: 'Jeju Gothic', serif;"
-						href="javascript:document.forms[0].submit();">Submit</a>
+						href="javascript:document.forms[1].submit();">Submit</a>
 					&nbsp;&nbsp; <a class="btn btn-default"
 						style="font-family: 'Jeju Gothic', serif;"
 						href="/ssola2/freeboard/list.action">List</a>

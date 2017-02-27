@@ -32,6 +32,7 @@ public class MainServiceImpl implements MainService {
 		String[] b = geoCoding(article.getSection2().getAddress());
 		String[] c = geoCoding(article.getSection3().getAddress());
 		String[] d = geoCoding(article.getSection4().getAddress());
+		if(a !=null && b !=null && c !=null && d !=null) {
 		article.getSection1().setLAT(a[0]);
 		article.getSection1().setLNG(a[1]);
 		article.getSection2().setLAT(b[0]);
@@ -40,12 +41,22 @@ public class MainServiceImpl implements MainService {
 		article.getSection3().setLNG(c[1]);
 		article.getSection4().setLAT(d[0]);
 		article.getSection4().setLNG(d[1]);
-		
+		} else {
+			article.getSection1().setLAT("0");
+			article.getSection1().setLNG("0");
+			article.getSection2().setLAT("0");
+			article.getSection2().setLNG("0");
+			article.getSection3().setLAT("0");
+			article.getSection3().setLNG("0");
+			article.getSection4().setLAT("0");
+			article.getSection4().setLNG("0");
+		}
 		dao.insertSection(article.getSection1());
 		dao.insertSection(article.getSection2());
 		dao.insertSection(article.getSection3());
 		dao.insertSection(article.getSection4());
 		dao.insertArticle(article);
+		
 		
 	}
 

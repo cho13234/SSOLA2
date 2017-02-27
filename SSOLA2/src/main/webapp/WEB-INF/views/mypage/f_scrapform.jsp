@@ -53,11 +53,11 @@
 <body>
 
 	<c:import url="/WEB-INF/views/include/header.jsp" />
-	<c:import url="/WEB-INF/views/mypage/mypage_header.jsp" />
+	
 
 	<!-- <form:form id="list" action="scrapform.action" method="get" modelAttribute="scrap" style="width:70%; margin-left:20%">
 		<article class="style1"> --> 
-		<c:forEach items="${list}" var="rowList" >
+		<c:forEach items="${list}" var="rowList" >					
 		<div id="scrapList">
 			<div class="row-fluid top30 pagetitle">
 				<div class="container">

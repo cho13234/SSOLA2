@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ssola2.model.dto.Administrator;
 import com.ssola2.model.dto.ChatLog;
+import com.ssola2.model.dto.ChatMember;
 import com.ssola2.model.dto.ChatRoom;
 import com.ssola2.model.dto.Customer;
 import com.ssola2.model.dto.Member;
@@ -32,4 +33,8 @@ public interface ChatDao {
 	public void insertChatLog(ChatLog chatLog);
 
 	public List<String> selectGroupMemberByGroupNo(String groupNo);
+
+	public void insertChatRoom(ChatRoom chatRoom);
+
+	public void insertChatMember(ChatMember chatMember);
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssola2.model.dao.ChatDao;
 import com.ssola2.model.dto.ChatLog;
+import com.ssola2.model.dto.ChatMember;
 import com.ssola2.model.dto.ChatRoom;
 import com.ssola2.model.dto.Member;
 import com.ssola2.model.dto.MessageVO;
@@ -21,7 +22,7 @@ public class ChatServiceImpl implements ChatService {
 
 	@Override
 	public List<ChatRoom> searchChatRoomListById(String id) {
-		return chatDao.selectChatRoomListById(id);
+		return chatDao.selectChatRoomListById(id); 
 	}
 
 	@Override
@@ -30,7 +31,7 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public void setSessionIdById(String id, String sessionId) {
+	public void setSessionIdByIdTx(String id, String sessionId) {
 		String oldSessionId = chatDao.selectSessionIdById(id);
 		if(oldSessionId != null) {
 			chatDao.updateSessionIdById(id, sessionId);
@@ -67,6 +68,21 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public List<String> searchGroupMemberByGroupNo(String groupNo) {
 		return chatDao.selectGroupMemberByGroupNo(groupNo);
+	}
+
+	@Override
+	public void createChatRoomTx(ChatRoom chatRoom) {
+		
+		chatRoom.setMemberSize(chatRoom.getMembers().size());
+		chatDao.insertChatRoom(chatRoom);
+		
+		for (String friend : chatRoom.getMembers()) {
+			//매번 chatmember 클래스를 만들어 id와 roomNo를 넣어준다.
+			ChatMember chatMember = new ChatMember();
+			chatMember.setId(friend);
+			chatMember.setRoomNo(chatRoom.getRoomNo());
+			chatDao.insertChatMember(chatMember);
+		}
 	}
 
 }

@@ -20,11 +20,17 @@ public interface FreeBoardService{
 	public void editFreeBoard(FreeBoard freeBoard);
 	public void updateFreeBoardReadCount(int articleNo);
 	public int getFreeBoardTotalCount();
+	////////////////////////////////////////////////////
 	
 	public void insertFreeBoardComment(FreeBoardComment freeBoardComment);
+	public FreeBoardComment editCommentByCommentNo(Integer commentNo);
+	
 	public void editFreeBoardComment(FreeBoardComment freeBoardComment);
 	public void deleteFreeBoardComment(int commentNo);
+
 	public List<FreeBoardComment> getFreeBoardCommentList(Integer articleNo);
+	public void getFreeBoardCommentTotalCountByArticleNo(Integer articleNo);
+	///////////////////////////////////////////////////////////////////
 	public List<FreeBoard> getFreeBoardListById(int start, int pageSize, String id);
 	
 	
