@@ -146,6 +146,8 @@ ul {
 		$("#preview_" + data.roomNo).text(data.id + ":" + data.content);
 		$("#previewTime_" + data.roomNo).text(date);
 
+		$("#chatRoom_" + data.roomNo).prependTo($("#chatRoomList"));
+		
 		if (currentRoomNo != null) {
 			onGroupMessage(message);
 		}
@@ -182,7 +184,7 @@ ul {
 			); */
 		}
 		
-		$("#chatRoomList").append(chatRoomClone);
+		$("#chatRoomList").prepend(chatRoomClone);
 	}
 
 	function onGroupMessage(data) {
