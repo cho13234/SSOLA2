@@ -42,10 +42,13 @@
 		WHERE s.id=#{id}
 	</select>
 	
+	
+	
+	
 	<!--profile 입력  -->
 	<update id="updateProfile" parameterType="Profile">
 		UPDATE PROFILE
-		SET IMAGE=#{image} , DESCRIPTION=#{description}
+		SET IMAGE=#{image} , DESCRIPTION=#{description}, OPEN_STATUS=#{open_status}
 		WHERE id =#{id}
 	</update>
 

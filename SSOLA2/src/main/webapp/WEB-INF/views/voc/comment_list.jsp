@@ -26,6 +26,7 @@
 						</c:when>
 					<c:otherwise>
 						<c:if test="${loginuser.userType }">
+						<input type="button" value="Edit" id="commentEditViewButton_${freeboardcomment.commentNo }" class="commentEditViewClass" />
 						<input type="button" value="Delete" id="commentDeleteButton_${voccomment.commentNo }" 
 						class="commentDeleteClass" />
 						</c:if>
@@ -39,7 +40,7 @@
 						<input type="hidden" id="commentNo_${voccomment.commentNo}" name="commentNo" value="${ voccomment.commentNo }"/>
 						<input type="hidden" id="commentId_${voccomment.id}" name="id" value="${ voccomment.id }"/>
 						<span class="idandContent">Content:</span><br/>
-						<textarea id="commentContent_${voccomment.commentContent}" name="commentContent" rows="3" cols="2" style="resize:none"></textarea>
+						<textarea id="commentContent_${voccomment.commentNo}" name="commentContent" rows="3" cols="2" style="resize:none">${voccomment.commentContent}</textarea>
 					</td>
 					<td>
 						<input type="button" value="Confirm"  id='commentEditConfirmButton_${voccomment.commentNo }' class="commentEditConfirmClass"/>

@@ -145,28 +145,29 @@ function addComment(){
 };
 function editComment(commentNo){
 	
-	 if (!confirm("댓글을 수정하시겠습니까?")) {
-	       
+	  if (!confirm("수정하시겠습니까?")) {
+	       return;
 	  } 
-	
-	 $.ajax({
+		$.ajax({
 			type : "post",
 			url : "commentEdit.action",
-			data : {
-				
-				"commentContent" : commentContent,
-				"commentNo" : commentNo
-			},
+			data : {				
+				"commentContent" : $('#commentContent_'+ commentNo).val(),
+				"commentNo" : commentNo,
+				"articleNo" : $('#articleNo').val()
+			}, 
 			success: function(result){
 				$("#commentList").html(result);
+				alert('댓글이 수정되었습니다..');
 				
 			},
-			complete: function(){
-				alert('댓글이 수정되었습니다..');
+			error: function(error){
+				alert(error.message);
 			}
+		
 		});  
-	};
-	
+
+}
 function deleteComment(commentNo){
 	
 	  if (!confirm("삭제하시겠습니까?")) {
@@ -200,28 +201,30 @@ $(function() {
 	addComment();
 	});
 
-	$('.commentEditViewClass').click(function(event){
+	$('#commentList').on("click", ".commentEditViewClass", function(event){
 		event.preventDefault();
 		var $target = event.target;
 		var commentNo = event.target.id.split("_")[1];
 		$('#commentEditRow_'+ commentNo).toggle('swing');
 	});
 	
-	$('.commentEditConfirmClass').click(function (event) {
+	$('#commentList').on("click", ".commentEditConfirmClass",function (event) {
 		event.preventDefault();
 		var $target = event.target;
 		var commentNo = event.target.id.split("_")[1];
 		editComment(commentNo);
-	});
+		
+		
+	});	
 	
-	$('.commentDeleteClass').click(function (event) {
+	$('#commentList').on("click",".commentDeleteClass",function (event) {
 		event.preventDefault();
 		var $target = event.target;
 		var commentNo = event.target.id.split("_")[1];
 		deleteComment(commentNo);
 	});
 	
-	$('.cancelContfirmClass').click(function (event) {
+	$('#commentList').on("click", ".cancelConfirmClass", function (event) {
 		event.preventDefault();
 		var $target = event.target;
 		var commentNo = event.target.id.split("_")[1];
@@ -229,12 +232,7 @@ $(function() {
 	});
 });
 	
-
-	
-
-
-
-
+  
 </script>
 <body>
 	<c:import url="/WEB-INF/views/include/header.jsp" />
@@ -252,6 +250,7 @@ $(function() {
 					<%-- <span class="input-group-addon">Title</span>
 				<input class="form-control" type="text" name="articleTitle" style="width: 100%; font-family: 'Jeju Gothic', serif;"
 				value='${ voc.articleTitle }' readonly /> --%>
+					<input type='hidden' id="articleNo" name="articleNo" value="${freeBoard.articleNo }" />					
 					<span style="width: 100%;">${ freeBoard.articleTitle }</span>
 				</div>
 				<br />
@@ -318,42 +317,41 @@ $(function() {
 					<tr id="commentRow_${freeboardcomment.commentNo}">
 						<td>
 						<input type="hidden" id="commentNo_${freeboardcomment.commentNo}" name="commentNo" value="${ freeboardcomment.commentNo }"/>
-						<span class="idandregDate">${ freeboardcomment.id }</span>
-						<span class="idandregDate">( <fmt:formatDate value = "${ freeboardcomment.regDate}" pattern = "yyyy-MM-dd HH:mm:ss" />)
-						</span>
-						<br/>
-						<span style="font-family: 'Nunito', sans-serif;">
-						${ freeboardcomment.commentContent }</span>
+						${ freeboardcomment.id }
+						( <fmt:formatDate value = "${ freeboardcomment.regDate}" pattern = "yyyy-MM-dd HH:mm:ss" />)
+						<br>
+						${ freeboardcomment.commentContent }
 						</td>
 						<td>
-						<c:choose>
-						<c:when test="${loginuser.userType }">
-						<input type="button" value="Delete" id="commentDeleteButton_${freeboardcomment.commentNo }" 
-						class="commentDeleteClass" />
-						</c:when>
-						<c:otherwise>
-						<c:if test="${ loginuser.id eq freeBoard.id }">
-						<input type="button" value="Edit" id="commentEditViewButton_${freeboardcomment.commentNo }" class="commentEditViewClass"/>
-						<input type="button" value="Delete" id="commentDeleteButton_${freeboardcomment.commentNo }" 
-						class="commentDeleteClass" />
-						</c:if>
-						</c:otherwise>
-						</c:choose>
+							<c:choose>
+							<c:when test="${loginuser.id eq freeboardcomment.id}">
+							<input type="button" value="Edit" id="commentEditViewButton_${voccomment.commentNo }" class="commentEditViewClass" />
+							<input type="button" value="Delete" id="commentDeleteButton_${freeboardcomment.commentNo }" 
+							class="commentDeleteClass" />
+							</c:when>
+							<c:otherwise>
+							<c:if test="${ loginuser.userType }">
+							<input type="button" value="Edit" id="commentEditViewButton_${voccomment.commentNo }" class="commentEditViewClass" />
+							<input type="button" value="Delete" id="commentDeleteButton_${freeboardcomment.commentNo }" 
+							class="commentDeleteClass" />
+							</c:if>
+							</c:otherwise>
+							</c:choose>
 						</td>
 					</tr>
 					<!-- COMMENT 수정 -->
-					<tr id="commentEditRow_${freeboardcomment.commentNo}" style='display: none'>
-					<td>
-						<input type="hidden" id="commentNo_${freeboardcomment.commentNo}" name="commentNo" value="${ freeboardcomment.commentNo }"/>
-						<input type="hidden" id="commentId_${freeboardcomment.id}" name="id" value="${ freeboardcomment.id }"/>
-						<span class="idandContent">Content:</span><br/>
-						<textarea id="commentContent_${freeboardcomment.commentContent}"  name="commentContent"rows="3" cols="2" style="resize:none"></textarea>
-					</td>
-					<td>
-						<input type="button" value="Confirm"  id='commentEditConfirmButton_${freeboardcomment.commentNo }' class="commentEditConfirmClass"/>
-						<input type="button" value="cancel" id='cancelContfirm_${freeboardcomment.commentNo }' class='cancelContfirmClass' />
-					</td>
-					</tr>
+							<tr id="commentEditRow_${freeboardcomment.commentNo}" style='display: none'>
+							<td>
+								<input type="hidden" id="commentNo_${freeboardcomment.commentNo}" name="commentNo" value="${ freeboardcomment.commentNo }"/>
+								<input type="hidden" id="commentId_${freeboardcomment.id}" name="id" value="${ freeboardcomment.id }"/>
+								<span class="idandContent">Content:</span><br/>
+								<textarea id="commentContent_${freeboardcomment.commentNo}" name="commentContent" rows="3" cols="2" style="resize:none">${freeboardcomment.commentContent}</textarea>
+							</td>
+							<td>
+								<input type="button" value="Confirm"  id='commentEditConfirmButton_${freeboardcomment.commentNo }' class="commentEditConfirmClass"/>
+								<input type="button" value="Cancel" id='cancelConfirm_${freeboardcomment.commentNo }' class='cancelConfirmClass' />
+							</td>
+							</tr>
 					</c:forEach>
 				</table>
 			</div>
@@ -367,7 +365,6 @@ $(function() {
 					<span class="idandContent">Content:</span>
 					<textarea id="commentContent" name="commentContent" rows="3" cols="2" style="resize:none"></textarea>
 					<br />
-					 <input type='hidden' id="articleNo" name="articleNo" value="${freeBoard.articleNo }" />
 				</form>
 				<input type="button" value="등록" id="commentAddButton" />
 			</div>

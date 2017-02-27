@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.ssola2.model.dto.ChatLog;
+import com.ssola2.model.dto.ChatMember;
 import com.ssola2.model.dto.ChatRoom;
 import com.ssola2.model.dto.Member;
 import com.ssola2.model.dto.MessageVO;
@@ -81,6 +82,16 @@ public class MysqlChatDao implements ChatDao {
 	@Override
 	public List<String> selectGroupMemberByGroupNo(String groupNo) {
 		return chatMapper.selectGroupMemberByGroupNo(groupNo);
+	}
+
+	@Override
+	public void insertChatRoom(ChatRoom chatRoom) {
+		chatMapper.insertChatRoom(chatRoom);
+	}
+
+	@Override
+	public void insertChatMember(ChatMember chatMember) {
+		chatMapper.insertChatMember(chatMember);
 	}
 
 }

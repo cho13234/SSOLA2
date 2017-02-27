@@ -134,7 +134,7 @@
 	
 	<!-- 프로필 정보 -->
 	<select id="selectProfile" resultType="com.ssola2.model.dto.Profile" parameterType="String">
-		select m.id AS id, m.nickname AS nickname, m.phonenumber AS phonenumber, c.email AS email, c.birth AS birth, c.gender AS gender, p.description AS description, p.image AS image 
+		select m.id AS id, m.nickname AS nickname, m.phonenumber AS phonenumber, c.email AS email, c.birth AS birth, c.gender AS gender, p.description AS description, p.image AS image, p.open_status AS open_status 
 		from MEMBER m
 		join CUSTOMER c
 		ON m.id = c.id
@@ -186,6 +186,12 @@
 		where fl.DESTINATION_ID=#{destination_id} and fl.DELETED = 0
 	</select>
 	
+	<!-- 내가 친구추가한 친구인지 확인 -->
+	<select id="selectOpenFriend" resultType="String" parameterType="com.ssola2.model.dto.Friend_list">
+		SELECT deleted 
+		FROM FRIEND_LIST
+		WHERE SOURCE_ID=#{source_id} and DESTINATION_ID=#{destination_id}
+	</select>
 	
 	
 	

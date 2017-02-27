@@ -168,8 +168,7 @@ public class FreeBoardController {
 	}
 	
 	@RequestMapping(value = "/commentEdit.action", method = RequestMethod.POST)
-	@ResponseBody
-	public String editFreeBoardComment(HttpServletRequest req, HttpServletResponse resp,@ModelAttribute FreeBoardComment freeBoardComment){
+	public String editFreeBoardComment(Model model, HttpServletRequest req, HttpServletResponse resp,@ModelAttribute FreeBoardComment freeBoardComment, int articleNo){
 		
 		System.out.println("신호들어옴 ㅋㅋ");
 		resp.setCharacterEncoding("utf-8");
@@ -178,6 +177,8 @@ public class FreeBoardController {
 		Member member = (Member) req.getSession().getAttribute("loginuser");
 		
 		freeBoardService.editFreeBoardComment(freeBoardComment);
+		List<FreeBoardComment> freeboardcomments = freeBoardService.getFreeBoardCommentList(articleNo);
+		model.addAttribute("freeboardcomments", freeboardcomments);
 		
 		return "freeboard/comment_list";
 	}

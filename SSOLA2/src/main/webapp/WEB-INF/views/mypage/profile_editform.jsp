@@ -100,16 +100,25 @@ $(document).ready(function(){
 													</c:when>
 												</c:choose></td>
 										</tr>
+										 <tr>
+										 	<td>공개범위</td>
+										 	<td>
+											 	<input type="radio" name="open_status" value="2" />전체공개<br>
+											 	<input type="radio" name="open_status" value="1"/>친구공개<br>
+											 	<input type="radio" name="open_status" value="0" checked="checked"/>비공개
+										 	</td>
+										 </tr>
 										<tr>
 											<td>자기소개</td>
 											<td><textarea id="contenttext" name="description"
 													class="form-control" rows="5">
 													${p_list.description}
 												</textarea></td>
-										</tr>
+										</tr>										
 										 
 										<input type="file" id = "imgInp" name="file" style="width: 580px; height: 25px" />
 										 
+										
 									</tbody>
 								</table>
 								 <button id = "submit-link" class="btn btn-default">작성완료</button>

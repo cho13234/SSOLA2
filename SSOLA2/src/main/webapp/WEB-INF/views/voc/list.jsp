@@ -115,7 +115,9 @@ $(function() {
 						        <td>${ voc.articleNo }</td>
 						        <td><font color="#29c7a4">${ voc.category }</font></td>
 								<td>${ voc.articleTitle }&nbsp;&nbsp;
-								<strong style="color:#FF6C00;">( ${voc.commentCount} )</strong>
+								<strong style="color:#FF6C00;">
+								<span class="glyphicon glyphicon-comment"></span>
+								(${voc.commentCount})</strong>
 								</td>
 								<td id="writer">${ voc.id }</td>
 						        <td>

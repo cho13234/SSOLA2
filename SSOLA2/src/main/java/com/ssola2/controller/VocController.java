@@ -223,8 +223,7 @@ public class VocController {
 	}
 	
 	@RequestMapping(value = "/commentEdit.action", method = RequestMethod.POST)
-	@ResponseBody
-	public String editFreeBoardComment(HttpServletRequest req, HttpServletResponse resp,@ModelAttribute VocComment vocComment){
+	public String editFreeBoardComment(Model model, HttpServletRequest req, HttpServletResponse resp,@ModelAttribute VocComment vocComment, int articleNo){
 		
 		System.out.println("신호들어옴 ㅋㅋ");
 		resp.setCharacterEncoding("utf-8");
@@ -233,8 +232,10 @@ public class VocController {
 		Member member = (Member) req.getSession().getAttribute("loginuser");
 		
 		vocService.editVocComment(vocComment);
+		List<VocComment> voccomments = vocService.getVocCommentList(articleNo);
+		model.addAttribute("voccomments", voccomments);
 		
-		return "freeboard/comment_list";
+		return "voc/comment_list";
 	}
 
 	@RequestMapping(value = "/commentDelete.action", method = RequestMethod.GET)

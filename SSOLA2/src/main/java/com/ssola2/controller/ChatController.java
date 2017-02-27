@@ -1,6 +1,7 @@
 package com.ssola2.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.ssola2.model.dto.ChatLog;
 import com.ssola2.model.dto.ChatRoom;
 import com.ssola2.model.dto.LoginUser;
@@ -74,6 +76,26 @@ public class ChatController {
 		String logs = gson.toJson(groupLog);
 		
 		return logs;
+	}
+	
+	@RequestMapping(value = "makegroup.action", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String makeGroup(String friends) {
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		ArrayList<String> friendList = (ArrayList<String>) gson.fromJson(friends, new TypeToken<List<String>>(){}.getType());
+		
+		if (friendList.size() < 2) {
+			return null;
+		}
+		
+		ChatRoom chatRoom = new ChatRoom();
+		chatRoom.setMembers(friendList);
+		chatService.createChatRoomTx(chatRoom);
+		
+		String jsonChatRoom = gson.toJson(chatRoom);
+		
+		return jsonChatRoom;
 	}
 	
 	/*@RequestMapping(value= "friendlist.action", method = RequestMethod.GET)

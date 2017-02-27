@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset="utf-8">
-<title></title>
+<title>전체공개</title>
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -83,11 +83,11 @@
 				</div>
 			</div>
 
-			<input id="scrapNo" type="hidden" value="${rowList.scrapNo}" />
+			<%-- <input id="scrapNo" type="hidden" value="${rowList.scrapNo}" />
 						
 			<a href="deleteScrap.action?scrapNo=${rowList.scrapNo}"
 			 class="btn btn-default" role="button" style="text-align:center">Delete</a> 
-			 
+			  --%>
 			<%--  <a href="#"
 			 id="btn-delete_scrap_${rowlist.scrapNo}" 
 			 data-scrapno="${rowlist.scrapNo }"

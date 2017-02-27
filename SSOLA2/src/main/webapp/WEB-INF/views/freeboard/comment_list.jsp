@@ -20,12 +20,13 @@
 				</td>
 				<td>
 					<c:choose>
-					<c:when test="${loginuser.userType }">
+					<c:when test="${loginuser.id eq freeboardcomment.id}">
+					<input type="button" value="Edit" id="commentEditViewButton_${freeboardcomment.commentNo }" class="commentEditViewClass" />
 					<input type="button" value="Delete" id="commentDeleteButton_${freeboardcomment.commentNo }" 
 					class="commentDeleteClass" />
 					</c:when>
 					<c:otherwise>
-					<c:if test="${ loginuser.id eq freeBoard.id }">
+					<c:if test="${ loginuser.userType }">
 					<input type="button" value="Edit" id="commentEditViewButton_${freeboardcomment.commentNo }" class="commentEditViewClass" />
 					<input type="button" value="Delete" id="commentDeleteButton_${freeboardcomment.commentNo }" 
 					class="commentDeleteClass" />
@@ -40,7 +41,7 @@
 						<input type="hidden" id="commentNo_${freeboardcomment.commentNo}" name="commentNo" value="${ freeboardcomment.commentNo }"/>
 						<input type="hidden" id="commentId_${freeboardcomment.id}" name="id" value="${ freeboardcomment.id }"/>
 						<span class="idandContent">Content:</span><br/>
-						<textarea id="commentContent_${freeboardcomment.commentContent}" name="commentContent" rows="3" cols="2" style="resize:none"></textarea>
+						<textarea id="commentContent_${freeboardcomment.commentNo}" name="commentContent" rows="3" cols="2" style="resize:none">${freeboardcomment.commentContent}</textarea>
 					</td>
 					<td>
 						<input type="button" value="Confirm"  id='commentEditConfirmButton_${freeboardcomment.commentNo }' class="commentEditConfirmClass"/>

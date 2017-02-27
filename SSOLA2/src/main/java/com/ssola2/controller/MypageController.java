@@ -64,7 +64,7 @@ public class MypageController {
 	@Autowired
 	@Qualifier("freeBoardService")
 	private FreeBoardService freeBoardService;
-
+		
 	//my profile
 	@RequestMapping(value = "mypage_main.action", method = RequestMethod.GET)
 	public String mypage_main(Model model, Profile profile, HttpSession session) {
@@ -72,9 +72,7 @@ public class MypageController {
 		Member member = (Member)session.getAttribute("loginuser");
 		Profile p_list = memberService.selectProfile(member.getId());
 
-		model.addAttribute("p_list", p_list);
-
-
+		model.addAttribute("p_list", p_list);		
 
 		return "mypage/mypage_main";
 	}
@@ -243,12 +241,14 @@ public class MypageController {
 		Profile p_list = memberService.selectProfile(member.getId());
 
 		model.addAttribute("p_list", p_list);
+		
+		
 		return "mypage/profile_editform";
 	}
 
    //이미지 업로드 액션
       @RequestMapping(value="/upload.action", method=RequestMethod.POST)
-      private String upload(@RequestParam("file") MultipartFile file,HttpSession session , String description) throws Exception { 
+      private String upload(@RequestParam("file") MultipartFile file,HttpSession session , String description, String open_status, Model model) throws Exception { 
     	  Member member = (Member)session.getAttribute("loginuser");
     	  Profile profile = new Profile();
     	  
@@ -260,7 +260,12 @@ public class MypageController {
         	  profile.setImage("sino.gif");
         	  profile.setId(member.getId());
         	  profile.setDescription(description);
+        	  profile.setOpen_status(open_status);
+        	          	  
         	  scrapService.updateProfile(profile);
+        	  
+        	  model.addAttribute("p_status", profile.getOpen_status());        	  
+        	  
           } else {
         	  String inTime   = new java.text.SimpleDateFormat("HHmmss").format(new java.util.Date());
         	  FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(uploadPath+"/"+inTime+file.getOriginalFilename()));
@@ -269,7 +274,7 @@ public class MypageController {
 		      profile.setImage(inTime+file.getOriginalFilename());
 		      profile.setId(member.getId());
 		      profile.setDescription(description);
-				
+		      profile.setOpen_status(open_status);
 		      //이미지 네임을 디비에 저장하는 곳
 		      scrapService.updateProfile(profile);
 	    
@@ -296,48 +301,41 @@ public class MypageController {
 	
 	//friend_main.action에서 스크랩 
 	@RequestMapping(value = "f_scrapform.action", method = RequestMethod.GET)
-	public ModelAndView f_scrapform(String did, ModelAndView mav, Member member)   
-	
-	{
-	
-		member.setId(did);
-		System.out.println(member.getId());
+	public ModelAndView f_scrapform(String did, ModelAndView mav, Member member, HttpSession session)	
+	{	
+		//로그인 된 계정 정보 가져오려고.. 
+		Member dMember = (Member)session.getAttribute("loginuser");
+		//로그인 된 id
+		String did2 = dMember.getId();
+		Friend_list f_list = new Friend_list();
+		f_list.setSource_id(did);
+		f_list.setDestination_id(did2);
+		
+		Profile p_list = memberService.selectProfile(did);
+		System.out.println(p_list.getOpen_status() + "나 여깄당");
+		
+		//친구스크랩의 본인(source_id), 로그인 된 계정(destination_id)
+		String fDeleted = memberService.selectOpenFriend(f_list);
+		System.out.println(fDeleted + "나와라아");
+//		member.setId(did);
+		
 		List<Scrap> list = scrapService.getListById(did);
-
-		mav.setViewName("mypage/f_scrapform");
 		mav.addObject("list", list);
-
-		return mav;
-	}
-	
-
-		@RequestMapping(value = "scrapform_0.action", method = RequestMethod.GET)
-		public ModelAndView mypage_scrapform0(HttpSession session, ModelAndView mav)   
-		{
-	
-			Member member = (Member)session.getAttribute("loginuser");
-	
-	//		List<Scrap> list = scrapService.getListById(member.getId());
-	
-			mav.setViewName("mypage/scrapform_0");
-	//		mav.addObject("list", list);
-	
+		
+		if(p_list.getOpen_status().equals("2")) { //전체공개
+			mav.setViewName("mypage/f_scrapform");	
 			return mav;
 		}
+		else if(fDeleted.equals("0") && p_list.getOpen_status().equals("1")) { // 내가 추가한 친구한테 공개
+			mav.setViewName("mypage/f_scrapform_1");
+			return mav;
+		} else { //비공개
+			mav.setViewName("mypage/f_scrapform_0");
+			return mav;
+		}
+
 		
-	//	@RequestMapping(value = "scrapform_1.action", method = RequestMethod.GET)
-	//	public ModelAndView mypage_scrapform1(HttpSession session, ModelAndView mav)   
-	//	{
-	//
-	//		Member member = (Member)session.getAttribute("loginuser");
-	//
-	//		List<Scrap> list = scrapService.getListById(member.getId());
-	//
-	//		mav.setViewName("mypage/scrapform_1");
-	//		mav.addObject("list", list);
-	//
-	//		return mav;
-	//	}
+	}
 
 	@RequestMapping(value = "deleteScrap.action", method = RequestMethod.GET)
 	public String deleteScrap(@RequestParam int scrapNo)

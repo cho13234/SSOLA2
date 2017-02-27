@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset="utf-8">
-<title></title>
+<title>비공개</title>
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -17,8 +17,9 @@
 
 	<c:import url="/WEB-INF/views/include/header.jsp" />
 	<c:import url="/WEB-INF/views/mypage/mypage_header.jsp" />
-
-	<h3> 비공개 상태 입니다</h3>
+	<div style="text-align:center">
+		<h3> 비공개 상태 입니다</h3>
+	</div>
 	<br>
 	<br>
 	<c:import url="/WEB-INF/views/include/footer.jsp" />
