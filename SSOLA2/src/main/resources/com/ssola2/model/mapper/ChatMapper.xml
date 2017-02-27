@@ -44,12 +44,22 @@
 		FROM CHAT_ROOM
 	</sql>
 
-	<select id="selectChatRoomListById" parameterType="String" resultMap="ChatRoomResult">
+	<!-- <select id="selectChatRoomListById" parameterType="String" resultMap="ChatRoomResult">
 		SELECT r.room_no, r.member_size, r.room_name
 		FROM CHAT_ROOM r inner join CHAT_MEMBER m
 		ON r.room_no = m.room_no
 		WHERE m.ID = #{id} AND r.deleted = 0
-	</select>	
+	</select>	 -->
+	
+	<select id="selectChatRoomListById" parameterType="String" resultMap="ChatRoomResult">
+		SELECT r.room_no, r.member_size, r.room_name, MAX(c.reg_date) date
+		FROM CHAT_ROOM r 
+		inner join CHAT_MEMBER m ON r.room_no = m.room_no
+		inner join CHAT c on r.room_no = c.room_no
+		WHERE m.ID = #{id} AND r.deleted = 0
+		GROUP BY r.room_no
+        ORDER BY date DESC
+	</select>
 	
 	<select id="selectChatMemberListById" parameterType="String" resultMap="MemberResult">
 		SELECT *
