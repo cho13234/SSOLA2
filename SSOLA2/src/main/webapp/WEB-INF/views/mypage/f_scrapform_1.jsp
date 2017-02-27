@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset="utf-8">
-<title></title>
+<title>친구공개</title>
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -57,9 +57,7 @@
 
 	<!-- <form:form id="list" action="scrapform.action" method="get" modelAttribute="scrap" style="width:70%; margin-left:20%">
 		<article class="style1"> --> 
-		<c:choose >
-		<c:when test="${loginuser.open_status eq 1 }">
-		<c:forEach items="${list}" var="rowList" >
+		
 		<div id="scrapList">
 			<div class="row-fluid top30 pagetitle">
 				<div class="container">
@@ -87,25 +85,17 @@
 
 			<input id="scrapNo" type="hidden" value="${rowList.scrapNo}" />
 						
-			<a href="deleteScrap.action?scrapNo=${rowList.scrapNo}"
-			 class="btn btn-default" role="button" style="text-align:center">Delete</a> 
+		<%-- 	<a href="deleteScrap.action?scrapNo=${rowList.scrapNo}"
+			 class="btn btn-default" role="button" style="text-align:center">Delete</a>  --%>
 			 
 			<%--  <a href="#"
 			 id="btn-delete_scrap_${rowlist.scrapNo}" 
 			 data-scrapno="${rowlist.scrapNo }"
 			 class="btn btn-default" role="button">Delete</a> --%>
-			
-
-			<!-- <div class="btn_delScrap">
-				<button id="deleteScrap" type="button" class="[ btn btn-default ]"
-                        data-loading-text="Loading..." >삭제</button>
-             </div> -->
 
 			<hr>
 			</div>
-		</c:forEach> 
-		</c:when>
-		</c:choose>
+	
 	<!-- </article>
 
 	</form:form> -->

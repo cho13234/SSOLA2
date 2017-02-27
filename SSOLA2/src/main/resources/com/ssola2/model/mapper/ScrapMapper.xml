@@ -41,28 +41,9 @@
 		ON a.article_no = s.article_no
 		WHERE s.id=#{id}
 	</select>
-<!-- 	
-	전체공개 open_status = 2
-	<update id="updateScrap_2" parameterType="Profile">
-		update PROFILE
-		set OPEN_STATUS = '2'
-		where id=#{source_id} and id=#{destination_id}
-	</update>
 	
-	쌍방친구 open_status = 1	
-	<update id="updateScrap_1" parameterType="Profile">
-		update PROFILE
-		set OPEN_STATUS = '1'
-		where id=#{source_id} and id=#{destination_id}
-	</update>
 	
-	전체공개 open_status = 2
-	<update id="updateScrap_2" parameterType="Profile">
-		update PROFILE
-		set OPEN_STATUS = '2'
-		where id=#{source_id} and id=#{destination_id}
-	</update>
-	 -->
+	
 	
 	<!--profile 입력  -->
 	<update id="updateProfile" parameterType="Profile">

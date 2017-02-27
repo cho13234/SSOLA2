@@ -38,6 +38,7 @@ public interface MemberDao {
 	public void insertProfileById(String id);
 	public List<Friend_list> selectFriendList(String id);
 	public List<Friend_list> selectAddFriendList(String id);
+	public String selectOpenFriend(Friend_list f_list);
 	
 	
 }
