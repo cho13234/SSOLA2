@@ -143,7 +143,30 @@ function addComment(){
 		});  
 	}
 };
-
+function editComment(commentNo){
+	
+	 if (!confirm("댓글을 수정하시겠습니까?")) {
+	       
+	  } 
+	
+	 $.ajax({
+			type : "post",
+			url : "commentEdit.action",
+			data : {
+				
+				"commentContent" : commentContent,
+				"commentNo" : commentNo
+			},
+			success: function(result){
+				$("#commentList").html(result);
+				
+			},
+			complete: function(){
+				alert('댓글이 수정되었습니다..');
+			}
+		});  
+	};
+	
 function deleteComment(commentNo){
 	
 	  if (!confirm("삭제하시겠습니까?")) {
@@ -169,7 +192,7 @@ function deleteComment(commentNo){
 			}
 			
 		});  
-	}
+	};
 
 $(function() {
 	
@@ -206,27 +229,7 @@ $(function() {
 	});
 });
 	
-function editComment(){
-	
-	//textarea에 content없을 경우... 글쓰라고 alert...
-	
-	 $.ajax({
-			type : "post",
-			url : "commentEdit.action",
-			data : {
-				
-				"commentContents" : contents,
-				"commentNo" : commentNo
-			},
-			success: function(result){
-				$("#commentList").html(result);
-				
-			},
-			complete: function(){
-				alert('댓글이 수정되었습니다..');
-			}
-		});  
-	}
+
 	
 
 
@@ -344,7 +347,7 @@ function editComment(){
 						<input type="hidden" id="commentNo_${freeboardcomment.commentNo}" name="commentNo" value="${ freeboardcomment.commentNo }"/>
 						<input type="hidden" id="commentId_${freeboardcomment.id}" name="id" value="${ freeboardcomment.id }"/>
 						<span class="idandContent">Content:</span><br/>
-						<textarea id="commentContent_${freeboardcomment.commentContent}" rows="3" cols="2" style="resize:none"></textarea>
+						<textarea id="commentContent_${freeboardcomment.commentContent}"  name="commentContent"rows="3" cols="2" style="resize:none"></textarea>
 					</td>
 					<td>
 						<input type="button" value="Confirm"  id='commentEditConfirmButton_${freeboardcomment.commentNo }' class="commentEditConfirmClass"/>
@@ -357,7 +360,7 @@ function editComment(){
 			<br />
 			
 			<!-- 댓글 입력폼 -->
-			<div id="commentAdd">
+			<div id="commentAdd" style=" margin:5% auto; width:80%">
 				<form action="commentWrite.action" method="post" name="addForm">
 					<span class="idandContent">ID:</span> <input readonly type="text" id="commentId" name="commentId"
 						value='${ sessionScope.loginuser.id }' /><br />
@@ -368,19 +371,6 @@ function editComment(){
 				</form>
 				<input type="button" value="등록" id="commentAddButton" />
 			</div>
-
-			<%-- <!-- 댓글 수정 폼 -->
-			<div id="commentEdit_${ freeboardcomment.commentNo }" style="display:none">
-				<form action="commentEdit.aciton" method="post" name="editForm">
-					<input type="hidden" id="commentEditConfirmNo" >
-					<input type="hidden" name="id" id="id" value='' />
-					 <span class="idandContent">Content:</span>
-					<textarea id="commentContnet" rows="3"
-						cols="2" style="resize:none"></textarea>
-				</form>
-				<input type="button" value="수정" onclick="editComment();" id='commentEditConfirmButton' class="commentEditConfirmClass"/>
-				 <input type="button" value="취소" onclick="cancelUpdate();" />
-			</div> --%>
 		</div>
 	</div>
 	<c:import url="/WEB-INF/views/include/footer.jsp" />

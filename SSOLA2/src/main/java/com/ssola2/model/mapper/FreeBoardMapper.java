@@ -25,6 +25,8 @@ public interface FreeBoardMapper {
 	int getFreeBoardTotalCount();
 	
 	////////////////////////////////////////////////////////////
+	List<FreeBoard> selectFreeBoardsById(HashMap<String, Object> params2);
+
 	//comment불러오기
 	
 	void insertFreeBoardComment(FreeBoardComment freeBoardComment);
@@ -34,4 +36,6 @@ public interface FreeBoardMapper {
 	void editFreeBoardComment(FreeBoardComment freeBoardComment);
 	void deleteFreeBoardComment(int commentNo);
 	
+	
+	void getFreeBoardCommentTotalCountByArticleNo(Integer articleNo);
 }

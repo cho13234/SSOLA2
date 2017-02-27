@@ -56,9 +56,11 @@ public class FreeBoardController {
 		
 		List<FreeBoard> freeboards = freeBoardService.getFreeBoardList(start, pageSize);
 		
+		
 		ThePager pager = new ThePager(totalCount, currentPage, pageSize, pagerSize, "list.action");
 		
 		System.out.println("나간갯수"+ freeboards.size());
+		
 		
 		model.addAttribute("freeboards", freeboards);
 		model.addAttribute("pager", pager);
@@ -132,7 +134,7 @@ public class FreeBoardController {
 				FreeBoard freeBoard = freeBoardService.getFreeBoardByArticleNo(articleNo);
 				///////////////////////////////
 				
-				List<FreeBoardComment> freeboardcomments = freeBoardService.getFreeBoardCommentsByarticleNo(articleNo);
+				List<FreeBoardComment> freeboardcomments = freeBoardService.getFreeBoardCommentList(articleNo);
 				
 				model.addAttribute("freeBoard", freeBoard);
 				model.addAttribute("freeboardcomments", freeboardcomments);
@@ -144,22 +146,24 @@ public class FreeBoardController {
 	@RequestMapping(value = "commentWrite.action", method = RequestMethod.POST)
 	
 	public String insertFreeBoardComment(String commentContent,
-			HttpServletResponse resp, HttpSession session, Integer articleNo, Model model) {
+			HttpServletResponse resp, HttpServletRequest req, HttpSession session, Integer articleNo, Model model) {
 		
 		resp.setCharacterEncoding("utf-8");
 		resp.setContentType("text/html;charset=utf-8");
 		System.out.println(commentContent);
 
-		Member member = (Member) session.getAttribute("loginuser");
+		Member member = (Member)req.getSession().getAttribute("loginuser");
 		
 		FreeBoardComment freeBoardComment = new FreeBoardComment();
 		freeBoardComment.setArticleNo(articleNo);
 		freeBoardComment.setId(member.getId());
+		System.out.println(member.getId());
 		freeBoardComment.setCommentContent(commentContent);
 		freeBoardService.insertFreeBoardComment(freeBoardComment);
 		
-		List<FreeBoardComment> freeboardcomments = freeBoardService.getFreeBoardCommentsByarticleNo(articleNo);
+		List<FreeBoardComment> freeboardcomments = freeBoardService.getFreeBoardCommentList(articleNo);
 		model.addAttribute("freeboardcomments", freeboardcomments);
+		
 		return "freeboard/comment_list";
 	}
 	

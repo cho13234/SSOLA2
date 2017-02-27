@@ -11,6 +11,7 @@ public class VocComment {
 	private Date regDate;
 	private String profileImage;
 	private String id;
+	private boolean deleted;
 	
 	public int getArticleNo() {
 		return articleNo;
@@ -47,6 +48,12 @@ public class VocComment {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public boolean isDeleted() {
+		return deleted;
+	}
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 	
 	

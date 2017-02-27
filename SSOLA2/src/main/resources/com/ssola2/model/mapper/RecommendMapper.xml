@@ -42,7 +42,7 @@
 	</select>
 	
 	<insert id="insertRecommend" parameterType="com.ssola2.model.dto.Recommend">
-		INSERT into LIKES (id,ARTICLE_NO)VALUES (#{id}, #{articleNo})
+		INSERT into LIKES (id,ARTICLE_NO,deleted)VALUES (#{id}, #{articleNo} , 0)
 	</insert>
 
 	<delete id="deletedRecommend" parameterType="com.ssola2.model.dto.Recommend">
@@ -70,12 +70,12 @@
 	<!-- 여기까지 -->
 	
 	<select id="selectRecommendState" resultType="String" parameterType="com.ssola2.model.dto.Recommend">
-		select 0 from likes where ID =#{id} and ARTICLE_NO = #{articleNo}
+		select 0 from LIKES where ID =#{id} and ARTICLE_NO = #{articleNo}
 	</select>
 	
 	<select id="selectRecommendListById" resultType="com.ssola2.model.dto.Recommend" parameterType="String">
 		SELECT article_no articleNo, deleted, id
-		FROM likes
+		FROM LIKES
 		WHERE id = #{id}
 	</select>
 

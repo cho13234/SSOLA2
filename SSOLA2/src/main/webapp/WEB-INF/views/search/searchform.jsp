@@ -62,7 +62,8 @@ $(document).ready(function(){
         		   var id = data[i].id;
         		   var nickname = data[i].nickname;
         		   var phone = data[i].phone;
-        		   var append1 = $('<tr class="tbody"><td><img src="/ssola2/resources/images/fullheart.png"></td><td>'+id+'</td><td>'+nickname+'</td><td>'+phone+'</td></a></tr>').attr('id' , id);
+        		   var image = data[i].image;
+        		   var append1 = $('<tr class="tbody"><td><img class="img-circle" alt="프로필이 없습니다." style="width : 80px; height : 80px;" src="/ssola2/resources/profileImages/'+image+'"></td><td>'+id+'</td><td>'+nickname+'</td><td>'+phone+'</td></a></tr>').attr('id' , id);
         		   $('#friend_table1').append(append1); 
         	   }
         	   $('.tbody').click(function() { //action 값을 넣어주기.
@@ -129,18 +130,25 @@ $(document).ready(function(){
 					        		   var maintag = data[i].mainTag;
 					        		   var storeName = data[i].storeName;
 					        		   var distance = data[i].distance;
-					        		   var append1 = $('<tr class="tbody"><td><img src="/ssola2/resources/images/fullheart.png"></td><td>'+category+'</td><td>'+storeName+'</td><td>'+address+'</td></a></tr>').attr('id' , section_no);
+					        		   var articleNo = data[i].articleNo;
+					        		   var append1 = $('<tr class="tbody"><td>'+maintag+'</td><td>'+category+'</td><td>'+storeName+'</td><td>'+address+'</td></a></tr>').attr('id' , articleNo);
 					        		   $('#friend_table1').append(append1); 
 					        	   }
+					        	   
+					        	   $('.tbody').click(function() { //articleNo를 가져오기위한 ajax ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
+					        		   var articleNo = $(this).attr('id');
+					        		  location.href='/ssola2/detail.action?articleNo='+articleNo;	
+								   
+					        	   });
 					        	   
 					        	   if(data != "" ) {
 					        	 	//매장들의 위치
 							    	// 마커 이미지의 이미지 주소입니다
 							    	//var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-					        	   var imageSrc = "http://www.reactiongifs.com/r/hsk.gif"; 
+					        	   var imageSrc = "http://www.freeiconspng.com/uploads/retail-store-icon-15.png"; 
 					        	   for(var i = 0; i <data.length; i++) {
 					        		  
-					        		   var imageSize = new daum.maps.Size(54, 65);
+					        		   var imageSize = new daum.maps.Size(30, 30);
 					        		   var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize); 
 					        		  	var positions = [
 					        		  		{
@@ -188,7 +196,7 @@ $(document).ready(function(){
 		   } else if(searchSelect == "friend") {
 			   $('.tbody').remove();
 			   $('#map').remove();
-			   $('#friend_table1').append($('<tr class="thead"><th>프사</th><th>아이디</th><th>닉네임</th><th>전화번호</th></tr>'));
+			   $('#friend_table1').append($('<tr class="thead"><th style="padding-left : 45px;">프사</th><th style="padding-left : 25px;">아이디</th><th style="padding-left : 25px;">닉네임</th><th>전화번호</th></tr>'));
 			   
 		   }
 	   
@@ -211,7 +219,7 @@ $(document).ready(function(){
 		  <option value="friend">친구검색</option>
 		  <option value="gps">주변검색</option>
 		</select>
-		<input type="text" id="search1" name="search" placeholder="검색" style="width : 60%">
+		<input type="text" id="search1" name="search" placeholder="검색">
 		<!-- <a id="submitButton" class="btn btn-default" style="font-family: 'Nanum Pen Script', serif; font-size:15pt;">검색</a> -->
 </div>
 
@@ -229,9 +237,9 @@ $(document).ready(function(){
 						<table class="table table-hover" id="friend_table1" style="width:100%;">
 							<thead class="thead">
      						  <tr>
-						        <th>프사</th>
-						        <th>아이디</th>
-						        <th>닉네임</th>
+						        <th style="padding-left : 45px;">프사</th>
+						        <th style="padding-left : 25px;">아이디</th>
+						        <th style="padding-left : 25px;">닉네임</th>
 						        <th>전화번호</th>
 						      </tr>
 						    </thead>
@@ -246,5 +254,6 @@ $(document).ready(function(){
 			</div>
 		</div>
 	</div>
+	<c:import url="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>

@@ -13,6 +13,8 @@
 		<result column="deleted" property="deleted" />
 		<result column="id" property="id" />
 		<result column="read_count" property="readCount" />
+			<association column="article_no" property="commentCount" javaType="Integer"
+			select="getFreeBoardCommentTotalCountByArticleNo"></association>
 	</resultMap>
 	
 	<resultMap type="com.ssola2.model.dto.FreeBoardComment" id="CommentResult">
@@ -83,7 +85,7 @@
 		FROM FREEBOARD
 		WHERE deleted= 0
 	</select>
-	
+
 	<insert id="insertFreeBoardComment" parameterType="com.ssola2.model.dto.FreeBoardComment">
 		INSERT INTO FREEBOARD_COMMENT ( article_no, comment_content, id)
 		VALUES ( #{articleNo}, #{commentContent}, #{id})
@@ -106,8 +108,23 @@
 	<select id="selectFreeBoardCommentsByArticleNo"  resultMap="CommentResult"  parameterType="Integer">
 		SELECT *
 		FROM FREEBOARD_COMMENT
-		WHERE DELETED=0
+		WHERE DELETED=0 
+		AND ARTICLE_NO = #{articleNo} 
 		ORDER BY COMMENT_NO ASC
 	</select>
 
+	<select id="selectFreeBoardsById" resultMap="ArticleResult"  parameterType="Hashmap">
+		SELECT *
+		FROM FREEBOARD
+		WHERE DELETED=0 and id=#{id}
+		ORDER BY article_no DESC 
+		limit #{start}, #{count}
+	</select>
+	
+	<select id="getFreeBoardCommentTotalCountByArticleNo" resultType="Integer" parameterType="Integer">
+		SELECT COUNT(*)
+		FROM FREEBOARD_COMMENT
+		WHERE deleted= 0 
+		AND article_no=#{articleNo}
+	</select>
 </mapper>

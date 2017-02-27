@@ -111,10 +111,12 @@ $(function() {
 				    	
 				    <c:forEach var="voc" items="${vocs}">
 			    		<c:if test="${voc.deleted eq false }">
-					    	<tr class="clickable-row" data-href="detail.action?articleNo=${ voc.articleNo }&pageno=${ pageno }">
+					    	<tr class="clickable-row" data-href="detail.action?articleNo=${ voc.articleNo }">
 						        <td>${ voc.articleNo }</td>
 						        <td><font color="#29c7a4">${ voc.category }</font></td>
-								<td>${ voc.articleTitle }</td>
+								<td>${ voc.articleTitle }&nbsp;&nbsp;
+								<strong style="color:#FF6C00;">( ${voc.commentCount} )</strong>
+								</td>
 								<td id="writer">${ voc.id }</td>
 						        <td>
 						        <div>

@@ -79,9 +79,9 @@
 	</insert> -->
 	<insert id="insertSection" parameterType="com.ssola2.model.dto.Section"
       useGeneratedKeys="true" keyProperty="sectionNo" >
-      INSERT INTO SECTION ( category, address, main_tag ,store_name)
+      INSERT INTO SECTION ( category, address, main_tag ,store_name, LAT , LNG)
       VALUES ( #{category}, #{address},
-      #{mainTag} , #{storeName})
+      #{mainTag} , #{storeName} , #{LAT} , #{LNG})
    </insert>
 
 	<select id="selectArticles" resultMap="ArticleResult">

@@ -76,10 +76,10 @@
 						<div id="scrapList">
 						
 					</div>
-					<%-- <div class="col-sm-8" >
+					<div class="col-sm-8" >
 						<h4 class="title" >${rowList.articleTitle}</h4>
 
-					</div> --%>
+					</div>
 				</div>
 			</div>
 

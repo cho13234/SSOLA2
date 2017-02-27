@@ -3,10 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://ckeditor.com" prefix="ckeditor"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<link rel="stylesheet" href="/ssola2/resources/styles/header.css" />
+
 
 
 <!-- commentList  -->
-		<table class="table table-condensed" style="width:100%;">
+		<table class="table table-condensed" style=" margin:5% auto; width:80%">
 			<c:forEach var="freeboardcomment" items="${freeboardcomments}">
 			<tr id="commentRow_${freeboardcomment.commentNo}">
 				<td>
@@ -38,15 +40,18 @@
 						<input type="hidden" id="commentNo_${freeboardcomment.commentNo}" name="commentNo" value="${ freeboardcomment.commentNo }"/>
 						<input type="hidden" id="commentId_${freeboardcomment.id}" name="id" value="${ freeboardcomment.id }"/>
 						<span class="idandContent">Content:</span><br/>
-						<textarea id="commentContent_${freeboardcomment.commentContent}" rows="3" cols="2" style="resize:none"></textarea>
+						<textarea id="commentContent_${freeboardcomment.commentContent}" name="commentContent" rows="3" cols="2" style="resize:none"></textarea>
 					</td>
 					<td>
 						<input type="button" value="Confirm"  id='commentEditConfirmButton_${freeboardcomment.commentNo }' class="commentEditConfirmClass"/>
-						<input type="button" value="cancel" id='cancelContfirm_${freeboardcomment.commentNo }' class='cancelContfirmClass' />
+						<input type="button" value="Cancel" id='cancelContfirm_${freeboardcomment.commentNo }' class='cancelContfirmClass' />
 					</td>
 					</tr>
 			</c:forEach>
 		</table>
 		
+		
+	
+
 		
 	

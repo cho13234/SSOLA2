@@ -102,13 +102,13 @@ $(document).ready(function(){
 										</tr>
 										<tr>
 											<td>자기소개</td>
-											<td><textarea id="contenttext" name="contenttext"
+											<td><textarea id="contenttext" name="description"
 													class="form-control" rows="5">
 													${p_list.description}
 												</textarea></td>
 										</tr>
 										 
-										<input type="file" id = "imgInp" name="thumb" style="width: 580px; height: 25px" />
+										<input type="file" id = "imgInp" name="file" style="width: 580px; height: 25px" />
 										 
 									</tbody>
 								</table>

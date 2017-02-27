@@ -148,6 +148,11 @@ public class MysqlMemberDao implements MemberDao {
 	public List<Friend_list> selectFriendList(String id) {
 		return memberMapper.selectFriendList(id);
 	}
+
+	@Override
+	public List<Friend_list> selectAddFriendList(String id) {		
+		return memberMapper.selectAddFriendList(id);
+	}
 	
 
 }

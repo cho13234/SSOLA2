@@ -96,8 +96,24 @@ public class MysqlFreeBoardDao implements FreeBoardDao {
 	@Override
 	public FreeBoardComment editCommentByCommentNo(Integer commentNo) {
 		
-		return editCommentByCommentNo(commentNo);
+		return FreeBoardMapper.editCommentByCommentNo(commentNo);
 	}
+
+	public List<FreeBoard> selectFreeBoardsById(int start, int pageSize, String id) {		
+		HashMap<String, Object> params2 = new HashMap<String, Object>();
+		params2.put("start", start);
+		params2.put("count", pageSize);
+		params2.put("id", id);
+		return FreeBoardMapper.selectFreeBoardsById(params2);
+	}
+
+	@Override
+	public void getFreeBoardCommentTotalCountByarticleNo(Integer articleNo) {
+		FreeBoardMapper.getFreeBoardCommentTotalCountByArticleNo(articleNo);
+		
+	}
+
+	
 	
 
 }

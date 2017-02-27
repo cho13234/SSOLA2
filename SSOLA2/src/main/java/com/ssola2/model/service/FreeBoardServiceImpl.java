@@ -83,9 +83,9 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 		
 	}
 
-	
+
 	@Override
-	public List<FreeBoardComment> getFreeBoardCommentsByarticleNo(Integer articleNo) {
+	public List<FreeBoardComment> getFreeBoardCommentList(Integer articleNo) {
 		return dao.selectFreeBoardCommentsByArtcicleNo(articleNo);
 	}
 
@@ -93,7 +93,20 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 	public FreeBoardComment editCommentByCommentNo(Integer commentNo) {
 		
 		return dao.editCommentByCommentNo(commentNo);
+		
 	}
+	@Override
+	public void getFreeBoardCommentTotalCountByArticleNo(Integer articleNo) {
+		dao.getFreeBoardCommentTotalCountByarticleNo(articleNo);
+		
+	}
+	
+///////////////////////////////////////////////////////////////////////////////////
+	@Override
+	public List<FreeBoard> getFreeBoardListById(int start, int pageSize, String id) {		
+		return dao.selectFreeBoardsById(start, pageSize, id);
+	}
+
 	
 
 	

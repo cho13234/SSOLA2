@@ -30,7 +30,7 @@ public class ThePager {
 		//1. 처음, 이전 항목 만들기
 		if (currentPage > 1) {
 			linkString.append(
-			String.format("[<a href='%s?pageno=1'><img src=''></a>]",linkUrl));
+			String.format("[<a href='%s?pageno=1'>◆<img src=''></a>]",linkUrl));
 			//String.format("[<a img src='/ssola2/resources/images/page_left.png'></a>]",linkUrl));
 			//img src=""
 			linkString.append("&nbsp;");

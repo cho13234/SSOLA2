@@ -94,6 +94,7 @@ public class AccountController {
 			} else {
 				Customer c = (Customer)m;
 				session.setAttribute("loginuser", c);
+				memberService.insertProfileById(c.getId());
 			}
 			
 			return "redirect:/mypage/profile_editform.action";

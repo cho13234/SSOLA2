@@ -15,7 +15,17 @@
 		<result column="deleted" property="deleted" />
 		<result column="id" property="id" />
 		<result column="read_count" property="readCount" />
-		
+			<association column="article_no" property="commentCount" javaType="Integer"
+			select="getVocCommentTotalCountByArticleNo"></association>
+	</resultMap>
+
+	<resultMap type="com.ssola2.model.dto.VocComment" id="CommentResult">
+		<id column="comment_no" property="commentNo" />
+		<result column="article_No" property="articleNo" />
+		<result column="comment_content" property="commentContent" />
+		<result column="reg_date" property="regDate" />
+		<result column="deleted" property="deleted" />
+		<result column="id" property="id" />
 	</resultMap>
 
 
@@ -80,5 +90,45 @@
 		WHERE deleted= 0
 	</select>
 	
+	<select id="selectArticlesById" resultMap="ArticleResult" parameterType="Hashmap">
+		SELECT *
+		FROM VOC
+		WHERE DELETED=0 and id=#{id}		
+		ORDER BY article_no DESC		
+		limit #{start}, #{count}
+	</select>
+	
+	<insert id="insertVocComment" parameterType="com.ssola2.model.dto.VocComment">
+		INSERT INTO VOC_COMMENT ( article_no, comment_content, id)
+		VALUES ( #{articleNo}, #{commentContent}, #{id})
+	</insert>
+	
+	<update id="editVocComment" parameterType="com.ssola2.model.dto.VocComment">
+		UPDATE VOC_COMMENT
+		SET 
+		comment_content = #{commentContent}
+		WHERE COMMENT_NO = #{commentNo}
+	</update>
+	
+	<delete id="deleteVocComment"  parameterType="int">
+		UPDATE VOC_COMMENT
+		SET DELETED = 1
+		WHERE comment_no= #{commentNo}	
+	</delete>
+	
+	
+	<select id="selectVocCommentsByArticleNo"  resultMap="CommentResult"  parameterType="Integer">
+		SELECT *
+		FROM VOC_COMMENT
+		WHERE DELETED=0 
+		AND ARTICLE_NO = #{articleNo} 
+		ORDER BY COMMENT_NO ASC
+	</select>
 
+	<select id="getVocCommentTotalCountByArticleNo" resultType="Integer" parameterType="Integer">
+		SELECT COUNT(*)
+		FROM VOC_COMMENT
+		WHERE deleted= 0 
+		AND article_no=#{articleNo}
+	</select>
 </mapper>

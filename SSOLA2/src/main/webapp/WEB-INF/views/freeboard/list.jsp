@@ -124,7 +124,9 @@ $(function() {
 			    		<c:if test="${freeboard.deleted eq false }">
 					    	<tr class="clickable-row" data-href="detail.action?articleNo=${ freeboard.articleNo }&pageno=${ pageno }">
 						        <td class="tableList">${ freeboard.articleNo }</td>
-								<td class="tableList" style="width:60%">${ freeboard.articleTitle }</td>
+								<td class="tableList" style="width:60%">${ freeboard.articleTitle } &nbsp;&nbsp;
+								<strong style="color:#FF6C00;">( ${freeboard.commentCount} )</strong>
+								</td>
 								<td class="tableList">${ freeboard.id }</td>
 						        <td class="tableList">
 						        <div>

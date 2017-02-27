@@ -211,7 +211,7 @@ $(document).ready(function(){
          </div>
       </section>
 	<c:if test="${ loginuser.userType }">
-      	<c:if test="${ loginuser.authority eq false }">
+      	<c:if test="${ loginuser.authority eq true}">
       		<div id="main" style="float:right; margin-right:10%" >
 				<a id="writeContent" data-toggle="tooltip" title="글 작성 클릭!" class="btn btn-default" href="write.action">새로운 글작성</a>
 				<!-- <a id="newContent" class="btn btn-default">이전 글 불러오기</a> -->

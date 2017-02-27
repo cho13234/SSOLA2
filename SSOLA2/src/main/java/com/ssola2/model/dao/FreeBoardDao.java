@@ -20,9 +20,15 @@ public interface FreeBoardDao {
 	////////////////////////////////////////////////////////////////
 	
 	public void insertFreeBoardComment(FreeBoardComment freeBoardComment);
-	public List<FreeBoardComment> selectFreeBoardCommentsByArtcicleNo(Integer articleNo);
 	public FreeBoardComment editCommentByCommentNo(Integer commentNo);
 	
 	public void editFreeBoardComment(FreeBoardComment freeBoardComment);
 	public void deleteFreeBoardComment(int commentNo);
+
+	public List<FreeBoardComment> selectFreeBoardCommentsByArtcicleNo(Integer articleNo);
+	public void getFreeBoardCommentTotalCountByarticleNo(Integer articleNo);
+	/////////////////////////////
+	public List<FreeBoard> selectFreeBoardsById(int start, int pageSize, String id);
+	
+
 }

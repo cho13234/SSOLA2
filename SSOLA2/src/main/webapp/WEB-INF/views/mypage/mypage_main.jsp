@@ -76,7 +76,7 @@ $(document).ready(function(){
                      <div class="row">
                         <div class="col-md-3 col-lg-3 " align="center">
                            <img alt="User Pic"
-                              src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png"
+                              src="/ssola2/resources/profileImages/${p_list.image}"
                               class="img-circle img-responsive">
                         </div>
 
