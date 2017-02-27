@@ -22,9 +22,10 @@
 		<typeAlias type="com.ssola2.model.dto.ChatMember" alias="ChatMember"/>
 		<typeAlias type="com.ssola2.model.dto.MessageVO" alias="MessageVO"/>
 		<typeAlias type="com.ssola2.model.dto.Profile" alias="Profile"/>
-		<typeAlias type="com.ssola2.model.dto.Friend_list" alias="Friend_list"/>
+
 		<typeAlias type="com.ssola2.model.dto.FreeBoard" alias="FreeBoard"/>
 		<typeAlias type="com.ssola2.model.dto.FreeBoardComment" alias="FreeBoardComment"/>
+		<typeAlias type="com.ssola2.model.dto.Friend_list" alias="Friend_list"/>
 	</typeAliases>
 
   <environments default="development">

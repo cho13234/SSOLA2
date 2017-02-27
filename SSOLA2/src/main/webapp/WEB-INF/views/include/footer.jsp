@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="/ssola2/resources/styles/main_main.css" />
-<script src="/ssola2/resources/scripts/main_jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="/ssola2/resources/scripts/main_jquery.scrolly.min.js"></script>
 <script src="/ssola2/resources/scripts/main_skel.min.js"></script>
 <script src="/ssola2/resources/scripts/main_util.js"></script>

@@ -92,6 +92,121 @@ margin:auto;
 
 </style>
 <script type="text/javascript">
+
+function addComment(){
+	//textarea에 content없을 경우... 글쓰라고 alert...
+	if($('#commentContent').val() == '') 
+		{
+        alert("한줄 댓글의 내용은 필수 입력입니다.");
+        $('#commentContent').focus();
+  		}else{
+  		 $('#commentAddButton').attr('disabled', 'disabled');
+	 $.ajax({
+			type : "post",
+			url : "commentWrite.action",
+			data : {
+				commentId: $('#commentId').val(),
+				articleNo: $('#articleNo').val(),
+				commentContent : $('#commentContent').val()
+					},
+			success: function(result){
+				$('#commentContent').val(''); // 내용 비우기
+                // 다시 클릭이 가능하게끔
+                $('#commentAddButton').attr("disabled", false);
+				$("#commentList").html(result);
+				
+					}
+		});  
+	}
+};
+function editComment(commentNo){
+	
+	 if (!confirm("댓글을 수정하시겠습니까?")) {
+	       
+	  } 
+	
+	 $.ajax({
+			type : "post",
+			url : "commentEdit.action",
+			data : {
+				
+				"commentContent" : commentContent,
+				"commentNo" : commentNo
+			},
+			success: function(result){
+				$("#commentList").html(result);
+				
+			},
+			complete: function(){
+				alert('댓글이 수정되었습니다..');
+			}
+		});  
+	};
+	
+function deleteComment(commentNo){
+	
+	  if (!confirm("삭제하시겠습니까?")) {
+	       
+	  } 
+	 $.ajax({
+			type : "get",
+			url : "commentDelete.action",
+			data : {
+				"commentNo" : commentNo
+			},
+			error: function(error) {
+              //Ajax not successful: show an error
+              alert('An error occured while deleting the comment!');
+          },
+			success: function(result){
+				
+				$("#commentRow_"+commentNo).remove();
+				
+			},
+			complete: function(){
+				alert('댓글이 삭제되었습니다.');
+			}
+			
+		});  
+	};
+
+$(function() {
+	
+	$('#commentAddButton').click(function (event) {
+	addComment();
+	});
+
+	$('.commentEditViewClass').click(function(event){
+		event.preventDefault();
+		var $target = event.target;
+		var commentNo = event.target.id.split("_")[1];
+		$('#commentEditRow_'+ commentNo).toggle('swing');
+	});
+	
+	$('.commentEditConfirmClass').click(function (event) {
+		event.preventDefault();
+		var $target = event.target;
+		var commentNo = event.target.id.split("_")[1];
+		editComment(commentNo);
+	});
+	
+	$('.commentDeleteClass').click(function (event) {
+		event.preventDefault();
+		var $target = event.target;
+		var commentNo = event.target.id.split("_")[1];
+		deleteComment(commentNo);
+	});
+	
+	$('.cancelContfirmClass').click(function (event) {
+		event.preventDefault();
+		var $target = event.target;
+		var commentNo = event.target.id.split("_")[1];
+		$('#commentEditRow_'+ commentNo).hide();
+	});
+});
+	
+  
+
 </script>
 <body>
 <c:import url="/WEB-INF/views/include/header.jsp" />
@@ -143,13 +258,7 @@ margin:auto;
 		
 		<div class="buttons">
 		<c:choose>
-			<c:when test="${loginuser.userType }">
-				<!-- 관리자일 경우 -->
-				<a class="btn btn-default" style="font-family: 'Jeju Gothic', serif;"
-						href="/ssola2/voc/delete.action?articleNo=${voc.articleNo}">delete</a>
-			</c:when>
-			<c:otherwise>
-				<c:if test="${ loginuser.id eq voc.id }">
+			<c:when test="${ loginuser.id eq voc.id }">
 				<!-- 작성자 일 경우 -->
 					<a class="btn btn-default" style="font-family: 'Jeju Gothic', serif;"
 						href="/ssola2/voc/edit.action?articleNo=${voc.articleNo}">Update</a>
@@ -157,7 +266,13 @@ margin:auto;
 					&nbsp;&nbsp; <a class="btn btn-default"
 						style="font-family: 'Jeju Gothic', serif;"
 						href="/ssola2/voc/delete.action?articleNo=${voc.articleNo}">delete</a>
-				</c:if>
+				</c:when>
+			<c:otherwise>
+				<c:if test="${loginuser.userType }">
+				<!-- 관리자일 경우 -->
+				<a class="btn btn-default" style="font-family: 'Jeju Gothic', serif;"
+						href="/ssola2/voc/delete.action?articleNo=${voc.articleNo}">delete</a>
+			</c:if>
 			</c:otherwise>
 		</c:choose>	
 			&nbsp;&nbsp; <a class="btn btn-default"
@@ -166,8 +281,64 @@ margin:auto;
 		</div>	
 		
 		<!-- 여기서 부터 코맨트 입니당 ㅎㅎ -->
-		<div class="commentGroupp">
+			<!-- 댓글 목록이 출력될 영역 -->
+		<div id="commentList">
+				<!-- 여기에 뿌려줌 ㅋㅋ -->
+				<table class="table table-condensed" style=" margin:5% auto; width:80%">
+			<c:forEach var="voccomment" items="${voccomments}">
+			<tr id="commentRow_${voccomment.commentNo}">
+				<td>
+				<input type="hidden" id="commentNo_${voccomment.commentNo}" name="commentNo" value="${ voccomment.commentNo }"/>
+				${ voccomment.id }
+				( <fmt:formatDate value = "${ voccomment.regDate}" pattern = "yyyy-MM-dd HH:mm:ss" />)
+				<br>
+				${ voccomment.commentContent }
+				</td>
+				<td>
+					<c:choose>
+						<c:when test="${ loginuser.id eq voccomment.id }">
+						<input type="button" value="Edit" id="commentEditViewButton_${voccomment.commentNo }" class="commentEditViewClass" />
+						<input type="button" value="Delete" id="commentDeleteButton_${voccomment.commentNo }" 
+						class="commentDeleteClass" />
+						</c:when>
+					<c:otherwise>
+						<c:if test="${loginuser.userType }">
+						<input type="button" value="Delete" id="commentDeleteButton_${voccomment.commentNo }" 
+						class="commentDeleteClass" />
+						</c:if>
+					</c:otherwise>
+					</c:choose>
+				</td>
+			</tr>
+			<!-- COMMENT 수정 -->
+					<tr id="commentEditRow_${voccomment.commentNo}" style='display: none'>
+					<td>
+						<input type="hidden" id="commentNo_${voccomment.commentNo}" name="commentNo" value="${ voccomment.commentNo }"/>
+						<input type="hidden" id="commentId_${voccomment.id}" name="id" value="${ voccomment.id }"/>
+						<span class="idandContent">Content:</span><br/>
+						<textarea id="commentContent_${voccomment.commentContent}" name="commentContent" rows="3" cols="2" style="resize:none"></textarea>
+					</td>
+					<td>
+						<input type="button" value="Confirm"  id='commentEditConfirmButton_${voccomment.commentNo }' class="commentEditConfirmClass"/>
+						<input type="button" value="Cancel" id='cancelContfirm_${voccomment.commentNo }' class='cancelContfirmClass' />
+					</td>
+					</tr>
+			</c:forEach>
+		</table>
+		
 		</div>
+		<!-- 댓글 입력폼 -->
+			<div id="commentAdd" style=" margin:5% auto; width:80%">
+				<form action="commentWrite.action" method="post" name="addForm">
+					<span class="idandContent">ID:</span> <input readonly type="text" id="commentId" name="commentId"
+						value='${ sessionScope.loginuser.id }' /><br />
+					<span class="idandContent">Content:</span>
+					<textarea id="commentContent" name="commentContent" rows="3" cols="2" style="resize:none"></textarea>
+					<br />
+					 <input type='hidden' id="articleNo" name="articleNo" value="${voc.articleNo }" />
+				</form>
+				<input type="button" value="등록" id="commentAddButton" />
+			</div>
 	</div>
 </div>
 

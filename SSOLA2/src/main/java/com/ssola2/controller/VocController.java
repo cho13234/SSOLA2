@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ssola2.model.dto.Member;
 import com.ssola2.model.service.VocService;
 import com.ssola2.ui.ThePager;
 import com.ssola2.model.dto.Voc;
+import com.ssola2.model.dto.VocComment;
 
 
 @Controller
@@ -135,6 +137,7 @@ public class VocController {
 		
 		Voc voc = vocService.getArticleByArticleNo(articleNo);
 		
+		List<VocComment> voccomments = vocService.getVocCommentList(articleNo);
 		
 		///////
 		
@@ -151,6 +154,9 @@ public class VocController {
 			out = resp.getWriter();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		if(voc.getSecure()== null){
+			voc.setSecure(false);
 		}
 		if (voc.getSecure()){
 			if ( member == null){
@@ -171,19 +177,77 @@ public class VocController {
 					return null;
 				}else{
 					model.addAttribute("voc", voc);
+					model.addAttribute("voccomments", voccomments);
+
 
 					return  "voc/detail";
 				}
 			}else{
 				 model.addAttribute("voc", voc);
+				 model.addAttribute("voccomments", voccomments);
 
 				 return "voc/detail";
 			}
 			
 		}else{
 			model.addAttribute("voc", voc);
+			model.addAttribute("voccomments", voccomments);
+
 
 			return "voc/detail";
 		}
 	}
+	
+@RequestMapping(value = "commentWrite.action", method = RequestMethod.POST)
+	
+	public String insertvocComment(String commentContent,
+			HttpServletResponse resp, HttpServletRequest req, HttpSession session, Integer articleNo, Model model) {
+		
+		resp.setCharacterEncoding("utf-8");
+		resp.setContentType("text/html;charset=utf-8");
+		System.out.println(commentContent);
+
+		Member member = (Member)req.getSession().getAttribute("loginuser");
+		
+		VocComment vocComment = new VocComment();
+		vocComment.setArticleNo(articleNo);
+		vocComment.setId(member.getId());
+		System.out.println(member.getId());
+		vocComment.setCommentContent(commentContent);
+		vocService.insertVocComment(vocComment);
+		
+		List<VocComment> voccomments = vocService.getVocCommentList(articleNo);
+		model.addAttribute("voccomments", voccomments);
+		
+		return "voc/comment_list";
+	}
+	
+	@RequestMapping(value = "/commentEdit.action", method = RequestMethod.POST)
+	@ResponseBody
+	public String editFreeBoardComment(HttpServletRequest req, HttpServletResponse resp,@ModelAttribute VocComment vocComment){
+		
+		System.out.println("신호들어옴 ㅋㅋ");
+		resp.setCharacterEncoding("utf-8");
+		resp.setContentType("text/html;charset=utf-8");
+		
+		Member member = (Member) req.getSession().getAttribute("loginuser");
+		
+		vocService.editVocComment(vocComment);
+		
+		return "freeboard/comment_list";
+	}
+
+	@RequestMapping(value = "/commentDelete.action", method = RequestMethod.GET)
+	@ResponseBody
+	public String  deleteComment(HttpServletRequest req, @RequestParam int commentNo){
+		
+		Member member = (Member) req.getSession().getAttribute("loginuser");
+		
+		vocService.deleteVocComment(commentNo);
+		return "success";
+	}
+	
 }
+
+	
+

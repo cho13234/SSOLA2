@@ -15,6 +15,7 @@ public class Voc {
 	private Boolean secure;
 	private String id;
 	private int readCount;
+	private int commentCount;
 	
 	public String toString(){
 		return String.format("articleNo : %d / articleTitle : %s / articleContent : %s / regDate : %s / category : %s / deleted : %s / secure : %s / id : %s ",
@@ -80,6 +81,18 @@ public class Voc {
 	public void setId(String id) {
 		this.id = id;
 	}
+
+
+	public int getCommentCount() {
+		return commentCount;
+	}
+
+
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
+	
+	
 	
 	
 }

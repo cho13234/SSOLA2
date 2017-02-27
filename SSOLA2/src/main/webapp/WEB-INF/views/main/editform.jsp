@@ -129,8 +129,8 @@
 	
 </script>
 <body>
-	<c:import url="/WEB-INF/views/include/header.jsp" />
-	<br />
+<%-- 	<c:import url="/WEB-INF/views/include/header.jsp" />
+ --%>	<br />
 	<br />
 	<div id="pageContainer">
 		<div id="inputcontent">
