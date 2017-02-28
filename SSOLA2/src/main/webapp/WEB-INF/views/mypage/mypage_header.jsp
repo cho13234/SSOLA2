@@ -39,9 +39,9 @@
 </head>
 <body>
 
-<div id = "wrap">
+<div style="padding-left: 27%">
 	<div class="collapse navbar-collapse">
-		<ul class="nav navbar-nav">	
+		<ul class="nav navbar-nav" >	
 			<%-- <c:choose>
 				<c:when test='${loginuser.id eq requestScope.id}'>	 --%>	
 					<li><a href="friends_list.action">친구 목록</a></li>
@@ -77,6 +77,6 @@
 		</ul>
 	</div><!--/.nav-collapse -->
 </div>
-
+<br><br>
 </body>
 </html>
