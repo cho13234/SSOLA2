@@ -120,7 +120,8 @@ ul {
 			console.log('connected stomp over sockjs in chatlist');
 
 			// friendList
-			stompClient.subscribe('/queue/notice/group-${id}', onGroup);
+			stompClient.subscribe('/queue/notice/group-${id}', onGroup); // 채팅방 초대됐을 때, 관리
+			stompClient.subscribe('/queue/notice/group-exit-${id}', onExitGroup); // 채팅방 나갈 때, 관리
 			stompClient.subscribe('/queue/notice/friend-connect-${id}',
 					onConnect);
 			stompClient.subscribe('/queue/notice/friend-disconnect-${id}',
@@ -151,40 +152,6 @@ ul {
 		if (currentRoomNo != null) {
 			onGroupMessage(message);
 		}
-	}
-
-	function onGroup(message) {
-		console.log(message);
-		
-		var chatRoom = JSON.parse(message.body);
-		
-		var chatRoomClone = $("#chatRoomDummy").clone(true);
-		chatRoomClone.css("display", "block");
-		chatRoomClone.attr("id", "chatRoom_" + chatRoom.roomNo);
-		chatRoomClone.find(".roomModalLink").attr("href", "#roomModal_" + chatRoom.roomNo);
-		chatRoomClone.find(".list-group-item-heading p").attr("id", "previewTime_" + chatRoom.roomNo);
-		chatRoomClone.find(".list-group-item-text").attr("id", "preview_" + chatRoom.roomNo);
-		chatRoomClone.find(".roomModal").attr("id", "roomModal_" + chatRoom.roomNo);
-		chatRoomClone.find(".logList").attr("id", "logList_" + chatRoom.roomNo);
-		chatRoomClone.find(".chatBox").attr("id", "chatBox_" + chatRoom.roomNo);
-		chatRoomClone.find(".chatBtn").attr("id", "chatBtn_" + chatRoom.roomNo);
-		
-		if (!chatRoom.roomName) {
-			var members = "";
-			
-			for (var i in chatRoom.members) {
-				if (chatRoom.members[i] == id) continue;
-				members += " " + chatRoom.members[i];
-			}
-			chatRoomClone.find(".list-group-item-heading h4").text(members);
-					/* chatRoomClone.find(".list-group-item-heading h4").text() + " " + chatRoom.members[i]
-			); */
-			chatRoomClone.find(".modal-title").text(members);
-					/* chatRoomClone.find(".modal-title").text() + " " + chatRoom.members[i]
-			); */
-		}
-		
-		$("#chatRoomList").prepend(chatRoomClone);
 	}
 
 	function onGroupMessage(data) {
@@ -224,6 +191,73 @@ ul {
 		
 		$("#roomModal_" + groupNo + " .modal-body")
 			.scrollTop($("#roomModal_" + groupNo + " .row").height());
+	}
+
+	function onGroup(message) {
+		console.log(message);
+		
+		var chatRoom = JSON.parse(message.body);
+		var chatRoomDiv = $("#chatRoom_"+chatRoom.roomNo);
+		
+		if (chatRoomDiv.length != 0) {
+			if (!chatRoom.roomName) {
+				var members = "";
+				
+				for (var i in chatRoom.members) {
+					if (chatRoom.members[i] == id) continue;
+					members += " " + chatRoom.members[i];
+				}
+				chatRoomDiv.find(".list-group-item-heading h4").text(members);
+				chatRoomDiv.find(".modal-title").text(members);
+			}
+			return;
+		}
+		
+		var chatRoomClone = $("#chatRoomDummy").clone(true);
+		chatRoomClone.css("display", "block");
+		chatRoomClone.attr("id", "chatRoom_" + chatRoom.roomNo);
+		chatRoomClone.find(".roomModalLink").attr("href", "#roomModal_" + chatRoom.roomNo);
+		chatRoomClone.find(".list-group-item-heading p").attr("id", "previewTime_" + chatRoom.roomNo);
+		chatRoomClone.find(".list-group-item-text").attr("id", "preview_" + chatRoom.roomNo);
+		chatRoomClone.find(".roomModal").attr("id", "roomModal_" + chatRoom.roomNo);
+		chatRoomClone.find(".logList").attr("id", "logList_" + chatRoom.roomNo);
+		chatRoomClone.find(".chatBox").attr("id", "chatBox_" + chatRoom.roomNo);
+		chatRoomClone.find(".chatBtn").attr("id", "chatBtn_" + chatRoom.roomNo);
+		chatRoomClone.find(".inviteModalLink").attr("id", "inviteModal_" + chatRoom.roomNo);
+		chatRoomClone.find(".exitModal").attr("id", "exitModal_" + chatRoom.roomNo);
+		
+		if (!chatRoom.roomName) {
+			var members = "";
+			
+			for (var i in chatRoom.members) {
+				if (chatRoom.members[i] == id) continue;
+				members += " " + chatRoom.members[i];
+			}
+			chatRoomClone.find(".list-group-item-heading h4").text(members);
+					/* chatRoomClone.find(".list-group-item-heading h4").text() + " " + chatRoom.members[i]
+			); */
+			chatRoomClone.find(".modal-title").text(members);
+					/* chatRoomClone.find(".modal-title").text() + " " + chatRoom.members[i]
+			); */
+		}
+		
+		$("#chatRoomList").prepend(chatRoomClone);
+	}
+	
+	function onExitGroup(chatRoom) {
+		console.group(chatRoom);
+		
+		var chatRoomDiv = $("#chatRoom_" + chatRoom.roomNo);
+		if (!chatRoom.roomName) {
+			var members = "";
+			
+			for (var i in chatRoom.members) {
+				if (chatRoom.members[i] == id) continue;
+				members += " " + chatRoom.members[i];
+			}
+			chatRoomClone.find(".list-group-item-heading h4").text(members);
+			chatRoomClone.find(".modal-title").text(members);
+		}
 	}
 
 	// friendList
@@ -381,9 +415,104 @@ ul {
 			currentRoomNo = null;
 		});
 		
+		// 방 만들기 버튼을 눌렀을 때, 이벤트
+		$("#viewFriends").on("click", function(event) {
+			$.ajax({
+				"url" : "/ssola2/chat/viewfriends.action",
+				"method" : "get",
+				"dataType" : "json",
+				success : function(data) {
+					$.each(data, function(index, friend) {
+						$("<a></a>")
+						.attr({
+							"href" : "#",
+							"id" : "list-group-item-" + friend.id,
+							"class" : "list-group-item friend"
+						})
+						.text(friend.id)
+						.append(
+							$("<input type='checkbox' class='pull-right'>")
+						)
+						.appendTo($("#makeList1"));
+					});
+				}
+			})
+		});
+		
+		// 초대 버튼을 눌렀을 때, 내 친구중 해당 그룹에 속하지 않은 사람을 선택한다.
+		$(".inviteModalLink").on("click", function(event) {
+			var target = $(event.target);
+			var targetLink = null;
+			var groupNo;
+
+			if (event.target !== this) {
+				targetLink = target.parent().attr("href");
+				groupNo = target.parent().attr("id").split("_")[1];
+			} else {
+				targetLink = target.attr("href");
+				groupNo = target.attr("id").split("_")[1];
+			}
+
+			$("#inviteChatRoomNo").val(groupNo);
+			
+			var members = new Array;
+			
+			$.ajax({
+				"url" : "/ssola2/chat/viewgroupmembers.action",
+				"method" : "get",
+				"data" : {
+					"groupNo" : groupNo
+				},
+				"dataType" : "json",
+				success : function(data) {
+					$.each(data, function(index, member) {
+						if (member != id) {
+							members.push(member);
+						}
+					});
+					
+					$.ajax({
+						"url" : "/ssola2/chat/viewfriends.action",
+						"method" : "get",
+						"dataType" : "json",
+						success : function(data) {
+							$.each(data, function(index, friend) {
+								if ($.inArray(friend.id, members) == -1) {
+									$("<a></a>")
+									.attr({
+										"href" : "#",
+										"id" : "list-group-item-" + friend.id,
+										"class" : "list-group-item friend"
+									})
+									.text(friend.id)
+									.append(
+										$("<input type='checkbox' class='pull-right'>")
+									)
+									.appendTo($("#inviteList1"));
+								}
+							});
+						}
+					});
+				}
+			});
+			
+			$(targetLink).modal();
+		});
+		
+		// 종료시엔 공통적으로 리스트를 비워준다.
+		$("#friendListModal").on("hidden.bs.modal", function(event) {
+			$(".friend").remove();
+		});
+		
+		$("#inviteListModal").on("hidden.bs.modal", function(event) {
+			$(".friend").remove();
+			
+			$("#inviteChatRoomNo").val("");
+		});
+		
 		$("#makeChatRoom").on("click", function(event) {
 			// 초대목록에 있는 친구 객체들을 불러온다.
-			var friends = $("#list2 .friend");//.find(".friend");
+			var friends = $("#makeList2 .friend");//.find(".friend");
 			var list = new Array;
 			
 			friends.each(function(idx, item) {
@@ -405,13 +534,57 @@ ul {
 			});
 			
 			// 초대목록에 있는 아이템을 전부 친구목록으로 되돌린다.
-			$('.all').prop("checked", false);
-			var items = $("#list2 input:not('.all')");
+			/* $('.all').prop("checked", false);
+			var items = $("#makeList2 input:not('.all')");
 			items.each(function(idx, item) {
 				var choice = $(item);
 				choice.prop("checked", false);
-				choice.parent().appendTo("#list1");
+				choice.parent().appendTo("#makeList1");
+			}); */
+		});
+		
+		$("#inviteChatRoom").on("click", function(event) {
+			// 초대목록에 있는 친구 객체들을 불러온다.
+			var friends = $("#inviteList2 .friend");//.find(".friend");
+			var groupNo = $("#inviteChatRoomNo").val();
+			var list = new Array;
+			
+			friends.each(function(idx, item) {
+				list.push(item.text);
 			});
+			
+			$.ajax({
+				"url" : "/ssola2/chat/invitegroup.action",
+				"method" : "get",
+				"data" : {
+					friends : JSON.stringify(list),
+					groupNo : groupNo
+				},
+				"dataType" : "json",
+				success : function(chatRoom) {
+					stompClient.send('/app/notice/group', {}, JSON.stringify(chatRoom));
+					alert("채팅방을 만들었습니다");
+				}
+			});
+		});
+
+		$(".exitModal").on("click", function(event) {
+			var target = $(event.target);
+			var groupNo;
+
+			if (event.target !== this) {
+				groupNo = target.parent().attr("id").split("_")[1];
+			} else {
+				groupNo = target.attr("id").split("_")[1];
+			}
+
+			stompClient.send("/app/notice/group-exit", {}, JSON.stringify({
+				"roomNo" : groupNo,
+				"id" : id
+			}));
+			
+			$("#roomModal_" + groupNo).modal('hide');
+			$("#chatRoom_" + groupNo + " > .roomModalLink").remove();
 		});
 
 		$(".chatBtn").on("click", function(event) {
@@ -424,28 +597,53 @@ ul {
 			sendGroupMessage(event);
 		});
 
-		$('.add').click(function() {
+		$('#makeAdd').click(function() {
 			$('.all').prop("checked", false);
-			var items = $("#list1 input:checked:not('.all')");
+			var items = $("#makeList1 input:checked:not('.all')");
 			var n = items.length;
 			if (n > 0) {
 				items.each(function(idx, item) {
 					var choice = $(item);
 					choice.prop("checked", false);
-					choice.parent().appendTo("#list2");
+					choice.parent().appendTo("#makeList2");
 				});
 			} else {
 				alert("Choose an item from list 1");
 			}
 		});
 
-		$('.remove').click(function() {
+		$('#makeRemove').click(function() {
 			$('.all').prop("checked", false);
-			var items = $("#list2 input:checked:not('.all')");
+			var items = $("#makeList2 input:checked:not('.all')");
 			items.each(function(idx, item) {
 				var choice = $(item);
 				choice.prop("checked", false);
-				choice.parent().appendTo("#list1");
+				choice.parent().appendTo("#makeList1");
+			});
+		});
+		
+		$('#inviteAdd').click(function() {
+			$('.all').prop("checked", false);
+			var items = $("#inviteList1 input:checked:not('.all')");
+			var n = items.length;
+			if (n > 0) {
+				items.each(function(idx, item) {
+					var choice = $(item);
+					choice.prop("checked", false);
+					choice.parent().appendTo("#inviteList2");
+				});
+			} else {
+				alert("Choose an item from list 1");
+			}
+		});
+
+		$('#inviteRemove').click(function() {
+			$('.all').prop("checked", false);
+			var items = $("#inviteList2 input:checked:not('.all')");
+			items.each(function(idx, item) {
+				var choice = $(item);
+				choice.prop("checked", false);
+				choice.parent().appendTo("#inviteList1");
 			});
 		});
 
@@ -571,7 +769,6 @@ ul {
 											<ul id="logList_${ room.roomNo }" class="logList"></ul>
 										</div>
 	
-	
 										<%-- 이걸 설정창 (그룹 참여중인 친구, 채팅방 나가기 등등) <div class="col-sm-4 col-sm-offset-1">
 											<div class="list-group" id="list1">
 												<a href="#" class="list-group-item active">친구 목록<input title="toggle all" type="checkbox" class="all pull-right"></a>
@@ -585,7 +782,20 @@ ul {
 								<div class="modal-footer">
 									<!-- 여기에 입력창 -->
 									<div class="col-md-12 text-center">
-										<span> <input type="text" class="chatBox"
+										<span class="dropup col-md-2">
+											<button type="button" class="btn btn-default dropdown-toggle" id="dropdownMenu"
+												data-toggle="dropdown" aria-hashpopup="true" aria-expanded="false">
+												DropUp
+												<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+											    <li><a href="#inviteListModal" id="inviteModal_${ room.roomNo }" class="inviteModalLink">초대</a></li>
+											    <li><a href="#">멤버 보기</a></li>
+											    <li role="separator" class="divider"></li>
+											    <li><a href="#" id="exitModal_${ room.roomNo }" class="exitModal">퇴장</a></li>
+										  	</ul>
+										</span>
+										<span class="col-md-4 col-md-offset-2"> <input type="text" class="chatBox"
 											id="chatBox_${ room.roomNo }"> <input type="button"
 											class="chatBtn" id="chatBtn_${ room.roomNo }" value="보내기">
 										</span>
@@ -607,7 +817,7 @@ ul {
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Modal Header</h4>
+						<h4 class="modal-title">Make ChatRoom</h4>
 					</div>
 					<div class="modal-body">
 						<!-- <p>Some text in the modal.</p> -->
@@ -616,10 +826,10 @@ ul {
 								<h3>Friend List</h3>
 							</div>
 							<div class="col-sm-4 col-sm-offset-1">
-								<div class="list-group" id="list1">
+								<div class="list-group" id="makeList1">
 									<a href="#" class="list-group-item active">친구 목록<input
 										title="toggle all" type="checkbox" class="all pull-right"></a>
-									<c:forEach var="friend" items="${ friendList }">
+									<!-- <c:forEach var="friend" items="${ friendList }">
 										<c:choose>
 											<c:when test="${ friend.isConnect eq 0 }">
 												<a href="#" id="list-group-item-${ friend.id }" class="list-group-item friend">${ friend.id }<input
@@ -630,20 +840,20 @@ ul {
 													type="checkbox" class="pull-right"></a>
 											</c:otherwise>
 										</c:choose>
-									</c:forEach>
+									</c:forEach> -->
 								</div>
 							</div>
 							<div class="col-md-2 v-center">
-								<button title="초대" class="btn btn-default center-block add">
+								<button title="초대" id="makeAdd" class="btn btn-default center-block add">
 									<i class="glyphicon glyphicon-chevron-right"></i>
 								</button>
-								<button title="초대 취소"
+								<button title="초대 취소" id="makeRemove"
 									class="btn btn-default center-block remove">
 									<i class="glyphicon glyphicon-chevron-left"></i>
 								</button>
 							</div>
 							<div class="col-sm-4">
-								<div class="list-group" id="list2">
+								<div class="list-group" id="makeList2">
 									<a href="#" class="list-group-item active">초대 목록<input
 										title="toggle all" type="checkbox" class="all pull-right"></a>
 									<!-- <a href="#" class="list-group-item">Bravo <input type="checkbox" class="pull-right"></a> -->
@@ -656,7 +866,55 @@ ul {
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					</div>
 				</div>
+			</div>
+		</div>
+		
+		<!-- Modal -->
+		<div id="inviteListModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
 
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Invite Friend</h4>
+					</div>
+					<div class="modal-body">
+						<!-- <p>Some text in the modal.</p> -->
+						<div class="row">
+							<div class="col-md-12 text-center">
+								<h3>Friend List</h3>
+							</div>
+							<div class="col-sm-4 col-sm-offset-1">
+								<div class="list-group" id="inviteList1">
+									<a href="#" class="list-group-item active">친구 목록<input
+										title="toggle all" type="checkbox" class="all pull-right"></a>
+								</div>
+							</div>
+							<div class="col-md-2 v-center">
+								<button title="초대" id="inviteAdd" class="btn btn-default center-block add">
+									<i class="glyphicon glyphicon-chevron-right"></i>
+								</button>
+								<button title="초대 취소" id="inviteRemove"
+									class="btn btn-default center-block remove">
+									<i class="glyphicon glyphicon-chevron-left"></i>
+								</button>
+							</div>
+							<div class="col-sm-4">
+								<div class="list-group" id="inviteList2">
+									<a href="#" class="list-group-item active">초대 목록<input
+										title="toggle all" type="checkbox" class="all pull-right"></a>
+									<!-- <a href="#" class="list-group-item">Bravo <input type="checkbox" class="pull-right"></a> -->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="hidden" id="inviteChatRoomNo" value=""/>
+						<button type="button" id="inviteChatRoom" class="inviteChatRoom btn btn-default" data-dismiss="modal">Invite</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
 			</div>
 		</div>
 		
@@ -716,12 +974,23 @@ ul {
 							</div>
 							<div class="modal-footer">
 								<!-- 여기에 입력창 -->
-								<div class="col-md-12 text-center">
-									<span> <input type="text" class="chatBox"
-										id="chatBox_${ room.roomNo }"> <input type="button"
-										class="chatBtn" id="chatBtn_${ room.roomNo }" value="보내기">
-									</span>
-								</div>
+								<span class="dropup col-md-2">
+									<button type="button" class="btn btn-default dropdown-toggle" id="dropdownMenu"
+										data-toggle="dropdown" aria-hashpopup="true" aria-expanded="false">
+										DropUp
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+									    <li><a href="#inviteListModal" id="inviteModal_${ room.roomNo }" class="inviteModalLink">초대</a></li>
+									    <li><a href="#">멤버 보기</a></li>
+									    <li role="separator" class="divider"></li>
+									    <li><a href="#" id="exitModal_${ room.roomNo }" class="exitModal">퇴장</a></li>
+								  	</ul>
+								</span>
+								<span class="col-md-4 col-md-offset-2"> <input type="text" class="chatBox"
+									id="chatBox_${ room.roomNo }"> <input type="button"
+									class="chatBtn" id="chatBtn_${ room.roomNo }" value="보내기">
+								</span>
 							</div>
 						</div>
 					</div>

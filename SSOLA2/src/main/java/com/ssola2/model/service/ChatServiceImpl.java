@@ -85,4 +85,27 @@ public class ChatServiceImpl implements ChatService {
 		}
 	}
 
+	@Override
+	public ChatRoom inviteChatMembersTx(ChatRoom chatRoom) {
+		
+		chatRoom.setMemberSize(chatRoom.getMembers().size());
+		System.out.println("before : " + chatRoom.getMemberSize());
+		chatDao.updateChatRoom(chatRoom);
+		System.out.println("after : " + chatRoom.getMemberSize());
+		
+		for (String friend : chatRoom.getMembers()) {
+			ChatMember chatMember = new ChatMember();
+			chatMember.setId(friend);
+			chatMember.setRoomNo(chatRoom.getRoomNo());
+			chatDao.insertChatMember(chatMember);
+		}
+		
+		return chatDao.selectChatRoomByRoomNo(chatRoom.getRoomNo());
+	}
+
+	@Override
+	public void exitGroupByGroupMember(ChatMember chatMember) {
+		chatDao.updateChatMemberDeletedTrue(chatMember);
+	}
+
 }

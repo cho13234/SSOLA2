@@ -13,6 +13,17 @@
 		<result column="avg_price" property="avgPrice" />
 		<result column="menu" property="menu" />
 	</resultMap>
+	
+	<resultMap type="com.ssola2.model.dto.Reservation" id="ReservationResult">
+		<id column="reservation_no" property="reservation_no" />
+		<result column="booker" property="booker"/>
+		<result column="store_id" property="store_id"/>
+		<result column="reg_date" property="reg_date"/>
+		<result column="book_date" property="book_date"/>
+		<result column="book_size" property="book_size"/>
+		<result column="book_time" property="book_time"/>
+		<result column="checked" property="checked"/>
+	</resultMap>
 
 <!-- 매장 프로필에 최초 매장정보 입력 -->
 	<insert id="insertShopProfileById" parameterType="Shop_Profile">
@@ -37,4 +48,17 @@
 		insert into RESERVATION (booker, store_id, book_date, book_size, book_time)
 		values (#{booker}, #{store_id}, #{book_date}, #{book_size}, #{book_time})
 	</insert>
+	
+	<select id="selectReservationByShopId" resultMap="ReservationResult">
+		SELECT *
+		FROM RESERVATION
+		WHERE store_id = #{id} and checked = 0
+	</select>
+	
+	<update id="updateReservationChecked" parameterType="Reservation">
+		UPDATE RESERVATION
+		SET CHECKED = 1
+		WHERE reservation_no = #{reservation_no}
+	</update>
+	
 </mapper>

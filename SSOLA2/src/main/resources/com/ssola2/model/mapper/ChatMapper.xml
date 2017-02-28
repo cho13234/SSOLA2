@@ -52,13 +52,11 @@
 	</select>	 -->
 	
 	<select id="selectChatRoomListById" parameterType="String" resultMap="ChatRoomResult">
-		SELECT r.room_no, r.member_size, r.room_name, MAX(c.reg_date) date
+		SELECT r.room_no, r.member_size, r.room_name
 		FROM CHAT_ROOM r 
 		inner join CHAT_MEMBER m ON r.room_no = m.room_no
-		inner join CHAT c on r.room_no = c.room_no
-		WHERE m.ID = #{id} AND r.deleted = 0
+		WHERE m.ID = #{id} AND r.deleted = 0 AND m.deleted = 0
 		GROUP BY r.room_no
-        ORDER BY date DESC
 	</select>
 	
 	<select id="selectChatMemberListById" parameterType="String" resultMap="MemberResult">
@@ -154,5 +152,28 @@
 	<insert id="insertChatMember" parameterType="ChatMember">
 		INSERT INTO CHAT_MEMBER (id, room_no) values (#{id}, #{roomNo})
 	</insert>
+	
+	<update id="updateChatRoom" parameterType="ChatRoom">
+		UPDATE CHAT_ROOM a,
+		(
+			SELECT member_size
+		    FROM CHAT_ROOM
+		    WHERE ROOM_NO = #{roomNo}
+		) b
+		SET a.member_size = b.member_size + #{memberSize}
+		WHERE a.ROOM_NO = #{roomNo};
+	</update>
+	
+	<select id="selectChatRoomByRoomNo" resultMap="ChatRoomResult">
+		SELECT *
+		FROM CHAT_ROOM
+		WHERE ROOM_NO = #{roomNo}
+	</select>
+	
+	<update id="updateChatMemberDeletedTrue" parameterType="chatMember" >
+		UPDATE CHAT_MEMBER
+		SET deleted = 1
+		WHERE id = #{id} and room_no = #{roomNo}
+	</update>
 		
 </mapper>

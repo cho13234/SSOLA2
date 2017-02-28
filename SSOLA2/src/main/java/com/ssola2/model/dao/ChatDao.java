@@ -37,4 +37,10 @@ public interface ChatDao {
 	public void insertChatRoom(ChatRoom chatRoom);
 
 	public void insertChatMember(ChatMember chatMember);
+
+	public void updateChatRoom(ChatRoom chatRoom);
+
+	public ChatRoom selectChatRoomByRoomNo(int roomNo);
+
+	public void updateChatMemberDeletedTrue(ChatMember chatMember);
 }

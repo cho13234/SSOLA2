@@ -38,4 +38,10 @@ public interface ChatMapper {
 	void insertChatRoom(ChatRoom chatRoom);
 
 	void insertChatMember(ChatMember chatMember);
+
+	void updateChatRoom(ChatRoom chatRoom);
+
+	ChatRoom selectChatRoomByRoomNo(int roomNo);
+
+	void updateChatMemberDeletedTrue(ChatMember chatMember);
 }

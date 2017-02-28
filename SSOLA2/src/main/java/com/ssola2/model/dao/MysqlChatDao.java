@@ -94,4 +94,19 @@ public class MysqlChatDao implements ChatDao {
 		chatMapper.insertChatMember(chatMember);
 	}
 
+	@Override
+	public void updateChatRoom(ChatRoom chatRoom) {
+		chatMapper.updateChatRoom(chatRoom);
+	}
+
+	@Override
+	public ChatRoom selectChatRoomByRoomNo(int roomNo) {
+		return chatMapper.selectChatRoomByRoomNo(roomNo);
+	}
+
+	@Override
+	public void updateChatMemberDeletedTrue(ChatMember chatMember) {
+		chatMapper.updateChatMemberDeletedTrue(chatMember);
+	}
+
 }

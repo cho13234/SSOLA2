@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ssola2.model.dto.ChatLog;
+import com.ssola2.model.dto.ChatMember;
 import com.ssola2.model.dto.ChatRoom;
 import com.ssola2.model.dto.Member;
 import com.ssola2.model.dto.MessageVO;
@@ -29,4 +30,8 @@ public interface ChatService {
 	public List<String> searchGroupMemberByGroupNo(String groupNo);
 
 	public void createChatRoomTx(ChatRoom chatRoom);
+
+	public ChatRoom inviteChatMembersTx(ChatRoom chatRoom);
+
+	public void exitGroupByGroupMember(ChatMember chatMember);
 }

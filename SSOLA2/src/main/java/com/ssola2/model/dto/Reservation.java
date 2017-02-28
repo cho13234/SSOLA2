@@ -10,7 +10,7 @@ public class Reservation {
 	private Date book_date;
 	private int book_size;
 	private String book_time;
-	
+	private boolean checked;
 	
 	public String getBook_time() {
 		return book_time;
@@ -18,8 +18,6 @@ public class Reservation {
 	public void setBook_time(String book_time) {
 		this.book_time = book_time;
 	}
-	boolean checked;
-	
 	
 	public int getReservation_no() {
 		return reservation_no;
