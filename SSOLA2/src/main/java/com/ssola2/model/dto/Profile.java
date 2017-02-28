@@ -12,6 +12,14 @@ public class Profile {
 	private String nickname;
 	private String email;
 	private Date birth;
+	private String shop_status;
+	
+	public String getShop_status() {
+		return shop_status;
+	}
+	public void setShop_status(String shop_status) {
+		this.shop_status = shop_status;
+	}
 	private boolean gender;
 	
 	

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	
+	<mapper namespace="com.ssola2.model.mapper.ShopMapper">
+	<resultMap type="com.ssola2.model.dto.Shop_Profile" id="ShopResult">
+		<id column="id" property="id" />
+		<result column="open_time" property="openTime" />
+		<result column="close_time" property="closeTime" />
+		<result column="capacity" property="capacity"/>
+		<result column="avg_price" property="avgPrice" />
+		<result column="menu" property="menu" />
+	</resultMap>
+
+<!-- 매장 프로필에 최초 매장정보 입력 -->
+	<insert id="insertShopProfileById" parameterType="Shop_Profile">
+		insert into SHOP_PROFILE(id)
+		values(#{id})		
+	</insert>
+	
+	<!--shop profile 입력  -->
+	<update id="updateShopProfile" parameterType="Shop_Profile">
+		UPDATE SHOP_PROFILE
+		SET OPEN_TIME=#{open_time}, CLOSE_TIME=#{close_time}, CAPACITY=#{capacity}, AVG_PRICE=#{avg_price}, MENU=#{menu}
+		WHERE id =#{id}
+	</update>
+	
+	<select id="selectShopProfile" parameterType="String" resultType="Shop_Profile">
+		select * 
+		from SHOP_PROFILE
+		WHERE ID=#{id}
+	</select>
+	<!-- reservation 테이블에 예약정보 입력 -->
+	<insert id="insertReservation" parameterType="Reservation">
+		insert into RESERVATION (booker, store_id, book_date, book_size, book_time)
+		values (#{booker}, #{store_id}, #{book_date}, #{book_size}, #{book_time})
+	</insert>
+</mapper>

@@ -102,8 +102,8 @@
 					<li>
 						 <!-- 마이페이지 연결 로그인이 안되있을 경우 보이지 않음 -->
 					    <c:choose>
-					    	<c:when test="${loginuser.id != null }">
-								<a href="/ssola2/mypage/mypage_main.action"><h3>My page</h3>
+					    	<c:when test="${loginuser.id != null && loginuser.userType eq '0'}">					    	
+								<a href="/ssola2/mypage/mypage_main.action"><h3>My page</h3>								
 								<p>마이페이지로 이동합니다.</p>
 								</a>
 							</c:when>
@@ -113,6 +113,7 @@
 								</a>
 							</c:otherwise>
 						</c:choose>
+						${ loginuser.userType }
 						<!--  ADMIN계정만 접근가능한 에디터 회원가입창 -->
 						<c:if test="${ loginuser.userType }">
 							<c:if test="${ loginuser.authority }">

@@ -81,7 +81,7 @@ $(function() {
 
 </head>
 <body>
-	<c:import url="/WEB-INF/views/include/header.jsp" />
+	
 		<c:import url="/WEB-INF/views/mypage/mypage_header.jsp" />
 	<div id="pageContainer">
 	

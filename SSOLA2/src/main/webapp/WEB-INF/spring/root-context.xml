@@ -121,5 +121,10 @@
 		<property name="mapperInterface" value="com.ssola2.model.mapper.CommentMapper" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
+   <bean id="shopMapper"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.ssola2.model.mapper.ShopMapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
    
 </beans>

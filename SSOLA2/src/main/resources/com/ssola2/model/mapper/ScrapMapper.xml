@@ -48,8 +48,10 @@
 	<!--profile 입력  -->
 	<update id="updateProfile" parameterType="Profile">
 		UPDATE PROFILE
-		SET IMAGE=#{image} , DESCRIPTION=#{description}, OPEN_STATUS=#{open_status}
+		SET IMAGE=#{image} , DESCRIPTION=#{description}, OPEN_STATUS=#{open_status}, SHOP_STATUS=#{shop_status}
 		WHERE id =#{id}
 	</update>
+	
+	
 
 </mapper>

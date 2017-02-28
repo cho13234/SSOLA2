@@ -25,6 +25,8 @@
 		<typeAlias type="com.ssola2.model.dto.Friend_list" alias="Friend_list"/>
 		<typeAlias type="com.ssola2.model.dto.FreeBoard" alias="FreeBoard"/>
 		<typeAlias type="com.ssola2.model.dto.FreeBoardComment" alias="FreeBoardComment"/>
+		<typeAlias type="com.ssola2.model.dto.Shop_Profile" alias="Shop_Profile"/>
+		<typeAlias type="com.ssola2.model.dto.Reservation" alias="Reservation"/>
 	</typeAliases>
 
   <environments default="development">
@@ -50,6 +52,7 @@
     <mapper resource="com/ssola2/model/mapper/ScrapMapper.xml"/>
     <mapper resource="com/ssola2/model/mapper/FreeBoardMapper.xml"/>
     <mapper resource="com/ssola2/model/mapper/CommentMapper.xml"/>
+    <mapper resource="com/ssola2/model/mapper/ShopMapper.xml"/>
     <!-- <mapper resource="com/ssola2/model/mapper/GpsMapper.xml"/> -->
   </mappers>
   

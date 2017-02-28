@@ -13,7 +13,7 @@
 	<style type="text/css">
 	.error { color: red; font-size: 8pt; font-style: bold }
 	</style>
-
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="/ssola2/resources/scripts/account_registerform.js"></script>
 	

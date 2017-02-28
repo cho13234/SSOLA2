@@ -1,10 +1,14 @@
 package com.ssola2.controller;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -20,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ssola2.common.Util;
@@ -28,14 +31,16 @@ import com.ssola2.model.dao.MemberDao;
 import com.ssola2.model.dto.Customer;
 import com.ssola2.model.dto.FreeBoard;
 import com.ssola2.model.dto.Friend_list;
-import com.ssola2.model.dto.LoginUser;
 import com.ssola2.model.dto.Member;
 import com.ssola2.model.dto.Profile;
+import com.ssola2.model.dto.Reservation;
 import com.ssola2.model.dto.Scrap;
+import com.ssola2.model.dto.Shop_Profile;
 import com.ssola2.model.dto.Voc;
 import com.ssola2.model.service.FreeBoardService;
 import com.ssola2.model.service.MemberService;
 import com.ssola2.model.service.ScrapService;
+import com.ssola2.model.service.ShopService;
 import com.ssola2.model.service.VocService;
 import com.ssola2.ui.ThePager;
 
@@ -64,17 +69,27 @@ public class MypageController {
 	@Autowired
 	@Qualifier("freeBoardService")
 	private FreeBoardService freeBoardService;
-		
+	
+	@Autowired
+	@Qualifier("shopService")
+	private ShopService shopService;
+
 	//my profile
 	@RequestMapping(value = "mypage_main.action", method = RequestMethod.GET)
 	public String mypage_main(Model model, Profile profile, HttpSession session) {
 
 		Member member = (Member)session.getAttribute("loginuser");
 		Profile p_list = memberService.selectProfile(member.getId());
-
-		model.addAttribute("p_list", p_list);		
-
-		return "mypage/mypage_main";
+		Shop_Profile sh_list = shopService.selectShopProfile(member.getId());
+		
+		if(p_list.getShop_status().equals("2")) {
+			model.addAttribute("p_list", p_list);
+			model.addAttribute("sh_list", sh_list);
+			return "mypage/shop_profile";
+		} else  {
+			model.addAttribute("p_list", p_list);
+			return "mypage/mypage_main";
+		}
 	}
 
 	//회원정보 보기
@@ -121,7 +136,6 @@ public class MypageController {
 		return "account/login";
 	}
 
-
 	///////////////////////친구 프로필
 	@RequestMapping(value = "mypage_friendmain.action", method = RequestMethod.GET)
 	//@ResponseBody //String 값을 내보낼 때
@@ -131,35 +145,65 @@ public class MypageController {
 		Member member = (Member)session.getAttribute("loginuser");
 		// member 변수 id로 profile select
 		Profile profile = memberService.selectProfile(did);
+		Shop_Profile sh_list = shopService.selectShopProfile(did);
 
-		String sid = member.getId();
-		// 내 친구의 목록을 가져온다.
-		Friend_list _f_list = new Friend_list();
-		_f_list.setSource_id(sid);
-		_f_list.setDestination_id(did);
+		//매장 신청이 완료됐을 경우.
+		if(profile.getShop_status().equals("2")) {
 
-		List<Friend_list> mf_list = memberService.friendsStatus(_f_list);
-		model.addAttribute("p_list", profile);
+			String sid = member.getId();
+			// 내 친구의 목록을 가져온다.
+			Friend_list _f_list = new Friend_list();
+			_f_list.setSource_id(sid);
+			_f_list.setDestination_id(did);
 
-		if(mf_list.size() == 0) { // 데이터테이블에 데이터가 없을때 // 친구 아닐 때
-			model.addAttribute("status" , "insert");
-		} else { // 데이터테이블에 데이터가 있을 때
-			for(Friend_list f_list : mf_list) {
-				// 넌 나의 친구 상태
-				if(f_list.isDeleted() == false)  { // datatable에 친구일 때,               
-					model.addAttribute("status" ,"delete");
-				}else if(f_list.isDeleted() == true){ // 친구였는데 삭제했을 때
-					model.addAttribute("status" ,"update");
+			List<Friend_list> mf_list = memberService.friendsStatus(_f_list);
+			model.addAttribute("p_list", profile);
+			model.addAttribute("sh_list", sh_list);
+
+			if(mf_list.size() == 0) { // 데이터테이블에 데이터가 없을때 // 친구 아닐 때
+				model.addAttribute("status" , "insert");
+			} else { // 데이터테이블에 데이터가 있을 때
+				for(Friend_list f_list : mf_list) {
+					// 넌 나의 친구 상태
+					if(f_list.isDeleted() == false)  { // datatable에 친구일 때,               
+						model.addAttribute("status" ,"delete");
+					}else if(f_list.isDeleted() == true){ // 친구였는데 삭제했을 때
+						model.addAttribute("status" ,"update");
+					}
 				}
-				/*else if(!f_list.getDestination_id().equals(did)) {
+			}		
+			return "mypage/shop_profile";
+		} else {
+
+			String sid = member.getId();
+			// 내 친구의 목록을 가져온다.
+			Friend_list _f_list = new Friend_list();
+			_f_list.setSource_id(sid);
+			_f_list.setDestination_id(did);
+
+			List<Friend_list> mf_list = memberService.friendsStatus(_f_list);
+			model.addAttribute("p_list", profile);
+			model.addAttribute("sh_list", sh_list);
+			
+			if(mf_list.size() == 0) { // 데이터테이블에 데이터가 없을때 // 친구 아닐 때
+				model.addAttribute("status" , "insert");
+			} else { // 데이터테이블에 데이터가 있을 때
+				for(Friend_list f_list : mf_list) {
+					// 넌 나의 친구 상태
+					if(f_list.isDeleted() == false)  { // datatable에 친구일 때,               
+						model.addAttribute("status" ,"delete");
+					}else if(f_list.isDeleted() == true){ // 친구였는데 삭제했을 때
+						model.addAttribute("status" ,"update");
+					}
+					/*else if(!f_list.getDestination_id().equals(did)) {
 	               model.addAttribute("status", "insert");
 	            }*/
+				}
 			}
 		}
-
 		return "mypage/friend_main";
 	}
-	
+
 
 
 	////////////////친구 추가
@@ -206,7 +250,7 @@ public class MypageController {
 	public String friendlist(HttpSession session, Model model) {
 
 		Member member = (Member)session.getAttribute("loginuser");
-		
+
 		List<Friend_list> my_flist = memberService.selectFriendList(member.getId());
 
 		model.addAttribute("my_flist", my_flist);
@@ -218,7 +262,7 @@ public class MypageController {
 	//나를 친구로 등록한 사람(친구 추천같은 개념)
 	@RequestMapping(value = "friend_add_confirm.action", method = RequestMethod.GET)
 	public String friend_add_confirm(Model model, HttpSession session) {
-		
+
 		Member member = (Member)session.getAttribute("loginuser");
 		List<Friend_list> add_flist =memberService.selectAddFriendList(member.getId()); 
 
@@ -241,49 +285,161 @@ public class MypageController {
 		Profile p_list = memberService.selectProfile(member.getId());
 
 		model.addAttribute("p_list", p_list);
-		
-		
+
+
 		return "mypage/profile_editform";
 	}
+	
+	//shop_editform.jsp
+	@RequestMapping(value = "shop_editform.action", method = RequestMethod.GET)
+	public String shop_editform(Model model, Profile profile, HttpSession session) {
 
-   //이미지 업로드 액션
-      @RequestMapping(value="/upload.action", method=RequestMethod.POST)
-      private String upload(@RequestParam("file") MultipartFile file,HttpSession session , String description, String open_status, Model model) throws Exception { 
-    	  Member member = (Member)session.getAttribute("loginuser");
-    	  Profile profile = new Profile();
-    	  
-    	  String uploadPath = session.getServletContext().getRealPath("/resources/profileImages");
-          //실제 디플로이되는 폴더의 root path를 따온다
-          //System.out.println("UPLOAD_PATH : "+uploadPath);
-          
-          if(file.getOriginalFilename() == "") {
-        	  profile.setImage("sino.gif");
-        	  profile.setId(member.getId());
-        	  profile.setDescription(description);
-        	  profile.setOpen_status(open_status);
-        	          	  
-        	  scrapService.updateProfile(profile);
-        	  
-        	  model.addAttribute("p_status", profile.getOpen_status());        	  
-        	  
-          } else {
-        	  String inTime   = new java.text.SimpleDateFormat("HHmmss").format(new java.util.Date());
-        	  FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(uploadPath+"/"+inTime+file.getOriginalFilename()));
-              //upload 폴더안에 등록하겠다는 말
-      
-		      profile.setImage(inTime+file.getOriginalFilename());
-		      profile.setId(member.getId());
-		      profile.setDescription(description);
-		      profile.setOpen_status(open_status);
-		      //이미지 네임을 디비에 저장하는 곳
-		      scrapService.updateProfile(profile);
-	    
-          }
-          
+		Member member = (Member)session.getAttribute("loginuser");
+
+		Profile p_list = memberService.selectProfile(member.getId());
+		Shop_Profile sh_list = shopService.selectShopProfile(member.getId());
+
+		model.addAttribute("p_list", p_list);
+		model.addAttribute("sh_list", sh_list);
+
+		return "mypage/shop_editform";
+	}
+
+	//이미지 업로드 액션
+	@RequestMapping(value="/upload.action", method=RequestMethod.POST)
+	private String upload(@RequestParam("file") MultipartFile file,HttpSession session , String description, String open_status, String shop_status, Model model) throws Exception { 
+		Member member = (Member)session.getAttribute("loginuser");
+		Profile profile = new Profile();
+		shopService.insertShopProfileById(member.getId());
+
+		String uploadPath = session.getServletContext().getRealPath("/resources/profileImages");
+		//실제 디플로이되는 폴더의 root path를 따온다
+		//System.out.println("UPLOAD_PATH : "+uploadPath);
+
+		if(file.getOriginalFilename() == "") {
+			profile.setImage("sino.gif");
+			profile.setId(member.getId());
+			profile.setDescription(description);
+			profile.setOpen_status(open_status);
+			profile.setShop_status(shop_status);
+			
+			scrapService.updateProfile(profile);
+
+			model.addAttribute("p_status", profile.getOpen_status());        	  
+
+		} else {
+			String inTime   = new java.text.SimpleDateFormat("HHmmss").format(new java.util.Date());
+			FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(uploadPath+"/"+inTime+file.getOriginalFilename()));
+			//upload 폴더안에 등록하겠다는 말
+
+			profile.setImage(inTime+file.getOriginalFilename());
+			profile.setId(member.getId());
+			profile.setDescription(description);
+			profile.setOpen_status(open_status);
+			profile.setShop_status(shop_status);
+			//이미지 네임을 디비에 저장하는 곳
+			scrapService.updateProfile(profile);
+			
+			model.addAttribute("p_status", profile.getOpen_status());        
+
+		}
+
 
 		return "redirect:/mypage/mypage_main.action";
 	} 
+	
+	//Profile 테이블의 shop_status가 "2"인 경우 shop_editform.jsp로 이동
+	@RequestMapping(value="/upload_shop_profile.action", method=RequestMethod.POST)
+	private String upload_shop_profile(@RequestParam("file") MultipartFile file,HttpSession session , Model model,
+			String open_time, String close_time, String shop_status, int capacity, String menu, int avg_price) throws Exception { 
+		Member member = (Member)session.getAttribute("loginuser");
+		Shop_Profile shopProfile = new Shop_Profile();
+		
+		String uploadPath = session.getServletContext().getRealPath("/resources/profileImages");
+		//실제 디플로이되는 폴더의 root path를 따온다
+		//System.out.println("UPLOAD_PATH : "+uploadPath);
 
+		if(file.getOriginalFilename() == "") {
+			shopProfile.setImage("sino.gif");
+			shopProfile.setId(member.getId());
+			shopProfile.setOpen_time(open_time);
+			shopProfile.setClose_time(close_time);
+			shopProfile.setCapacity(capacity);
+			shopProfile.setMenu(menu);
+			shopProfile.setAvg_price(avg_price);			
+			
+			shopService.updateShopProfile(shopProfile);
+//
+			model.addAttribute("p_list", shopProfile);        	  
+
+		} else {
+			String inTime   = new java.text.SimpleDateFormat("HHmmss").format(new java.util.Date());
+			FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(uploadPath+"/"+inTime+file.getOriginalFilename()));
+			//upload 폴더안에 등록하겠다는 말
+
+			shopProfile.setImage(inTime+file.getOriginalFilename());
+			shopProfile.setId(member.getId());
+			shopProfile.setOpen_time(open_time);
+			shopProfile.setClose_time(close_time);
+			shopProfile.setCapacity(capacity);
+			shopProfile.setMenu(menu);
+			shopProfile.setAvg_price(avg_price);
+			//이미지 네임을 디비에 저장하는 곳
+			shopService.updateShopProfile(shopProfile);
+			
+			model.addAttribute("p_list", shopProfile);        
+		}
+
+
+		return "redirect:/mypage/mypage_main.action";
+	} 
+	
+	//reservation 입력
+	@RequestMapping(value = "insert_reservation.action", method = RequestMethod.POST)
+	public String reservation(HttpServletResponse response, String store_id, String booker, int book_size, String book_date, String book_time) throws ParseException {
+			
+		String from = book_date;
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date book_date2 = transFormat.parse(book_date);
+		 
+		Reservation reservation = new Reservation();
+		System.out.println(book_size + "짱난다");
+		reservation.setStore_id(store_id);
+		reservation.setBooker(booker);
+		reservation.setBook_date(book_date2);
+		reservation.setBook_size(book_size);
+		reservation.setBook_time(book_time);
+		
+		System.out.println(reservation.getStore_id());
+		
+		shopService.insertReservation(reservation);
+		
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			out.println("<script>window.close();</script>");
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return null;
+	}
+	//reservation 팝업
+	@RequestMapping(value = "reservation.action", method = RequestMethod.GET)
+	public String reservation(String store_id, HttpSession session, Model model) {
+		
+		Member member = (Member)session.getAttribute("loginuser");
+		
+		
+		model.addAttribute("store_id", store_id);
+		
+		
+		return "mypage/reservation";
+	}
+	
 	/////////////////////////scrap
 	@RequestMapping(value = "scrapform.action", method = RequestMethod.GET)
 	public ModelAndView mypage_scrapform(HttpSession session, ModelAndView mav)   
@@ -298,7 +454,7 @@ public class MypageController {
 
 		return mav;
 	}
-	
+
 	//friend_main.action에서 스크랩 
 	@RequestMapping(value = "f_scrapform.action", method = RequestMethod.GET)
 	public ModelAndView f_scrapform(String did, ModelAndView mav, Member member, HttpSession session)	
@@ -308,20 +464,17 @@ public class MypageController {
 		//로그인 된 id
 		String did2 = dMember.getId();
 		Friend_list f_list = new Friend_list();
-		f_list.setSource_id(did);
-		f_list.setDestination_id(did2);
-		
-		Profile p_list = memberService.selectProfile(did);
-		System.out.println(p_list.getOpen_status() + "나 여깄당");
-		
+		f_list.setSource_id(did); //친구 계정
+		f_list.setDestination_id(did2);//로그인한 계정
+
+		Profile p_list = memberService.selectProfile(did);		
+
 		//친구스크랩의 본인(source_id), 로그인 된 계정(destination_id)
 		String fDeleted = memberService.selectOpenFriend(f_list);
-		System.out.println(fDeleted + "나와라아");
-//		member.setId(did);
-		
+
 		List<Scrap> list = scrapService.getListById(did);
 		mav.addObject("list", list);
-		
+
 		if(p_list.getOpen_status().equals("2")) { //전체공개
 			mav.setViewName("mypage/f_scrapform");	
 			return mav;
@@ -334,7 +487,7 @@ public class MypageController {
 			return mav;
 		}
 
-		
+
 	}
 
 	@RequestMapping(value = "deleteScrap.action", method = RequestMethod.GET)

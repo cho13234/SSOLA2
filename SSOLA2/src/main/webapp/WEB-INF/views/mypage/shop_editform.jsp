@@ -70,7 +70,7 @@ $(document).ready(function(){
 
 
 							<div class=" col-md-9 col-lg-9 ">
-								<form id = "form_submit" action="upload.action" method="post" enctype="multipart/form-data">
+								<form id = "form_submit" action="upload_shop_profile.action" method="post" enctype="multipart/form-data">
 								<table class="table table-user-information">
 									<tbody>
 										<tr>
@@ -84,51 +84,29 @@ $(document).ready(function(){
 										<tr>
 											<td>전화번호</td>
 											<td>${p_list.phonenumber}</td>
-										</tr>
+										</tr>																				
 										<tr>
-											<td>생년월일</td>
-											<td>${p_list.birth}</td>
-										</tr>
+                                    		<td>오픈시간</td>
+                                    		<td><input type="text" name="open_time" value="${sh_list.open_time}"/></td>                                    		
+                                 		</tr>
+                                 		<tr>
+                                    		<td>마감시간</td>
+                                    		<td><input type="text" name="close_time" value="${sh_list.close_time}"/></td>                                    		
+                                 		</tr>
+                                 		<tr>
+                                    		<td>수용인원</td>
+                                    		<td><input type="text" name="capacity" value="${sh_list.capacity}"/></td>
+                                 		</tr>
+                                 		<tr>
+                                    		<td>평균가격</td>
+                                    		<td><input type="text" name="avg_price" value="${sh_list.avg_price}"/></td>
+                                 		</tr>
 										<tr>
-											<td>Gender</td>
-											<td><c:choose>
-													<c:when test='${p_list.gender eq "0"}'>
-														남자
-													</c:when>
-													<c:when test='${p_list.gender eq "1"}'>
-														여자
-													</c:when>
-												</c:choose></td>
-										</tr>
-										 <tr>
-										 	<td>공개범위</td>
-										 	<td>
-											 	<input type="radio" name="open_status" value="2" />전체공개<br>
-											 	<input type="radio" name="open_status" value="1"/>친구공개<br>
-											 	<input type="radio" name="open_status" value="0" checked="checked"/>비공개<br>
-											 	
-										 	</td>
-										 </tr>
-										<tr>
-											<td>자기소개</td>
-											<td><textarea id="contenttext" name="description" class="form-control" rows="5">													 
-													${p_list.description}
-												</textarea></td>
-										</tr>	
-										<c:choose>
-											<c:when test="${p_list.shop_status eq  '0'}">							
-												 <tr>
-													<td>매장 신청 여부</td>
-													<td>
-														<input type="checkbox" name="shop_status" value="1"/>매장 신청합니다<br>
-													</td>
-												</tr>
-											</c:when>
-										</c:choose>
-										 
+		                                    <td>대표메뉴</td>
+		                                    <td><input type="text" name="menu" value="${sh_list.menu}"/></td>
+		                                 </tr>
 										<input type="file" id = "imgInp" name="file" style="width: 580px; height: 25px" />
-										 
-										
+										 										
 									</tbody>
 								</table>
 								 <button id = "submit-link" class="btn btn-default">작성완료</button>

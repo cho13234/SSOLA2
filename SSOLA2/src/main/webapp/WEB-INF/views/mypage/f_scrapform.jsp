@@ -101,6 +101,8 @@
 
 			<hr>
 			</div>
+			</div>
+			
 		</c:forEach> 
 	<!-- </article>
 
