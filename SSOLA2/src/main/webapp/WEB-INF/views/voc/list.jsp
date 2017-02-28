@@ -21,6 +21,11 @@
 <style type="text/css">
 /*font source*/
 @import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
+@import url('https://fonts.googleapis.com/css?family=Just+Me+Again+Down+Here');
+@import url('https://fonts.googleapis.com/css?family=Pangolin');
+@import url('https://fonts.googleapis.com/css?family=Amiko');
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC|Indie+Flower|Shadows+Into+Light|Work+Sans');
+
 	.tablerow{
 	  text-align:center;
 	  font-family: 'Jeju Gothic', serif;
@@ -51,10 +56,19 @@
  	a:hover { color: black; text-decoration: none;}
  	
  	#titleOfthepage{
-	font-family: 'Noto Sans KR', sans-serif;
+	font-family: 'Just Me Again Down Here', cursive;
 	margin-left:20%;
 	}
 	
+	.titlePara {
+	font-family: 'Indie Flower', cursive;
+	font-size:20px;
+
+	}
+	.tableList{
+	font-family: 'Amiko', sans-serif;
+		
+	}
 </style>
 <script type="text/javascript">
 $(function() {
@@ -67,22 +81,21 @@ $(function() {
 
 </head>
 <body>
-
+<c:import url="/WEB-INF/views/include/header.jsp" />
 <div id="pageContainer">
-	<c:import url="/WEB-INF/views/include/header.jsp" />
-	<br/>
 	
 	<div id="titleOfthepage">
-		<h1>고객의 소리</h1>
-		<p>쏠라는 여러분의 의견을 듣길 원합니다.</p>
-		<p>자유롭게 이야기 해주세요.</p>
+		<h1>[ Voice of Customer ]</h1>
+		<p class="titlePara">Ssola wants to hear everything from you.</p>
+		<p class="titlePara">You guys can talk freely in this place!</p>
 	</div>
 	
 	<div >
 		<!--voc list-->
 		<div style="margin-right:30%; float:right;" >
 		<c:if test="${!empty loginuser }">
-		<a id="writeContent" data-toggle="tooltip" title="글 작성 클릭!" class="btn btn-default" href="write.action">새로운 글작성</a>
+		<a style="font-family: 'Work Sans', sans-serif; font-weight: bold;"
+		 id="writeContent" data-toggle="tooltip" title="글 작성 클릭!" class="btn btn-default" href="write.action">new Article</a>
 		</c:if>
 		</div>
    	<br/><br/><br/><br/><br/><br/>
@@ -93,11 +106,11 @@ $(function() {
 				<table class="table table-hover boardList" style="text-align:center;">
 					<thead>
 				    	<tr>
-					        <th class="tablerow">번호</th>
-					        <th class="tablerow">카테고리</th>
-					        <th class="tablerow">제목</th>
-					        <th class="tablerow">작성자</th>
-					        <th class="tablerow">등록일</th>
+					        <th class="tablerow">No.</th>
+					        <th class="tablerow">Category</th>
+					        <th class="tablerow">Title</th>
+					        <th class="tablerow">Writer</th>
+					        <th class="tablerow">Reg.Date</th>
 					        <th class="tablerow">비밀글</th>
 					        <th class="tablerow">조회수</th>
 				      	</tr>
@@ -106,19 +119,23 @@ $(function() {
 				    	
 				    <c:forEach var="voc" items="${vocs}">
 			    		<c:if test="${voc.deleted eq false }">
-					    	<tr class="clickable-row" data-href="detail.action?articleNo=${ voc.articleNo }&pageno=${ pageno }">
-						        <td>${ voc.articleNo }</td>
-						        <td><font color="#29c7a4">${ voc.category }</font></td>
-								<td>${ voc.articleTitle }</td>
-								<td id="writer">${ voc.id }</td>
-						        <td>
+					    	<tr class="clickable-row" data-href="detail.action?articleNo=${ voc.articleNo }">
+						        <td class="tableList">${ voc.articleNo }</td>
+						        <td class="tableList"><font color="#29c7a4">${ voc.category }</font></td>
+								<td class="tableList">${ voc.articleTitle }&nbsp;&nbsp;
+								<strong style="color:#FF6C00;">
+								<span class="glyphicon glyphicon-comment"></span>
+								(${voc.commentCount})</strong>
+								</td>
+								<td class="tableList" id="writer">${ voc.id }</td>
+						        <td class="tableList">
 						        <div>
 						        <fmt:formatDate var="dateString" value="${ voc.regDate }" type="date" pattern="yyyy년MM월dd일 HH:mm:ss" />
 						        ${dateString}
          						</div></td>
 						        
 						        <!-- 비밀글  -->
-						        <td>
+						        <td class="tableList">
 						        <c:choose>
 						        	<c:when test="${voc.secure}">
 						        	<img src ="/ssola2/resources/images/lock.png">
@@ -129,7 +146,7 @@ $(function() {
 						        </c:choose>
 						        </td>
 						        
-						        <td>
+						        <td class="tableList">
 							      <span class="label label-primary">${ voc.readCount }</span>
 						        </td>
 					        </tr>

@@ -6,7 +6,8 @@ import com.ssola2.model.dto.FreeBoard;
 import com.ssola2.model.dto.FreeBoardComment;
 
 public interface FreeBoardMapper {
-
+	///////////////////////////////////////
+	//boards 불러오기
 	void insertFreeBoard(FreeBoard freeBoard);
 	
 	List<FreeBoard> selectFreeBoards(HashMap<String, Integer> params);
@@ -23,11 +24,18 @@ public interface FreeBoardMapper {
 	
 	int getFreeBoardTotalCount();
 	
-	List<FreeBoard> selectFreeBoardCommentsByarticleNo();
+	////////////////////////////////////////////////////////////
+	List<FreeBoard> selectFreeBoardsById(HashMap<String, Object> params2);
+
+	//comment불러오기
+	
 	void insertFreeBoardComment(FreeBoardComment freeBoardComment);
+	List<FreeBoardComment> selectFreeBoardCommentsByArticleNo(Integer articleNo);
+	FreeBoardComment editCommentByCommentNo(Integer commentNo);
+	
 	void editFreeBoardComment(FreeBoardComment freeBoardComment);
 	void deleteFreeBoardComment(int commentNo);
 	
-	List<FreeBoard> selectFreeBoardsById(HashMap<String, Object> params2);
 	
+	void getFreeBoardCommentTotalCountByArticleNo(Integer articleNo);
 }

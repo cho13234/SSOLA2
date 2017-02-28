@@ -56,9 +56,11 @@ public class FreeBoardController {
 		
 		List<FreeBoard> freeboards = freeBoardService.getFreeBoardList(start, pageSize);
 		
+		
 		ThePager pager = new ThePager(totalCount, currentPage, pageSize, pagerSize, "list.action");
 		
 		System.out.println("나간갯수"+ freeboards.size());
+		
 		
 		model.addAttribute("freeboards", freeboards);
 		model.addAttribute("pager", pager);
@@ -124,60 +126,71 @@ public class FreeBoardController {
 	}
 	
 	@RequestMapping(value = "detail.action", method = RequestMethod.GET)
-	public String detail(Locale locale, Model model, int articleNo) {
+	public String detail(Locale locale, Model model, Integer articleNo) {
 		//조회수 증가
+		
 				freeBoardService.updateFreeBoardReadCount(articleNo);
 				
 				FreeBoard freeBoard = freeBoardService.getFreeBoardByArticleNo(articleNo);
+				///////////////////////////////
+				
 				List<FreeBoardComment> freeboardcomments = freeBoardService.getFreeBoardCommentList(articleNo);
-
+				
 				model.addAttribute("freeBoard", freeBoard);
 				model.addAttribute("freeboardcomments", freeboardcomments);
-
 		
 				return "freeboard/detail";
 	}
 	
-	@RequestMapping(value = "commentWrite.action", method = RequestMethod.GET)
-	public String insertFreeBoardComment(Locale locale, Model model) {
-
-		return "freeboard/detail";
-	}
 	
 	@RequestMapping(value = "commentWrite.action", method = RequestMethod.POST)
-	public String insertFreeBoardComment(HttpServletRequest req, @ModelAttribute FreeBoardComment freeBoardComment, HttpServletResponse resp) {
-
+	
+	public String insertFreeBoardComment(String commentContent,
+			HttpServletResponse resp, HttpServletRequest req, HttpSession session, Integer articleNo, Model model) {
+		
 		resp.setCharacterEncoding("utf-8");
 		resp.setContentType("text/html;charset=utf-8");
+		System.out.println(commentContent);
 
-		Member member = (Member) req.getSession().getAttribute("loginuser");
-
+		Member member = (Member)req.getSession().getAttribute("loginuser");
+		
+		FreeBoardComment freeBoardComment = new FreeBoardComment();
+		freeBoardComment.setArticleNo(articleNo);
+		freeBoardComment.setId(member.getId());
+		System.out.println(member.getId());
+		freeBoardComment.setCommentContent(commentContent);
 		freeBoardService.insertFreeBoardComment(freeBoardComment);
-
-		return "redirect:/freeboard/detail";
+		
+		List<FreeBoardComment> freeboardcomments = freeBoardService.getFreeBoardCommentList(articleNo);
+		model.addAttribute("freeboardcomments", freeboardcomments);
+		
+		return "freeboard/comment_list";
 	}
 	
 	@RequestMapping(value = "/commentEdit.action", method = RequestMethod.POST)
-	@ResponseBody
-	public String   editFreeBoardComment(HttpServletRequest req, HttpServletResponse resp,@ModelAttribute FreeBoardComment freeBoardComment){
+	public String editFreeBoardComment(Model model, HttpServletRequest req, HttpServletResponse resp,@ModelAttribute FreeBoardComment freeBoardComment, int articleNo){
 		
+		System.out.println("신호들어옴 ㅋㅋ");
 		resp.setCharacterEncoding("utf-8");
 		resp.setContentType("text/html;charset=utf-8");
 		
 		Member member = (Member) req.getSession().getAttribute("loginuser");
 		
 		freeBoardService.editFreeBoardComment(freeBoardComment);
+		List<FreeBoardComment> freeboardcomments = freeBoardService.getFreeBoardCommentList(articleNo);
+		model.addAttribute("freeboardcomments", freeboardcomments);
 		
-		return "redirect:/freeboard/detail";
+		return "freeboard/comment_list";
 	}
 
 	@RequestMapping(value = "/commentDelete.action", method = RequestMethod.GET)
+	@ResponseBody
 	public String  deleteComment(HttpServletRequest req, @RequestParam int commentNo){
 		
 		Member member = (Member) req.getSession().getAttribute("loginuser");
 		
 		freeBoardService.deleteFreeBoardComment(commentNo);
-		return "redirect:/freeboard/detail";
+		return "success";
 	}
 	
 }

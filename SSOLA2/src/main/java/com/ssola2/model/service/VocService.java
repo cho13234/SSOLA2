@@ -3,6 +3,7 @@ package com.ssola2.model.service;
 import java.util.List;
 
 import com.ssola2.model.dto.Voc;
+import com.ssola2.model.dto.VocComment;
 
 public interface VocService{
 
@@ -20,4 +21,13 @@ public interface VocService{
 	public int getVocTotalCount();
 	public List<Voc> getArticleListById(int start, int pageSize, String id);
 	
+	//////////////////////
+	public void insertVocComment(VocComment vocComment);
+	public VocComment editCommentByCommentNo(Integer commentNo);
+	
+	public void editVocComment(VocComment vocComment);
+	public void deleteVocComment(int commentNo);
+
+	public List<VocComment> getVocCommentList(Integer articleNo);
+	public void getVocCommentTotalCountByArticleNo(Integer articleNo);
 }

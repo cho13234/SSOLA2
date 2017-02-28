@@ -22,7 +22,7 @@ public class ChatServiceImpl implements ChatService {
 
 	@Override
 	public List<ChatRoom> searchChatRoomListById(String id) {
-		return chatDao.selectChatRoomListById(id);
+		return chatDao.selectChatRoomListById(id); 
 	}
 
 	@Override

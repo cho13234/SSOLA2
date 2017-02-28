@@ -31,7 +31,7 @@
 <div id="wrapper">
 	<header id="header">
 		<h1><a id="maintitleimage" href="/ssola2/main/main.action">
-          	<img style=" height: 49px" 
+          	<img style=" height: 49px; margin-top:2%;" 
            		src ="/ssola2/resources/images/ssolamaintitle.png"></a>
        	</h1>
        	
@@ -50,7 +50,7 @@
               	</li>
 				<li class="search">
 					<a class="fa-search" href="#search">Search</a>
-					<form id="search" method="get" action="#">
+					<form id="search" method="get" action="http://www.google.co.kr/search" target="_blank" >
 						<input type="text" name="query" placeholder="Search" />
 					</form>
 				</li>
@@ -66,7 +66,7 @@
 
 		<!-- Search -->
 			<section>
-				<form class="search" method="get" action="#">
+				<form class="search" method="get" action="http://www.google.co.kr/search" target="_blank" >
 					<input type="text" name="query" placeholder="Search" />
 				</form>
 			</section>
@@ -113,7 +113,7 @@
 								</a>
 							</c:otherwise>
 						</c:choose>
-						${ loginuser.userType }
+
 						<!--  ADMIN계정만 접근가능한 에디터 회원가입창 -->
 						<c:if test="${ loginuser.userType }">
 							<c:if test="${ loginuser.authority }">
@@ -122,7 +122,16 @@
 								</a>
 							</c:if>
 						</c:if>
-					</li>
+						</li>
+						
+						<li>
+						<!--  editor계정과 admin만 접근가능한 메인게시글 작성창 -->
+						<c:if test="${ loginuser.userType }">
+								<a href="/ssola2/main/write.action"><h3>MainWriteForm</h3>
+								<p>메인 게시글 작성페이지로 이동합니다.</p>
+								</a>
+						</c:if>
+						</li>
 				</ul>
 			</section>
 			

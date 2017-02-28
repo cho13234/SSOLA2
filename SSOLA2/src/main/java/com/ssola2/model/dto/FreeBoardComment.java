@@ -9,9 +9,17 @@ public class FreeBoardComment {
 	private int commentNo;
 	private String commentContent;
 	private Date regDate;
-	private String profileImage;
 	private String id;
+	private boolean deleted;
 	
+	
+	
+	public boolean isDeleted() {
+		return deleted;
+	}
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 	public int getArticleNo() {
 		return articleNo;
 	}
@@ -36,12 +44,7 @@ public class FreeBoardComment {
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}
-	public String getProfileImage() {
-		return profileImage;
-	}
-	public void setProfileImage(String profileImage) {
-		this.profileImage = profileImage;
-	}
+	
 	public String getId() {
 		return id;
 	}

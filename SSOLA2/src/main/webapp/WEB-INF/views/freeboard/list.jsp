@@ -22,18 +22,31 @@
 /*font source*/
 @import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
 @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+@import url('https://fonts.googleapis.com/css?family=Just+Me+Again+Down+Here');
+@import url('https://fonts.googleapis.com/css?family=Pangolin');
+@import url('https://fonts.googleapis.com/css?family=Amiko');
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC|Indie+Flower|Shadows+Into+Light|Work+Sans');
+
 
 	#titleOfthepage{
-	font-family: 'Noto Sans KR', sans-serif;
+	font-family: 'Just Me Again Down Here', cursive;
 	margin-left:20%;
 	}
-	#title{
-	font-family: 'Jeju Gothic', serif;
+	
+	.titlePara {
+	font-family: 'Indie Flower', cursive;
+	font-size:20px;
 	}
 	
 	.tablerow{
 	  text-align:center;
 	  font-family: 'Jeju Gothic', serif;
+	}
+	
+	.tableList{
+	font-family: 'Amiko', sans-serif;
+	
+	
 	}
   
 	.clickable-row{
@@ -76,21 +89,20 @@ $(function() {
 
 </head>
 <body>
-
+<c:import url="/WEB-INF/views/include/header.jsp" />
 <div id="pageContainer">
-	<c:import url="/WEB-INF/views/include/header.jsp" />
-	<br/>
-	
+
 	<div id="titleOfthepage">
-		<h1>자유게시판</h1>
-		<p>쏠로여 영원하라! 쏠라는 쏠로여러분들을 응원합니다.</p>
-		<p>자유롭게 이야기 해주세요.</p>
+		<h1>[ Free Board ]</h1>
+		<p class="titlePara">&nbsp;&nbsp;YOLO! You Only Live Once! Enjoy your life!</p>
+		<p class="titlePara">&nbsp;&nbsp;You guys can talk freely in this place!</p>
 	</div>
 	<div>
 		<!--freeBoard list-->
 		<div style= "margin-right:30%; float:right;"  >
 		<c:if test="${!empty loginuser }">
-		<a id="writeContent" data-toggle="tooltip" title="글 작성 클릭!" class="btn btn-default" href="write.action">새로운 글작성</a>
+		<a style="font-family: 'Work Sans', sans-serif; font-weight: bold;" 
+		id="writeContent" data-toggle="tooltip" title="글 작성 클릭!" class="btn btn-default" href="write.action">new Article</a>
 		</c:if>
 		</div>
    	<br/><br/><br/><br/><br/><br/>
@@ -101,10 +113,10 @@ $(function() {
 				<table class="table table-hover boardList" style="text-align:center;">
 					<thead>
 				    	<tr>
-					        <th class="tablerow">번호</th>
-					        <th class="tablerow">제목</th>
-					        <th class="tablerow">작성자</th>
-					        <th class="tablerow">작성일</th>
+					        <th class="tablerow">No.</th>
+					        <th class="tablerow">Title</th>
+					        <th class="tablerow">Writer</th>
+					        <th class="tablerow">Reg.Date</th>
 					        <th class="tablerow">조회수</th>
 				      	</tr>
 				    </thead>
@@ -113,16 +125,20 @@ $(function() {
 				    <c:forEach var="freeboard" items="${freeboards}">
 			    		<c:if test="${freeboard.deleted eq false }">
 					    	<tr class="clickable-row" data-href="detail.action?articleNo=${ freeboard.articleNo }&pageno=${ pageno }">
-						        <td>${ freeboard.articleNo }</td>
-								<td>${ freeboard.articleTitle }</td>
-								<td id="writer">${ freeboard.id }</td>
-						        <td>
+						        <td class="tableList">${ freeboard.articleNo }</td>
+								<td class="tableList" style="width:60%">${ freeboard.articleTitle } &nbsp;&nbsp;
+								<strong style="color:#FF6C00;">
+								<span class="glyphicon glyphicon-comment"></span>
+								( ${freeboard.commentCount} )</strong>
+								</td>
+								<td class="tableList">${ freeboard.id }</td>
+						        <td class="tableList">
 						        <div>
 						        <fmt:formatDate var="dateString" value="${ freeboard.regDate }" type="date" pattern="yyyy년MM월dd일 HH:mm:ss" />
 						        ${dateString}
          						</div></td>
-						        <td>
-							      <span class="label label-primary">${ freeboard.readCount }</span>
+						        <td class="tableList">
+							      <span style="color:#006666;">[${ freeboard.readCount }]</span>
 						        </td>
 					        </tr>
 					        </c:if>

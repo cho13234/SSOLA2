@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 
 import com.ssola2.model.dto.Voc;
+import com.ssola2.model.dto.VocComment;
 import com.ssola2.model.mapper.VocMapper;
 
 @Repository(value="vocDao")
@@ -78,6 +79,48 @@ public class MysqlVocDao implements VocDao {
 		params2.put("count", pageSize);
 		params2.put("id", id);
 		return vocMapper.selectArticlesById(params2);
+	}
+
+
+	@Override
+	public void insertVocComment(VocComment vocComment) {
+		vocMapper.insertVocComment(vocComment);
+		
+	}
+
+
+	@Override
+	public VocComment editCommentByCommentNo(Integer commentNo) {
+		
+		return vocMapper.editCommentByCommentNo(commentNo);
+	}
+
+
+	@Override
+	public void editVocComment(VocComment vocComment) {
+		vocMapper.editVocComment(vocComment);
+		
+	}
+
+
+	@Override
+	public void deleteVocComment(int commentNo) {
+		vocMapper.deleteVocComment(commentNo);
+		
+	}
+
+
+	@Override
+	public List<VocComment> selectVocCommentsByArtcicleNo(Integer articleNo) {
+		return vocMapper.selectVocCommentsByArticleNo(articleNo);
+
+	}
+
+
+	@Override
+	public void getVocCommentTotalCountByArticleNo(Integer articleNo) {
+		vocMapper.getVocCommentTotalCountByArticleNo(articleNo);
+		
 	}
 
 

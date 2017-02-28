@@ -11,8 +11,10 @@
       </div>
       <fmt:formatDate var="dateString" value="${article.regDate}"
          type="date" pattern="yyyy년MM월dd일 HH:mm:ss" />
-      <div style="float: right;">${ dateString }</div>
-      <br /> <br /> ${article.mainImage}
+      <div style="float: right;">${ dateString }
+      </div>
+      <br /><br />
+      <span>${article.mainImage} </span>
    </div>
 
    <div class="w3-container w3-section w3-border thirdrow">
@@ -20,7 +22,7 @@
          <input class="articleNo" type="hidden" value="${article.articleNo}">
 
 		<!--추천기능 -->
-	         <a style="float: left;" id="recommendButton1_${article.articleNo}"
+	         <a style="float: left; padding:0.5%" id="recommendButton1_${article.articleNo}"
 	            data-articleno="${article.articleNo}"> 
 	            <!-- 추천 유무  -->
 	            <c:if test="${zero eq null}">
@@ -33,22 +35,23 @@
 	                  title="좋아요 취소하게?힝..ㅠ" >
 	            </c:if> <!--좋아요 --> 
 	            <span class = "count" data-count="${recommend.count}" style="float: left;" id="count_${article.articleNo}">${recommend.count}</span>
+	         
 	         </a>
          
         <c:if test="${loginuser.id != null }"> 
          <a href="/ssola2/detail.action?articleNo=${article.articleNo}"
-            data-toggle="tooltip" title="댓글 작성하러!"> <img
-            src="/ssola2/resources/images/comment.png">
+            data-toggle="tooltip" title="댓글 작성하러!" class="icon fa-comment" style="font-size:100%"> 
          </a> 
          </c:if>
          <c:if test="${loginuser.id == null }" >
-          <img data-toggle="tooltip" title="로그인 하세요!"
-            src="/ssola2/resources/images/comment.png"> 
+          <a data-toggle="tooltip" title="로그인 하세요!"
+            class="icon fa-comment" style="font-size:100%"></a> 
          </c:if>
          <a style="float: right;"
             href="/ssola2/mypage/scrapInfo.action?articleNo=${article.articleNo}"
-            data-toggle="tooltip" title="스크랩 클릭!"> <img
-            src="/ssola2/resources/images/scrap.png">
+            data-toggle="tooltip" title="스크랩 클릭!">
+            <span class="glyphicon glyphicon-tag" style="font-size:100%"></span>
+             <!-- <img src="/ssola2/resources/images/scrap.png"> -->
          </a>
       </div>
 

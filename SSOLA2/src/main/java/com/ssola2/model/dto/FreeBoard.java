@@ -12,6 +12,7 @@ public class FreeBoard {
 	private Boolean deleted;
 	private String id;
 	private int readCount;
+	private int commentCount;
 	
 	public int getArticleNo() {
 		return articleNo;
@@ -50,12 +51,19 @@ public class FreeBoard {
 		this.id = id;
 	}
 	
-
 	public int getReadCount() {
 		return readCount;
 	}
 	public void setReadCount(int readCount) {
 		this.readCount = readCount;
 	}
+	
+	public int getCommentCount() {
+		return commentCount;
+	}
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
+	
 	
 }

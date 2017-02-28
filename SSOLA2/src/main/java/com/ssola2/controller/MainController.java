@@ -176,6 +176,6 @@ public class MainController {
 	@RequestMapping(value = "about.action", method = RequestMethod.GET)
 	public String about(Locale locale, Model model) {
 
-		return "main/about";
+		return "main/about2";
 	}
 	}
