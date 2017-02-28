@@ -471,6 +471,9 @@ public class MypageController {
 
 		//친구스크랩의 본인(source_id), 로그인 된 계정(destination_id)
 		String fDeleted = memberService.selectOpenFriend(f_list);
+		if(fDeleted == null) {
+			fDeleted = "3";
+		}
 
 		List<Scrap> list = scrapService.getListById(did);
 		mav.addObject("list", list);
@@ -485,7 +488,7 @@ public class MypageController {
 		} else { //비공개
 			mav.setViewName("mypage/f_scrapform_0");
 			return mav;
-		}
+		} 
 
 
 	}
