@@ -23,7 +23,10 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/Snowstorm/20131208/snowstorm.js"></script>
 
 <style type="text/css">
-
+/*font start */
+@import url('https://fonts.googleapis.com/css?family=Karla');
+@import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
+/*font end*/
 #newcontent {
 float:right;
 margin-right:10%;
@@ -48,10 +51,10 @@ display: flex;
 
 .firstrow {   
 width:100%;
-font-family: 'Jeju Gothic', serif;
+font-family: 'Karla', sans-serif;
 font-weight: bold;
-font-size:10pt;
-padding:2%;
+font-size:15pt;
+padding:4%;
 }
 
 .secondrow{
