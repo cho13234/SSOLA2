@@ -27,46 +27,8 @@ public class MysqlChatDao implements ChatDao {
 	}
 
 	@Override
-	public List<Member> selectChatMemberListById(String id) {
-		return chatMapper.selectChatMemberListById(id);
-	}
-
-	@Override
-	public String selectSessionIdById(String id) {
-		return chatMapper.selectSessionIdById(id);
-	}
-
-	@Override
-	public void updateSessionIdById(String id, String sessionId) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id", id);
-		map.put("sessionId", sessionId);
-		
-		chatMapper.updateSessionIdById(map);
-	}
-
-	@Override
-	public void insertSessionIdById(String id, String sessionId) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id", id);
-		map.put("sessionId", sessionId);
-		
-		chatMapper.insertLoginMember(map);
-	}
-
-	@Override
 	public List<Member> selectFriendListById(String id) {
 		return chatMapper.selectFriendListById(id);
-	}
-
-	@Override
-	public void updateNotLoginById(String id) {
-		chatMapper.updateNotLoginById(id);
-	}
-
-	@Override
-	public void updateNotLoginAllUser() {
-		chatMapper.updateNotLoginAllUser();
 	}
 
 	@Override

@@ -121,6 +121,14 @@ public class ChatController {
 		Member member = (Member) session.getAttribute("loginuser");
 		ArrayList<Member> friendList = (ArrayList)chatService.searchFriendListById(member.getId());
 		
+		for (Member friend : friendList) {
+			if (loginUserSession.getLoginUser(friend.getId()) != null) {
+				friend.setPassword("1");
+			} else {
+				friend.setPassword("0");
+			}
+		}
+		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		String friends = gson.toJson(friendList);
 		
