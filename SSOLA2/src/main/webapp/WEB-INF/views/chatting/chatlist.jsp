@@ -441,10 +441,6 @@ span[class*="glyphicon-one-fine"] {
 						.appendTo($("#makeList1"));
 						
 						if (friend.password == 1) {
-							/* aTag.prepend(
-								$("<span></span>")
-								.attr("class", "glyphicon glyphicon-one-fine-green-dot")
-							) */
 							aTag.attr("class", "list-group-item friend login");
 						}
 					});
@@ -483,7 +479,7 @@ span[class*="glyphicon-one-fine"] {
 				success : function(data) {
 					$.each(data, function(index, member) {
 						if (member != id) {
-							members.push(member);
+							members.push(member.id);
 						}
 					});
 
@@ -523,14 +519,6 @@ span[class*="glyphicon-one-fine"] {
 			targetLink = target.attr("href");
 			groupNo = target.attr("id").split("_")[1];
 
-			/* if (event.target !== this) {
-				targetLink = target.parent().attr("href");
-				groupNo = target.parent().attr("id").split("_")[1];
-			} else {
-				targetLink = target.attr("href");
-				groupNo = target.attr("id").split("_")[1];
-			} */
-
 			$("#memberListGroupNo").val(groupNo);
 
 			$.ajax({
@@ -542,14 +530,20 @@ span[class*="glyphicon-one-fine"] {
 				"dataType" : "json",
 				success : function(data) {
 					$.each(data, function(index, member) {
-						$("<a></a>")
+						var aTag = $("<a></a>");
+						
+						aTag
 						.attr({
-							"href" : "/ssola2/mypage/mypage_friendmain.action?did=" + member,
-							"id" : "list-group-item-" + member,
+							"href" : "/ssola2/mypage/mypage_friendmain.action?did=" + member.id,
+							"id" : "list-group-item-" + member.id,
 							"class" : "list-group-item member"
 						})
-						.text(member)
+						.text(member.id)
 						.appendTo($("#memberList"));
+						
+						if (member.password == 1) {
+							aTag.attr("class", "list-group-item member login");
+						}
 					});
 				}
 			});
