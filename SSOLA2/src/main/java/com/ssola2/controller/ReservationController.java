@@ -48,7 +48,7 @@ public class ReservationController {
 				shopService.setReservationChecked(reservation);
 			}
 			
-			sb.append(String.format("Now Date: %s\n", sdf1.format(new Date().toString())))
+			sb.append(String.format("Now Date: %s\n", sdf1.format(new Date())))
 				.append(String.format("Connect Id: %s\n", id))
 				.append("End Reservation\n\n");
 		}
