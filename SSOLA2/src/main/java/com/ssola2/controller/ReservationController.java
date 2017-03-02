@@ -1,5 +1,6 @@
 package com.ssola2.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -25,31 +26,32 @@ public class ReservationController {
 	@ResponseBody
 	public String showReserve(String id) {
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		List<Reservation> reservations = shopService.searchReservationByShopId(id);
 		
 		StringBuffer sb = new StringBuffer();
 		
-		sb.append("Before Reservation\n");
+		if (reservations.size() > 0) {
 		
-		for (int i = 0; i < ((reservations.size() > 3) ? 3 : reservations.size()) ; i++) {
-			Reservation reservation = reservations.get(i);
-			if (reservation == null) {
-				continue;
+			sb.append("Before Reservation\n");
+			
+			for (int i = 0; i < ((reservations.size() > 3) ? 3 : reservations.size()) ; i++) {
+				Reservation reservation = reservations.get(i);
+				if (reservation == null) {
+					continue;
+				}
+				sb.append(String.format("Book Date: %s\n", sdf.format(reservation.getBook_date())))
+					.append(String.format("Book Time: %s ~ %d\n", reservation.getBook_time(), (Integer.parseInt(reservation.getBook_time()) + 1)))
+					.append(String.format("Booker: %s\nGuest Numbers: %s\n", reservation.getBooker(), reservation.getBook_size()))
+					.append(String.format("Reg Date: %s\n\n", sdf1.format(reservation.getReg_date())));
+				shopService.setReservationChecked(reservation);
 			}
-			sb.append(reservation.getBook_date().toString())
-				.append("\n")
-				.append(reservation.getBook_time() + " ~ " + (Integer.parseInt(reservation.getBook_time()) + 1))
-				.append("\n")
-				.append(String.format("%s %s", reservation.getBooker(), reservation.getBook_size()))
-				.append("\n")
-				.append(reservation.getReg_date())
-				.append("\n\n");
-			shopService.setReservationChecked(reservation);
+			
+			sb.append(String.format("Now Date: %s\n", sdf1.format(new Date().toString())))
+				.append(String.format("Connect Id: %s\n", id))
+				.append("End Reservation\n\n");
 		}
-		
-		sb.append(String.format("Now Date: %s\n", new Date().toString()))
-			.append(String.format("Connect Id: %s\n", id))
-			.append("End Reservation\n");
 		
 		return sb.toString();
 	}
