@@ -67,6 +67,12 @@ $(function() {
 		var offset = $("#submitButton").offset();
         $('html, body').animate({scrollTop : offset.top}, 400);
 	}
+	
+	$(".loginBox").on("keydown", function(event) {
+		if (event.keyCode != 13)
+			return;
+		$("#submitForm").submit();
+	});
 })
 </script>
 
@@ -113,12 +119,12 @@ $(function() {
 							<br/>
 							<div class="input-group">
 						    	<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-						    	<input type="text" class="form-control" name="id" placeholder="id">
+						    	<input type="text" class="form-control loginBox" name="id" placeholder="id">
 						 	</div>
 						 	<br/><br/>
 						  	 <div class="input-group">
 						     	<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-						    	<input id="password" type="password" class="form-control" name="password" placeholder="Password">
+						    	<input id="password" type="password" class="form-control loginBox" name="password" placeholder="Password">
 						    	<c:if test="${ loginfailed eq true }">
 										<br>
 										<div id="pleaseLoginAgain" style="color:red; font-size:8pt; font-style:bold">아이디나 비밀번호가 맞지 않습니다.</div>

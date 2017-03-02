@@ -14,19 +14,7 @@ public interface ChatDao {
 	
 	public List<ChatRoom> selectChatRoomListById(String id);
 
-	public List<Member> selectChatMemberListById(String id);
-
-	public String selectSessionIdById(String id);
-
-	public void updateSessionIdById(String id, String sessionId);
-
-	public void insertSessionIdById(String id, String sessionId);
-
 	public List<Member> selectFriendListById(String id);
-
-	public void updateNotLoginById(String id);
-
-	public void updateNotLoginAllUser();
 
 	public List<ChatLog> selectGroupLogByGroupNo(int groupNo);
 

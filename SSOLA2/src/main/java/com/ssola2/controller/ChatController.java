@@ -121,6 +121,14 @@ public class ChatController {
 		Member member = (Member) session.getAttribute("loginuser");
 		ArrayList<Member> friendList = (ArrayList)chatService.searchFriendListById(member.getId());
 		
+		for (Member friend : friendList) {
+			if (loginUserSession.getLoginUser(friend.getId()) != null) {
+				friend.setPassword("1");
+			} else {
+				friend.setPassword("0");
+			}
+		}
+		
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		String friends = gson.toJson(friendList);
 		
@@ -131,12 +139,24 @@ public class ChatController {
 	@ResponseBody
 	public String viewFriends(String groupNo, HttpSession session) {
 		
-		ArrayList<Member> memberList = (ArrayList)chatService.searchGroupMemberByGroupNo(groupNo);
+		ArrayList<String> memberList = (ArrayList)chatService.searchGroupMemberByGroupNo(groupNo);
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		ArrayList<Member> members = new ArrayList<Member>();
 		
-		String members = gson.toJson(memberList);
+		for (String memberName : memberList) {
+			Member member = new Member();
+			member.setId(memberName);
+			if (loginUserSession.getLoginUser(member.getId()) != null) {
+				member.setPassword("1");
+			} else {
+				member.setPassword("0");
+			}
+			members.add(member);
+		}
 		
-		return members;
+		String memberJson = gson.toJson(members);
+		
+		return memberJson;
 	}
 	
 }

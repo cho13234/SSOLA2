@@ -43,13 +43,6 @@
 		SELECT room_no, member_size, room_name
 		FROM CHAT_ROOM
 	</sql>
-
-	<!-- <select id="selectChatRoomListById" parameterType="String" resultMap="ChatRoomResult">
-		SELECT r.room_no, r.member_size, r.room_name
-		FROM CHAT_ROOM r inner join CHAT_MEMBER m
-		ON r.room_no = m.room_no
-		WHERE m.ID = #{id} AND r.deleted = 0
-	</select>	 -->
 	
 	<select id="selectChatRoomListById" parameterType="String" resultMap="ChatRoomResult">
 		SELECT r.room_no, r.member_size, r.room_name
@@ -59,22 +52,6 @@
 		GROUP BY r.room_no
 	</select>
 	
-	<select id="selectChatMemberListById" parameterType="String" resultMap="MemberResult">
-		SELECT *
-		FROM MEMBER
-		WHERE ID = #{id} AND deleted = 0
-	</select>
-	
-	<!-- <select id="selectFriendListById" parameterType="String" resultMap="MemberResult">
-		SELECT m.id, m.NICKNAME
-		FROM MEMBER m 
-			inner join FRIEND_LIST f
-			ON m.id = f.source_id
-			inner join LOGIN_MEMBER l
-            on l.id = m.id
-        WHERE f.destination_id = #{id} and l.is_connect = 1;
-	</select> -->
-	
 	<select id="selectFriendListById" parameterType="String" resultMap="MemberResult">
 		SELECT m.id, m.NICKNAME
 		FROM MEMBER m 
@@ -82,35 +59,6 @@
 			ON m.id = f.source_id
         WHERE f.destination_id = #{id} AND f.deleted = 0
 	</select>
-	
-	<select id="selectSessionIdById" parameterType="String" resultType="String">
-		SELECT session_id
-		FROM LOGIN_MEMBER
-		WHERE id = #{id}
-	</select>
-	
-	<update id="updateSessionIdById" parameterType="hashmap">
-		UPDATE LOGIN_MEMBER
-		SET session_id = #{sessionId}, is_connect = 1
-		WHERE id = #{id}
-	</update>
-	
-	<insert id="insertLoginMember" parameterType="hashmap">
-		INSERT INTO LOGIN_MEMBER (id, session_id, is_connect)
-		VALUES (#{id}, #{sessionId}, 1)
-	</insert>
-
-	<update id="updateNotLoginById" parameterType="String">
-		UPDATE LOGIN_MEMBER
-		SET is_connect = 0
-		WHERE id = #{id}
-	</update>
-	
-	<update id="updateNotLoginAllUser">
-		UPDATE LOGIN_MEMBER
-		SET is_connect = 0
-		WHERE is_connect = 1;
-	</update>
 	
 	<!-- 해당 구문은 resultMap의 association에서 사용 -->
 	<select id="selectChatMemberByRoomNo" resultType="String">
@@ -151,6 +99,7 @@
 	<!-- 여기에 chatMember insert 구문 추가 -->
 	<insert id="insertChatMember" parameterType="ChatMember">
 		INSERT INTO CHAT_MEMBER (id, room_no) values (#{id}, #{roomNo})
+		ON DUPLICATE KEY UPDATE id = #{id}, room_no = #{roomNo}, deleted = 0
 	</insert>
 	
 	<update id="updateChatRoom" parameterType="ChatRoom">

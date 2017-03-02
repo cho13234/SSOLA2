@@ -42,7 +42,6 @@ public class StompDisconnectEvent implements ApplicationListener<SessionDisconne
 		
 		//sessionId를 기준으로 db상에 is_connect 값을 0으로 바꿔서 접속중이 아님을 알린다.
 		Member member = (Member)sessionAttributes.get("loginuser");
-		//chatService.setNotLoginById(member.getId());
 		
 		LoginUser user = loginUserSession.getLoginUser(member.getId());
 		
