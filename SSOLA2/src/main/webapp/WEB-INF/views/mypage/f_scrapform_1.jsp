@@ -58,7 +58,7 @@
 	<!-- <form:form id="list" action="scrapform.action" method="get" modelAttribute="scrap" style="width:70%; margin-left:20%">
 		<article class="style1"> --> 
 		<c:forEach items="${list}" var="rowList" >
-		<div id="scrapList">
+		<div id="scrapList" style="width:70%; margin-left:20%">
 			<div class="row-fluid top30 pagetitle">
 				<div class="container">
 					<div class="row">
