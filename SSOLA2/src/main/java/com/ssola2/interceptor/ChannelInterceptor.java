@@ -93,7 +93,7 @@ public class ChannelInterceptor extends ChannelInterceptorAdapter {
 				logger.info("Disconnect event [SessionId: " + sha.getSessionId() + 
 						"], [Message: " + sha.getMessage() + "]");
 				
-				//여기서 sessionID를 기준으로 LOGIN_MEMBER 테이블에서 내 id를 가져오고 이를 바탕으로 접속 종료를 친구들에게 알린다.
+				//여기서 sessionID를 기준으로 Member 테이블에서 내 id를 가져오고 이를 바탕으로 접속 종료를 친구들에게 알린다.
 				ArrayList<Member> friends = (ArrayList) chatService.searchFriendListById(user.getId());
 				for (Member friend : friends) {
 					if (loginUserSession.getLoginUser(friend.getId()) != null) {

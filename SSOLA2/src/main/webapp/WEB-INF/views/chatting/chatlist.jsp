@@ -240,6 +240,7 @@ span[class*="glyphicon-one-fine"] {
 		chatRoomClone.find(".chatBtn").attr("id", "chatBtn_" + groupNo);
 		chatRoomClone.find(".inviteModalLink").attr("id", "inviteModal_" + groupNo);
 		chatRoomClone.find(".exitModal").attr("id", "exitModal_" + groupNo);
+		chatRoomClone.find(".groupMemberModalLink").attr("id", "groupMemberModal_" + groupNo);
 
 		if (!chatRoom.roomName) {
 			var members = "";
@@ -752,8 +753,9 @@ span[class*="glyphicon-one-fine"] {
 		<div>
 			<!-- <input type="button" id="viewFriends" value="친구목록"/> -->
 			<!-- <input type="button" id="viewFriends" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" value="친구목록"> -->
-			<input type="button" id="viewFriends" class="btn btn-info btn-lg"
-				data-toggle="modal" data-target="#friendListModal" value="친구목록">
+			<a href="/ssola2/main/main.action" id="goToMain" class="btn btn-success btn-lg">메인화면</a>
+			<Button type="button" id="viewFriends" class="btn btn-info btn-lg"
+				data-toggle="modal" data-target="#friendListModal">친구목록</Button>
 		</div>
 		&nbsp;
 		<div id="chatRoomList" class="list-group col-sm-6 col-sm-offset-3">
