@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.ssola2.model.dto.ChatLog;
+import com.ssola2.model.dto.ChatMember;
 import com.ssola2.model.dto.ChatRoom;
 import com.ssola2.model.dto.LoginUser;
 import com.ssola2.model.dto.LoginUserSession;
@@ -46,7 +47,6 @@ public class ChatController {
 
 		//service에서 내 id로 등록된 현재 접속중인 친구목록을 가져온다.
 		ArrayList<Member> friendList = (ArrayList)chatService.searchFriendListById(member.getId());
-		//model.addAttribute("friendList", friendList);
 		
 		ArrayList<LoginUser> friends = new ArrayList<LoginUser>();
 		
@@ -61,8 +61,6 @@ public class ChatController {
 			}
 		}
 		
-		model.addAttribute("friendList", friends);
-
 		return "chatting/chatlist";
 	}
 	
@@ -98,16 +96,67 @@ public class ChatController {
 		return jsonChatRoom;
 	}
 	
-	/*@RequestMapping(value= "friendlist.action", method = RequestMethod.GET)
+	@RequestMapping(value = "invitegroup.action", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
 	@ResponseBody
-	public String viewFriendList(Model model, HttpSession session) {
+	public String inviteGroup(String friends, String groupNo) {
+	
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		ArrayList<String> friendList = (ArrayList<String>) gson.fromJson(friends, new TypeToken<List<String>>(){}.getType());
+		
+		ChatRoom chatRoom = new ChatRoom();
+		chatRoom.setMembers(friendList);
+		chatRoom.setRoomNo(Integer.parseInt(groupNo));
+		
+		chatRoom = chatService.inviteChatMembersTx(chatRoom);
+		
+		String jsonChatRoom = gson.toJson(chatRoom);
+		
+		return jsonChatRoom;
+	}
+	
+	@RequestMapping(value = "viewfriends.action", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String viewFriends(HttpSession session) {
 		
 		Member member = (Member) session.getAttribute("loginuser");
-		//model.addAttribute("id", member.getId());
-		
 		ArrayList<Member> friendList = (ArrayList)chatService.searchFriendListById(member.getId());
-		model.addAttribute("friendList", friendList);
 		
-		return "chatting/friendlist";
-	}*/
+		for (Member friend : friendList) {
+			if (loginUserSession.getLoginUser(friend.getId()) != null) {
+				friend.setPassword("1");
+			} else {
+				friend.setPassword("0");
+			}
+		}
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		String friends = gson.toJson(friendList);
+		
+		return friends;
+	}
+	
+	@RequestMapping(value = "viewgroupmembers.action", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String viewFriends(String groupNo, HttpSession session) {
+		
+		ArrayList<String> memberList = (ArrayList)chatService.searchGroupMemberByGroupNo(groupNo);
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		ArrayList<Member> members = new ArrayList<Member>();
+		
+		for (String memberName : memberList) {
+			Member member = new Member();
+			member.setId(memberName);
+			if (loginUserSession.getLoginUser(member.getId()) != null) {
+				member.setPassword("1");
+			} else {
+				member.setPassword("0");
+			}
+			members.add(member);
+		}
+		
+		String memberJson = gson.toJson(members);
+		
+		return memberJson;
+	}
+	
 }

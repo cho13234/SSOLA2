@@ -1,5 +1,7 @@
 package com.ssola2.model.dao;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -18,13 +20,11 @@ public class MysqlShopProfileDao implements ShopProfileDao{
 	@Override
 	public void insertShopProfileById(String id) {
 		shopMapper.insertShopProfileById(id);
-		
 	}
 
 	@Override
 	public void updateShopProfile(Shop_Profile shopProfile) {
 		shopMapper.updateShopProfile(shopProfile);
-		
 	}
 
 	@Override
@@ -35,7 +35,16 @@ public class MysqlShopProfileDao implements ShopProfileDao{
 	@Override
 	public void insertReservation(Reservation reservation) {
 		shopMapper.insertReservation(reservation);
-		
+	}
+
+	@Override
+	public List<Reservation> selectReservationByShopId(String id) {
+		return shopMapper.selectReservationByShopId(id);
+	}
+
+	@Override
+	public void updateReservationChecked(Reservation reservation) {
+		shopMapper.updateReservationChecked(reservation);
 	}
 
 }

@@ -13,21 +13,7 @@ public interface ChatMapper {
 
 	List<ChatRoom> selectChatRoomListById(String id);
 
-	List<Member> selectChatMemberListById(String id);
-	
 	List<Member> selectFriendListById(String id);
-
-	String selectSessionIdById(String id);
-
-//	void updateSessionIdById(String id, String sessionId);
-	void updateSessionIdById(HashMap<String, Object> map);
-
-//	void insertLoginMember(String id, String sessionId);
-	void insertLoginMember(HashMap<String, Object> map);
-
-	void updateNotLoginById(String id);
-
-	void updateNotLoginAllUser();
 
 	List<ChatLog> selectGroupLogByGroupNo(int groupNo);
 
@@ -38,4 +24,10 @@ public interface ChatMapper {
 	void insertChatRoom(ChatRoom chatRoom);
 
 	void insertChatMember(ChatMember chatMember);
+
+	void updateChatRoom(ChatRoom chatRoom);
+
+	ChatRoom selectChatRoomByRoomNo(int roomNo);
+
+	void updateChatMemberDeletedTrue(ChatMember chatMember);
 }

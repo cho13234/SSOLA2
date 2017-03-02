@@ -25,9 +25,12 @@
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		
 	</beans:bean>
-
-
 	
 	<context:component-scan base-package="com.ssola2.controller" />
+	<context:component-scan base-package="com.ssola2.model.*" />
+	
+	<interceptors>
+		<beans:bean class="com.ssola2.interceptor.AuthInterceptor" />
+	</interceptors>
 	
 </beans:beans>

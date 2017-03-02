@@ -1,5 +1,7 @@
 package com.ssola2.model.mapper;
 
+import java.util.List;
+
 import com.ssola2.model.dto.Reservation;
 import com.ssola2.model.dto.Shop_Profile;
 
@@ -12,5 +14,9 @@ public interface ShopMapper {
 	Shop_Profile selectShopProfile(String id);
 
 	void insertReservation(Reservation reservation);
+
+	List<Reservation> selectReservationByShopId(String id);
+
+	void updateReservationChecked(Reservation reservation);
 	
 }

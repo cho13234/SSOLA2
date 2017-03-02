@@ -1,5 +1,7 @@
 package com.ssola2.model.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -18,13 +20,11 @@ public class ShopServiceImpl implements ShopService{
 	@Override
 	public void insertShopProfileById(String id) {
 		shopProfileDao.insertShopProfileById(id);
-		
 	}
 
 	@Override
 	public void updateShopProfile(Shop_Profile shopProfile) {
 		shopProfileDao.updateShopProfile(shopProfile);
-		
 	}
 
 	@Override
@@ -35,7 +35,16 @@ public class ShopServiceImpl implements ShopService{
 	@Override
 	public void insertReservation(Reservation reservation) {
 		shopProfileDao.insertReservation(reservation);
-		
+	}
+
+	@Override
+	public List<Reservation> searchReservationByShopId(String id) {
+		return shopProfileDao.selectReservationByShopId(id);
+	}
+
+	@Override
+	public void setReservationChecked(Reservation reservation) {
+		shopProfileDao.updateReservationChecked(reservation);
 	}
 
 }

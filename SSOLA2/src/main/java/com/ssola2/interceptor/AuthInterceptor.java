@@ -40,12 +40,16 @@ public class AuthInterceptor implements HandlerInterceptor {
 			if(member == null) {
 				redirectLogin = true;
 			}
+		} else if(url.contains("/chat/")) {
+			if(member == null) {
+				redirectLogin = true;
+			}
 		}
 		
 		if(redirectLogin) {
-			response.sendRedirect("/ssola/account/login.action");
+			response.sendRedirect("/ssola2/account/login.action");
 		} else if (redirectMain) {
-			response.sendRedirect("/ssola/main/main.action");
+			response.sendRedirect("/ssola2/main/main.action");
 		}
     
 		return !redirectLogin; //false가 반환되면 요청 처리 중단...<더이상 진행하지 않도록 막아주는 역할>

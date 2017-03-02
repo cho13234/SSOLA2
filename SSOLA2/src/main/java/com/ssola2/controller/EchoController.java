@@ -19,7 +19,9 @@ import org.springframework.stereotype.Controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.ssola2.model.dto.ChatLog;
+import com.ssola2.model.dto.ChatMember;
 import com.ssola2.model.dto.ChatRoom;
 import com.ssola2.model.dto.LoginUserSession;
 import com.ssola2.model.dto.Member;
@@ -59,21 +61,14 @@ public class EchoController {
 		MessageVO messageVO = MessageVO.convertMessage(message);
 		logger.info(messageVO.getFrom() + " 입장");
 		
-		//simpMessagingTemplate.convertAndSend("/queue/notice-group-" + messageVO.getRoomNo(),
-		//		messageVO.getFrom() + "님이 입장하셨습니다.");
-		//simpMessagingTemplate.convertAndSend("/queue/notice-friend-" + messageVO.getRoomNo(),
-		//		messageVO.getFrom() + "님이 입장하셨습니다.");
 	}
 	
-	//@MessageMapping("/echo")
 	@MessageMapping("/echo/group")
 	public void sendEcho(String message) {
 		logger.info("/echo/group" + message);
 		
-		//MessageVO messageVO = MessageVO.convertMessage(message);
 		ChatLog chatLog = ChatLog.convertMessage(message);
 		
-		//chatService.addChatLog(messageVO);
 		chatService.addChatLog(chatLog);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
@@ -82,7 +77,6 @@ public class EchoController {
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		String message1 = gson.toJson(chatLog);
 		
-		//ArrayList<String> members = (ArrayList<String>) chatService.searchGroupMemberByGroupNo(messageVO.getRoomNo());
 		ArrayList<String> members = (ArrayList<String>) chatService.searchGroupMemberByGroupNo(chatLog.getRoomNo());
 		
 		for (String member : members) {
@@ -95,13 +89,38 @@ public class EchoController {
 	
 	@MessageMapping("/notice/group")
 	public void sendNotice(String message) {
-		logger.info("/notice/group" + message);
+		logger.info("/notice/group " + message);
 		
 		ChatRoom chatRoom = ChatRoom.convertMessage(message);
 		
 		for (String member : chatRoom.getMembers()) {
 			if (loginUserSession.getLoginUser(member) != null) {
 				simpMessagingTemplate.convertAndSend("/queue/notice/group-" + member, message);
+			}
+		}
+	}
+	
+	@MessageMapping("/notice/group-exit")
+	public void sendExitNotice(String message) {
+		logger.info("/notice/group-exit " + message);
+		
+		ChatMember chatMember = ChatMember.convertMessage(message);
+		
+		chatService.exitGroupByGroupMember(chatMember);
+		
+		ArrayList<String> memberList = (ArrayList<String>) chatService
+				.searchGroupMemberByGroupNo(String.valueOf(chatMember.getRoomNo()));
+		
+		ChatRoom chatRoom = new ChatRoom();
+		chatRoom.setMembers(memberList);
+		chatRoom.setRoomNo(chatMember.getRoomNo());
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		String chatRoomString = gson.toJson(chatRoom);
+		
+		for (String groupMember : memberList) {
+			if (loginUserSession.getLoginUser(groupMember) != null) {
+				simpMessagingTemplate.convertAndSend("/queue/notice/group-exit-" + groupMember, chatRoomString);
 			}
 		}
 	}

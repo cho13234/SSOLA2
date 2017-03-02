@@ -1,5 +1,7 @@
 package com.ssola2.model.dto;
 
+import com.google.gson.Gson;
+
 public class ChatMember {
 	private String id;
 	private int roomNo;
@@ -22,6 +24,15 @@ public class ChatMember {
 	}
 	public void setLastConnect(String lastConnect) {
 		this.lastConnect = lastConnect;
+	}
+	
+	public static ChatMember convertMessage(String source) {
+		ChatMember message = new ChatMember();
+		Gson gson = new Gson();
+		
+		message = gson.fromJson(source, ChatMember.class);
+		
+		return message;
 	}
 	
 }
