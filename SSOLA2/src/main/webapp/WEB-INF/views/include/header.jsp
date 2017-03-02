@@ -132,6 +132,20 @@
 								</a>
 						</c:if>
 						</li>
+						
+						<li>
+						 <c:choose>
+						 	<c:when test="${loginuser.id == null }">
+						 		<a href="/ssola2/account/login.action"><h3>Search</h3>
+						 			
+						 		</a>
+						 	</c:when>
+					    	<c:when test="${loginuser.id != null}">						
+								<a href="/ssola2/search.action"><h3>Search</h3>
+									<p>친구와 주변 음식점 검색 합니다.</p>
+								</a>
+							</c:when>
+						</c:choose>
 				</ul>
 			</section>
 			

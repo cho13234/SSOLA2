@@ -223,7 +223,7 @@ $(document).ready(function(){
 		</c:if>
       
 	</c:if>
-	 <center><button id = "submit-link" class="btn btn-default" onclick="location.href=' /ssola2/chat/chatlist.action' ">챗챗</button></center>
+	 <button id = "submit-link" class="btn btn-default" onclick="location.href=' /ssola2/chat/chatlist.action' ">챗챗</button>
 	
 	
       <!-- feed update -->
