@@ -41,7 +41,7 @@
       <property name="port" value="465" />
       <property name="defaultEncoding" value="utf-8" />
       <property name="username" value="kwonjunho90" />
-      <property name="password" value="a30115877" />
+      <property name="password" value="" />
       <property name="javaMailProperties">
          <props>
             <prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
